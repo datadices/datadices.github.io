@@ -14,19 +14,53 @@
         }
 
         body {
-            color: #1a1a1a;
-            background: #f5f7fa;
+            color: #1A2B4F;
+            background: #F8FAFC;
             scroll-behavior: smooth;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-in {
+            opacity: 0;
+            animation: slideIn 0.8s ease-out forwards;
         }
 
         /* Navbar */
         nav {
-            background: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: #1A2B4F;
+            color: #F8FAFC;
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         nav ul {
@@ -40,14 +74,15 @@
         }
 
         nav ul li a {
-            color: #2c3e50;
+            color: #F8FAFC;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         nav ul li a:hover {
-            color: #007bff;
+            color: #00A3B8;
+            transform: scale(1.1);
         }
 
         /* Hero Section */
@@ -58,7 +93,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: white;
+            color: #F8FAFC;
             overflow: hidden;
         }
 
@@ -74,31 +109,34 @@
         #hero .hero-content {
             position: relative;
             z-index: 2;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         #hero h1 {
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
         }
 
         #hero p {
             font-size: 1.3rem;
             max-width: 600px;
+            animation: fadeIn 1.2s ease-out 0.2s forwards;
+            opacity: 0;
         }
 
         /* Services Section */
         #services {
             padding: 5rem 2rem;
             text-align: center;
-            background: #ffffff;
+            background: #F8FAFC;
         }
 
         #services h2 {
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #2c3e50;
+            color: #1A2B4F;
         }
 
         .services-grid {
@@ -110,33 +148,41 @@
         }
 
         .service-card {
-            background: #f5f7fa;
+            background: #FFFFFF;
             padding: 2rem;
             border-radius: 12px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E5E7EB;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: #00A3B8;
         }
 
         .service-card i {
             font-size: 2.5rem;
-            color: #007bff;
+            color: #00A3B8;
             margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover i {
+            color: #D4A017;
         }
 
         .service-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+            color: #1A2B4F;
         }
 
         /* Stats Section */
         #stats {
             padding: 4rem 2rem;
-            background: linear-gradient(to right, #007bff, #00c4b4);
-            color: white;
+            background: linear-gradient(to right, #1A2B4F, #00A3B8);
+            color: #F8FAFC;
             text-align: center;
         }
 
@@ -156,23 +202,25 @@
         .stat-item h3 {
             font-size: 2.5rem;
             font-weight: 700;
+            animation: bounce 1s ease-in-out;
         }
 
         .stat-item p {
             font-size: 1.2rem;
+            color: #F8FAFC;
         }
 
         /* Team Section */
         #team {
             padding: 5rem 2rem;
             text-align: center;
-            background: #f5f7fa;
+            background: #F8FAFC;
         }
 
         #team h2 {
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #2c3e50;
+            color: #1A2B4F;
         }
 
         .team-grid {
@@ -184,14 +232,16 @@
         }
 
         .team-member {
-            background: white;
+            background: #FFFFFF;
             padding: 1.5rem;
             border-radius: 12px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E5E7EB;
         }
 
         .team-member:hover {
-            transform: translateY(-10px);
+            transform: rotate(2deg) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .team-member img {
@@ -200,28 +250,30 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 1rem;
+            border: 3px solid #00A3B8;
         }
 
         .team-member h3 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
+            color: #1A2B4F;
         }
 
         .team-member p {
-            color: #666;
+            color: #6B7280;
         }
 
         /* Projects Section */
         #projects {
             padding: 5rem 2rem;
             text-align: center;
-            background: #ffffff;
+            background: #F8FAFC;
         }
 
         #projects h2 {
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #2c3e50;
+            color: #1A2B4F;
         }
 
         .project-filter {
@@ -229,18 +281,19 @@
         }
 
         .project-filter button {
-            background: #f5f7fa;
-            border: none;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
             padding: 0.5rem 1rem;
             margin: 0 0.5rem;
             border-radius: 20px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
         }
 
         .project-filter button.active, .project-filter button:hover {
-            background: #007bff;
-            color: white;
+            background: #00A3B8;
+            color: #F8FAFC;
+            transform: scale(1.1);
         }
 
         .project-grid {
@@ -252,14 +305,16 @@
         }
 
         .project-card {
-            background: #f5f7fa;
+            background: #FFFFFF;
             padding: 1.5rem;
             border-radius: 12px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E5E7EB;
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .project-card img {
@@ -268,24 +323,26 @@
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 1rem;
+            border: 2px solid #00A3B8;
         }
 
         .project-card h3 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
+            color: #1A2B4F;
         }
 
         /* Contact Section */
         #contact {
             padding: 5rem 2rem;
             text-align: center;
-            background: #f5f7fa;
+            background: #F8FAFC;
         }
 
         #contact h2 {
             font-size: 2.5rem;
             margin-bottom: 2rem;
-            color: #2c3e50;
+            color: #1A2B4F;
         }
 
         .contact-info {
@@ -295,6 +352,7 @@
         .contact-info p {
             font-size: 1.1rem;
             margin: 0.5rem 0;
+            color: #6B7280;
         }
 
         .contact-form {
@@ -307,48 +365,59 @@
             display: block;
             margin: 0.5rem 0;
             font-weight: 500;
+            color: #1A2B4F;
         }
 
         .contact-form input, .contact-form textarea {
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
-            border: 1px solid #ccc;
+            border: 1px solid #E5E7EB;
             border-radius: 8px;
             font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: #00A3B8;
+            box-shadow: 0 0 8px rgba(0,163,184,0.3);
+            outline: none;
         }
 
         .contact-form button {
-            background: #007bff;
-            color: white;
+            background: #00A3B8;
+            color: #F8FAFC;
             padding: 0.8rem 1.5rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
+            animation: pulse 2s infinite;
         }
 
         .contact-form button:hover {
-            background: #0056b3;
+            background: #D4A017;
+            transform: scale(1.05);
         }
 
         /* Footer */
         footer {
-            background: #2c3e50;
-            color: white;
+            background: #1A2B4F;
+            color: #F8FAFC;
             text-align: center;
             padding: 2rem;
         }
 
         footer a {
-            color: #00c4b4;
+            color: #00A3B8;
             text-decoration: none;
             margin: 0 0.5rem;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         footer a:hover {
-            color: #007bff;
+            color: #D4A017;
+            transform: scale(1.1);
         }
 
         /* Responsive Design */
@@ -402,22 +471,22 @@
     <section id="services">
         <h2>Our Services</h2>
         <div class="services-grid">
-            <div class="service-card">
+            <div class="service-card animate-on-scroll">
                 <i class="fas fa-database"></i>
                 <h3>Data Engineering</h3>
                 <p>Build robust data pipelines to streamline your data workflows and ensure scalability.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card animate-on-scroll" style="animation-delay: 0.1s;">
                 <i class="fas fa-cloud"></i>
                 <h3>Cloud Computing</h3>
                 <p>Leverage cloud platforms for secure, scalable, and cost-effective solutions.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card animate-on-scroll" style="animation-delay: 0.2s;">
                 <i class="fas fa-brain"></i>
                 <h3>Machine Learning</h3>
                 <p>Develop intelligent models to predict trends and optimize business outcomes.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card animate-on-scroll" style="animation-delay: 0.3s;">
                 <i class="fas fa-chart-line"></i>
                 <h3>Data Analytics</h3>
                 <p>Unlock insights with advanced analytics and interactive visualizations.</p>
@@ -429,15 +498,15 @@
     <section id="stats">
         <h2>Our Achievements</h2>
         <div class="stats-grid">
-            <div class="stat-item">
+            <div class="stat-item animate-on-scroll">
                 <h3 id="team-size">0</h3>
                 <p>Team Members</p>
             </div>
-            <div class="stat-item">
+            <div class="stat-item animate-on-scroll" style="animation-delay: 0.1s;">
                 <h3 id="projects-completed">0</h3>
                 <p>Projects Completed</p>
             </div>
-            <div class="stat-item">
+            <div class="stat-item animate-on-scroll" style="animation-delay: 0.2s;">
                 <h3 id="clients-served">0</h3>
                 <p>Clients Served</p>
             </div>
@@ -448,19 +517,19 @@
     <section id="team">
         <h2>Meet Our Team</h2>
         <div class="team-grid">
-            <div class="team-member">
+            <div class="team-member animate-slide-in">
                 <img src="https://via.placeholder.com/150" alt="Team Member">
                 <h3>John Doe</h3>
                 <p>CEO & Founder</p>
                 <p>John drives innovation with 15+ years in data analytics and leadership.</p>
             </div>
-            <div class="team-member">
+            <div class="team-member animate-slide-in" style="animation-delay: 0.1s;">
                 <img src="https://via.placeholder.com/150" alt="Team Member">
                 <h3>Jane Smith</h3>
                 <p>Chief Data Scientist</p>
                 <p>Jane pioneers machine learning solutions for complex challenges.</p>
             </div>
-            <div class="team-member">
+            <div class="team-member animate-slide-in" style="animation-delay: 0.2s;">
                 <img src="https://via.placeholder.com/150" alt="Team Member">
                 <h3>Mike Johnson</h3>
                 <p>Lead Developer</p>
@@ -479,17 +548,17 @@
             <button class="filter-btn" data-filter="ml">Machine Learning</button>
         </div>
         <div class="project-grid">
-            <div class="project-card" data-category="data-engineering">
+            <div class="project-card animate-on-scroll" data-category="data-engineering">
                 <img src="https://via.placeholder.com/400x200" alt="Project">
                 <h3>Project Alpha</h3>
                 <p>Data pipeline for a retail giant, boosting efficiency by 30%.</p>
             </div>
-            <div class="project-card" data-category="cloud">
+            <div class="project-card animate-on-scroll" data-category="cloud" style="animation-delay: 0.1s;">
                 <img src="https://via.placeholder.com/400x200" alt="Project">
                 <h3>Project Beta</h3>
                 <p>Cloud migration for a healthcare client, ensuring 99.9% uptime.</p>
             </div>
-            <div class="project-card" data-category="ml">
+            <div class="project-card animate-on-scroll" data-category="ml" style="animation-delay: 0.2s;">
                 <img src="https://via.placeholder.com/400x200" alt="Project">
                 <h3>Project Gamma</h3>
                 <p>Predictive model for e-commerce, increasing sales by 20%.</p>
@@ -500,7 +569,7 @@
     <!-- Contact Section -->
     <section id="contact">
         <h2>Contact Us</h2>
-        <div class="contact-info">
+        <div class="contact-info animate-on-scroll">
             <p>Email: info@datadices.com</p>
             <p>Phone: +1 (123) 456-7890</p>
             <p>Address: 123 Data Street, Tech City, TC 12345</p>
@@ -543,9 +612,10 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 5 + 1;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.glow = Math.random() * 0.5 + 0.5;
             }
 
             update() {
@@ -554,13 +624,20 @@
 
                 if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+                this.glow += Math.random() * 0.1 - 0.05;
+                if (this.glow < 0.5) this.glow = 0.5;
+                if (this.glow > 1) this.glow = 1;
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(0, 123, 255, 0.5)';
+                ctx.fillStyle = `rgba(0, 163, 184, ${this.glow})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#00A3B8';
                 ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
 
@@ -577,9 +654,9 @@
                     const dy = particles[i].y - particles[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 100) {
-                        ctx.strokeStyle = `rgba(0, 123, 255, ${1 - distance / 100})`;
-                        ctx.lineWidth = 1;
+                    if (distance < 120) {
+                        ctx.strokeStyle = `rgba(0, 163, 184, ${1 - distance / 120})`;
+                        ctx.lineWidth = 1.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -591,7 +668,7 @@
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillStyle = 'rgba(26, 43, 79, 0.7)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach(particle => {
@@ -609,6 +686,21 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+        });
+
+        // Scroll Animations
+        const animateOnScroll = document.querySelectorAll('.animate-on-scroll, .animate-slide-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.2 });
+
+        animateOnScroll.forEach(element => {
+            observer.observe(element);
         });
 
         // Stats Counter Animation
@@ -630,15 +722,15 @@
 
         // Trigger counters when stats section is in view
         const statsSection = document.getElementById('stats');
-        const observer = new IntersectionObserver((entries) => {
+        const statsObserver = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 animateCounter('team-size', 25, 2000); // Update with actual team size
                 animateCounter('projects-completed', 50, 2000); // Update with actual project count
                 animateCounter('clients-served', 30, 2000); // Update with actual client count
-                observer.disconnect();
+                statsObserver.disconnect();
             }
         }, { threshold: 0.5 });
-        observer.observe(statsSection);
+        statsObserver.observe(statsSection);
 
         // Project Filter
         const filterButtons = document.querySelectorAll('.filter-btn');
