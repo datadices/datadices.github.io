@@ -14,20 +14,23 @@
       overflow-x: hidden;
       transition: margin-left 0.3s ease;
       position: relative;
+      margin: 0;
+      padding: 0;
     }
     .menu-open {
-      margin-left: 250px;
+      margin-left: 60vw;
     }
     .tree-line {
       white-space: pre;
       line-height: 1.6;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
     }
     .glow {
       color: #00ffcc;
       text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
     }
     .tree-branch {
-      margin-left: 2rem;
+      margin-left: clamp(1rem, 3vw, 1.5rem);
     }
     .animated-bg {
       position: fixed;
@@ -54,15 +57,14 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-top: 5rem;
-      padding-bottom: 5rem;
+      padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
     }
     .section-divider {
       width: 100%;
       height: 2px;
       background: linear-gradient(90deg, transparent, #00ffcc, transparent);
       animation: pulseDivider 2s ease-in-out infinite;
-      margin: 2rem 0;
+      margin: clamp(1rem, 3vw, 2rem) 0;
     }
     @keyframes pulseDivider {
       0% { opacity: 0.5; }
@@ -72,20 +74,20 @@
     .quick-links {
       position: fixed;
       top: 50%;
-      right: 1rem;
+      right: clamp(0.5rem, 2vw, 1rem);
       transform: translateY(-50%);
       background: #1c1f2b;
-      padding: 0.8rem;
+      padding: clamp(0.5rem, 2vw, 0.8rem);
       border-radius: 6px;
       box-shadow: 0 0 8px rgba(0, 255, 204, 0.2);
       z-index: 10;
     }
     .quick-links a {
       display: block;
-      margin: 0.4rem 0;
+      margin: clamp(0.2rem, 1vw, 0.4rem) 0;
       color: #e0e6ed;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
     }
     .quick-links a:hover {
       color: #00ffcc;
@@ -94,8 +96,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 30px;
-      height: 20px;
+      width: clamp(25px, 6vw, 30px);
+      height: clamp(18px, 5vw, 20px);
       cursor: pointer;
       z-index: 30;
     }
@@ -110,10 +112,10 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 250px;
+      width: 60vw;
       height: 100vh;
       background: #1c1f2b;
-      padding: 2rem;
+      padding: clamp(1rem, 4vw, 2rem);
       transform: translateX(-100%);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 0 10px rgba(0, 255, 204, 0);
@@ -125,7 +127,7 @@
       box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     }
     #nav-menu li {
-      margin: 1rem 0;
+      margin: clamp(0.5rem, 2vw, 1rem) 0;
       opacity: 0;
       transform: translateX(-20px);
       transition: opacity 0.3s ease, transform 0.3s ease;
@@ -159,8 +161,8 @@
     }
     .star {
       position: absolute;
-      width: 3px;
-      height: 3px;
+      width: clamp(2px, 0.5vw, 3px);
+      height: clamp(2px, 0.5vw, 3px);
       background: #ffffff;
       border-radius: 50%;
       box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #00ffcc;
@@ -174,16 +176,16 @@
     }
     .slider-nav {
       position: fixed;
-      top: 4rem;
+      top: clamp(3rem, 8vw, 4rem);
       left: 50%;
       transform: translateX(-50%);
       background: #1c1f2b;
-      padding: 0.2rem 0.4rem;
+      padding: clamp(0.15rem, 0.5vw, 0.2rem) clamp(0.3rem, 1vw, 0.4rem);
       border-radius: 3px;
       border: 1px solid #00ffcc;
       display: flex;
       align-items: center;
-      gap: 0.2rem;
+      gap: clamp(0.1rem, 0.5vw, 0.2rem);
       z-index: 10;
       box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
       opacity: 0;
@@ -197,14 +199,14 @@
     .slider-nav .slider-content {
       display: flex;
       align-items: center;
-      gap: 0.2rem;
+      gap: clamp(0.1rem, 0.5vw, 0.2rem);
       transition: transform 0.5s ease;
     }
     .slider-nav a {
       color: #e0e6ed;
       text-decoration: none;
-      font-size: 0.7rem;
-      padding: 0.15rem 0.3rem;
+      font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+      padding: clamp(0.1rem, 0.5vw, 0.15rem) clamp(0.2rem, 0.8vw, 0.3rem);
       border-radius: 2px;
       transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
     }
@@ -219,7 +221,7 @@
     }
     .slider-nav .separator {
       color: #00ffcc;
-      font-size: 0.7rem;
+      font-size: clamp(0.6rem, 1.8vw, 0.7rem);
       align-self: center;
     }
     .slider-nav.slide-left .slider-content {
@@ -227,6 +229,78 @@
     }
     .slider-nav.slide-right .slider-content {
       transform: translateX(10px);
+    }
+    h1, h2 {
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+    @media (max-width: 768px) {
+      .menu-open {
+        margin-left: 80vw;
+      }
+      #nav-menu {
+        width: 80vw;
+      }
+      .quick-links {
+        padding: 0.5rem;
+        right: 0.5rem;
+      }
+      .quick-links a {
+        font-size: 0.7rem;
+      }
+      .section-spacing {
+        padding: 1.5rem 1rem;
+        min-height: 80vh;
+      }
+      .section-divider {
+        margin: 1rem 0;
+      }
+      .slider-nav {
+        top: 3rem;
+        padding: 0.15rem 0.3rem;
+      }
+      .hamburger {
+        width: 25px;
+        height: 18px;
+      }
+      .tree-line {
+        font-size: 0.75rem;
+      }
+      .tree-branch {
+        margin-left: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .slider-nav {
+        top: 2.5rem;
+        padding: 0.1rem 0.2rem;
+      }
+      .slider-nav a, .slider-nav .separator {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.2rem;
+      }
+      .quick-links {
+        padding: 0.4rem;
+        font-size: 0.65rem;
+      }
+      .section-spacing {
+        padding: 1rem 0.5rem;
+        min-height: 70vh;
+      }
+      .tree-line {
+        font-size: 0.7rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
@@ -244,7 +318,7 @@
   <div class="star" id="star10"></div>
 
   <nav class="fixed top-0 w-full bg-[#0b0f1a] border-b border-gray-700 p-4 z-20">
-    <div class="flex justify-between items-center max-w-7xl mx-auto">
+    <div class="flex justify-between items-center max-w-7xl mx-auto px-2">
       <div class="hamburger" id="hamburger" onclick="toggleMenu()">
         <span></span>
         <span></span>
@@ -280,8 +354,8 @@
     <a href="https://calendly.com/datadices/consultation" target="_blank">Book a Consultation</a>
   </div>
 
-  <section id="home" class="p-8 section-spacing">
-    <h1 class="text-4xl glow mb-4">DataDices</h1>
+  <section id="home" class="section-spacing">
+    <h1 class="glow mb-4">DataDices</h1>
     <pre class="tree-line">
 Root
 ├── Home
@@ -294,8 +368,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="mission" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Our Mission</h2>
+  <section id="mission" class="section-spacing">
+    <h2 class="glow mb-4">Our Mission</h2>
     <pre class="tree-line">
 Root
 └── Mission
@@ -307,8 +381,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="services" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Services</h2>
+  <section id="services" class="section-spacing">
+    <h2 class="glow mb-4">Services</h2>
     <pre class="tree-line">
 Root
 └── Services
@@ -335,8 +409,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="technologies" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Technologies</h2>
+  <section id="technologies" class="section-spacing">
+    <h2 class="glow mb-4">Technologies</h2>
     <pre class="tree-line">
 Root
 └── Technologies
@@ -352,7 +426,7 @@ Root
     │   ├── BigQuery
     │   ├── Redshift
     │   ├── Snowflake
-    │   ├── PostgreSQL
+    │   └── PostgreSQL
     ├── Orchestration
     │   ├── Apache Airflow
     │   ├── Google Cloud Composer
@@ -366,8 +440,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="case-studies" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Case Studies</h2>
+  <section id="case-studies" class="section-spacing">
+    <h2 class="glow mb-4">Case Studies</h2>
     <pre class="tree-line">
 Root
 └── Case Studies
@@ -385,8 +459,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="stats" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Stats</h2>
+  <section id="stats" class="section-spacing">
+    <h2 class="glow mb-4">Stats</h2>
     <pre class="tree-line">
 Root
 └── Stats
@@ -400,8 +474,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="team" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Team</h2>
+  <section id="team" class="section-spacing">
+    <h2 class="glow mb-4">Team</h2>
     <pre class="tree-line">
 Root
 └── Team
@@ -409,15 +483,17 @@ Root
     │   └── Founder & Lead Data Engineer
     ├── Laiba Answer
     │   └── Data Visualization Specialist
-    └── Talha Arshad
-        └── Senior Data Engineer
+    ├── Talha
+    │   └── Senior Data Engineer
+    └── Aisha
+        └── Machine Learning Engineer
     </pre>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="projects" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Projects</h2>
+  <section id="projects" class="section-spacing">
+    <h2 class="glow mb-4">Projects</h2>
     <pre class="tree-line">
 Root
 └── Projects
@@ -432,8 +508,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="workflow" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Workflow</h2>
+  <section id="workflow" class="section-spacing">
+    <h2 class="glow mb-4">Workflow</h2>
     <pre class="tree-line">
 Root
 └── How We Work
@@ -454,8 +530,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="approach" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Approach</h2>
+  <section id="approach" class="section-spacing">
+    <h2 class="glow mb-4">Approach</h2>
     <pre class="tree-line">
 Root
 └── Our Approach
@@ -476,8 +552,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="testimonials" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Testimonials</h2>
+  <section id="testimonials" class="section-spacing">
+    <h2 class="glow mb-4">Testimonials</h2>
     <pre class="tree-line">
 Root
 └── Testimonials
@@ -492,8 +568,8 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="blog" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Blog</h2>
+  <section id="blog" class="section-spacing">
+    <h2 class="glow mb-4">Blog</h2>
     <pre class="tree-line">
 Root
 └── Blog
@@ -506,13 +582,14 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="careers" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Careers</h2>
+  <section id="careers" class="section-spacing">
+    <h2 class="glow mb-4">Careers</h2>
     <pre class="tree-line">
 Root
 └── Careers
     ├── Open Positions
     │   ├── Data Engineer
+    │   ├── Cloud Architect
     │   └── BI Developer
     └── Why Join Us
         ├── Work on cutting-edge data projects
@@ -523,16 +600,17 @@ Root
 
   <div class="section-divider"></div>
 
-  <section id="contact" class="p-8 section-spacing">
-    <h2 class="text-3xl glow mb-4">Contact</h2>
+  <section id="contact" class="section-spacing">
+    <h2 class="glow mb-4">Contact</h2>
     <pre class="tree-line">
 Root
 └── Contact
     ├── Email: danish@datadices.com
     ├── Phone: +92 333 2560088
-    ├── LinkedIn: https://www.linkedin.com/company/datadices
+    ├── LinkedIn: linkedin.com/company/datadices
     ├── Website: https://datadices.github.io/
-    └── Upwork: https://www.upwork.com//agencies/datadices
+    ├── Upwork: upwork.com/agencies/datadices
+    └── Twitter: twitter.com/datadices
     </pre>
   </section>
 
