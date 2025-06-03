@@ -1,763 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataDices - Modern Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            color: #1A2B4F;
-            background: #F8FAFC;
-            scroll-behavior: smooth;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .animate-slide-in {
-            opacity: 0;
-            animation: slideIn 0.8s ease-out forwards;
-        }
-
-        /* Navbar */
-        nav {
-            background: #1A2B4F;
-            color: #F8FAFC;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin: 0 1.5rem;
-        }
-
-        nav ul li a {
-            color: #F8FAFC;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #00A3B8;
-            transform: scale(1.1);
-        }
-
-        /* Hero Section */
-        #hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #F8FAFC;
-            overflow: hidden;
-        }
-
-        #hero canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        #hero .hero-content {
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-        }
-
-        #hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            animation: fadeIn 1s ease-out;
-        }
-
-        #hero p {
-            font-size: 1.3rem;
-            max-width: 600px;
-            animation: fadeIn 1.2s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        /* Services Section */
-        #services {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: #F8FAFC;
-        }
-
-        #services h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #1A2B4F;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: #FFFFFF;
-            padding: 2rem;
-            border-radius: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #E5E7EB;
-        }
-
-        .service-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            border-color: #00A3B8;
-        }
-
-        .service-card i {
-            font-size: 2.5rem;
-            color: #00A3B8;
-            margin-bottom: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .service-card:hover i {
-            color: #D4A017;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #1A2B4F;
-        }
-
-        /* Stats Section */
-        #stats {
-            padding: 4rem 2rem;
-            background: linear-gradient(to right, #1A2B4F, #00A3B8);
-            color: #F8FAFC;
-            text-align: center;
-        }
-
-        #stats h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            animation: bounce 1s ease-in-out;
-        }
-
-        .stat-item p {
-            font-size: 1.2rem;
-            color: #F8FAFC;
-        }
-
-        /* Team Section */
-        #team {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: #F8FAFC;
-        }
-
-        #team h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #1A2B4F;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .team-member {
-            background: #FFFFFF;
-            padding: 1.5rem;
-            border-radius: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #E5E7EB;
-        }
-
-        .team-member:hover {
-            transform: rotate(2deg) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .team-member img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border: 3px solid #00A3B8;
-        }
-
-        .team-member h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #1A2B4F;
-        }
-
-        .team-member p {
-            color: #6B7280;
-        }
-
-        /* Projects Section */
-        #projects {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: #F8FAFC;
-        }
-
-        #projects h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #1A2B4F;
-        }
-
-        .project-filter {
-            margin-bottom: 2rem;
-        }
-
-        .project-filter button {
-            background: #FFFFFF;
-            border: 1px solid #E5E7EB;
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        }
-
-        .project-filter button.active, .project-filter button:hover {
-            background: #00A3B8;
-            color: #F8FAFC;
-            transform: scale(1.1);
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .project-card {
-            background: #FFFFFF;
-            padding: 1.5rem;
-            border-radius: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #E5E7EB;
-        }
-
-        .project-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 2px solid #00A3B8;
-        }
-
-        .project-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #1A2B4F;
-        }
-
-        /* Contact Section */
-        #contact {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: #F8FAFC;
-        }
-
-        #contact h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #1A2B4F;
-        }
-
-        .contact-info {
-            margin-bottom: 2rem;
-        }
-
-        .contact-info p {
-            font-size: 1.1rem;
-            margin: 0.5rem 0;
-            color: #6B7280;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .contact-form label {
-            display: block;
-            margin: 0.5rem 0;
-            font-weight: 500;
-            color: #1A2B4F;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .contact-form input:focus, .contact-form textarea:focus {
-            border-color: #00A3B8;
-            box-shadow: 0 0 8px rgba(0,163,184,0.3);
-            outline: none;
-        }
-
-        .contact-form button {
-            background: #00A3B8;
-            color: #F8FAFC;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .contact-form button:hover {
-            background: #D4A017;
-            transform: scale(1.05);
-        }
-
-        /* Footer */
-        footer {
-            background: #1A2B4F;
-            color: #F8FAFC;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        footer a {
-            color: #00A3B8;
-            text-decoration: none;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #D4A017;
-            transform: scale(1.1);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            #hero h1 {
-                font-size: 2.5rem;
-            }
-
-            #hero p {
-                font-size: 1.1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            nav ul li {
-                margin: 0.5rem 0;
-            }
-
-            .services-grid, .team-grid, .project-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataDices - Scalable Data Engineering Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      background: #0b0f1a;
+      color: #e0e6ed;
+      overflow-x: hidden;
+      transition: margin-left 0.3s ease;
+      position: relative;
+    }
+    .menu-open {
+      margin-left: 250px;
+    }
+    .tree-line {
+      white-space: pre;
+      line-height: 1.6;
+    }
+    .glow {
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+    }
+    .tree-branch {
+      margin-left: 2rem;
+    }
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(#1c1f2b 1px, transparent 1px);
+      background-size: 20px 20px;
+      animation: moveBg 20s linear infinite;
+      z-index: -1;
+      opacity: 0.1;
+    }
+    @keyframes moveBg {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+    .nav-link:hover {
+      color: #00ffcc;
+      transition: color 0.3s ease;
+    }
+    .section-spacing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .section-divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00ffcc, transparent);
+      animation: pulseDivider 2s ease-in-out infinite;
+      margin: 2rem 0;
+    }
+    @keyframes pulseDivider {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    .quick-links {
+      position: fixed;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      background: #1c1f2b;
+      padding: 0.8rem;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0, 255, 204, 0.2);
+      z-index: 10;
+    }
+    .quick-links a {
+      display: block;
+      margin: 0.4rem 0;
+      color: #e0e6ed;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .quick-links a:hover {
+      color: #00ffcc;
+    }
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+      z-index: 30;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background: #00ffcc;
+      transition: all 0.3s ease;
+    }
+    #nav-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background: #1c1f2b;
+      padding: 2rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0);
+      z-index: 20;
+    }
+    #nav-menu.active {
+      display: block;
+      transform: translateX(0);
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    }
+    #nav-menu li {
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    #nav-menu.active li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    #nav-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+    #nav-menu.active li:nth-child(2) { transition-delay: 0.15s; }
+    #nav-menu.active li:nth-child(3) { transition-delay: 0.2s; }
+    #nav-menu.active li:nth-child(4) { transition-delay: 0.25s; }
+    #nav-menu.active li:nth-child(5) { transition-delay: 0.3s; }
+    #nav-menu.active li:nth-child(6) { transition-delay: 0.35s; }
+    #nav-menu.active li:nth-child(7) { transition-delay: 0.4s; }
+    #nav-menu.active li:nth-child(8) { transition-delay: 0.45s; }
+    #nav-menu.active li:nth-child(9) { transition-delay: 0.5s; }
+    #nav-menu.active li:nth-child(10) { transition-delay: 0.55s; }
+    #nav-menu.active li:nth-child(11) { transition-delay: 0.6s; }
+    #nav-menu.active li:nth-child(12) { transition-delay: 0.65s; }
+    #nav-menu.active li:nth-child(13) { transition-delay: 0.7s; }
+    #nav-menu.active li:nth-child(14) { transition-delay: 0.75s; }
+    #hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    #hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    #hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #00ffcc;
+      animation: twinkle 2.5s 5;
+      z-index: -1;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.3; transform: scale(0.8); }
+    }
+    .slider-nav {
+      position: fixed;
+      top: 4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c1f2b;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid #00ffcc;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      z-index: 10;
+      box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .slider-nav.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .slider-nav .slider-content {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      transition: transform 0.5s ease;
+    }
+    .slider-nav a {
+      color: #e0e6ed;
+      text-decoration: none;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.3rem;
+      border-radius: 2px;
+      transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    }
+    .slider-nav a.active {
+      color: #00ffcc;
+      background: rgba(0, 255, 204, 0.1);
+      transform: scale(1.1);
+    }
+    .slider-nav a:hover {
+      color: #00ffcc;
+      transform: scale(1.05);
+    }
+    .slider-nav .separator {
+      color: #00ffcc;
+      font-size: 0.7rem;
+      align-self: center;
+    }
+    .slider-nav.slide-left .slider-content {
+      transform: translateX(-10px);
+    }
+    .slider-nav.slide-right .slider-content {
+      transform: translateX(10px);
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#stats">Stats</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+  <div class="animated-bg"></div>
+  <div class="star" id="star1"></div>
+  <div class="star" id="star2"></div>
+  <div class="star" id="star3"></div>
+  <div class="star" id="star4"></div>
+  <div class="star" id="star5"></div>
+  <div class="star" id="star6"></div>
+  <div class="star" id="star7"></div>
+  <div class="star" id="star8"></div>
+  <div class="star" id="star9"></div>
+  <div class="star" id="star10"></div>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <canvas id="particleCanvas"></canvas>
-        <div class="hero-content">
-            <h1>DataDices</h1>
-            <p>Transforming data into actionable insights with cutting-edge technology.</p>
-        </div>
-    </section>
+  <nav class="fixed top-0 w-full bg-[#0b0f1a] border-b border-gray-700 p-4 z-20">
+    <div class="flex justify-between items-center max-w-7xl mx-auto">
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul id="nav-menu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#mission" class="nav-link">Mission</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#technologies" class="nav-link">Technologies</a></li>
+        <li><a href="#case-studies" class="nav-link">Case Studies</a></li>
+        <li><a href="#stats" class="nav-link">Stats</a></li>
+        <li><a href="#team" class="nav-link">Team</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#workflow" class="nav-link">Workflow</a></li>
+        <li><a href="#approach" class="nav-link">Approach</a></li>
+        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+        <li><a href="#blog" class="nav-link">Blog</a></li>
+        <li><a href="#careers" class="nav-link">Careers</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- Services Section -->
-    <section id="services">
-        <h2>Our Services</h2>
-        <div class="services-grid">
-            <div class="service-card animate-on-scroll">
-                <i class="fas fa-database"></i>
-                <h3>Data Engineering</h3>
-                <p>Build robust data pipelines to streamline your data workflows and ensure scalability.</p>
-            </div>
-            <div class="service-card animate-on-scroll" style="animation-delay: 0.1s;">
-                <i class="fas fa-cloud"></i>
-                <h3>Cloud Computing</h3>
-                <p>Leverage cloud platforms for secure, scalable, and cost-effective solutions.</p>
-            </div>
-            <div class="service-card animate-on-scroll" style="animation-delay: 0.2s;">
-                <i class="fas fa-brain"></i>
-                <h3>Machine Learning</h3>
-                <p>Develop intelligent models to predict trends and optimize business outcomes.</p>
-            </div>
-            <div class="service-card animate-on-scroll" style="animation-delay: 0.3s;">
-                <i class="fas fa-chart-line"></i>
-                <h3>Data Analytics</h3>
-                <p>Unlock insights with advanced analytics and interactive visualizations.</p>
-            </div>
-        </div>
-    </section>
+  <div class="slider-nav" id="slider-nav">
+    <div class="slider-content" id="slider-content"></div>
+  </div>
 
-    <!-- Stats Section -->
-    <section id="stats">
-        <h2>Our Achievements</h2>
-        <div class="stats-grid">
-            <div class="stat-item animate-on-scroll">
-                <h3 id="team-size">0</h3>
-                <p>Team Members</p>
-            </div>
-            <div class="stat-item animate-on-scroll" style="animation-delay: 0.1s;">
-                <h3 id="projects-completed">0</h3>
-                <p>Projects Completed</p>
-            </div>
-            <div class="stat-item animate-on-scroll" style="animation-delay: 0.2s;">
-                <h3 id="clients-served">0</h3>
-                <p>Clients Served</p>
-            </div>
-        </div>
-    </section>
+  <div class="quick-links">
+    <h3 class="text-sm glow mb-2">Quick Links</h3>
+    <a href="https://github.com/datadices" target="_blank">GitHub</a>
+    <a href="https://medium.com/@datadices" target="_blank">Medium</a>
+    <a href="https://calendly.com/datadices/consultation" target="_blank">Book a Consultation</a>
+  </div>
 
-    <!-- Team Section -->
-    <section id="team">
-        <h2>Meet Our Team</h2>
-        <div class="team-grid">
-            <div class="team-member animate-slide-in">
-                <img src="https://via.placeholder.com/150" alt="Team Member">
-                <h3>John Doe</h3>
-                <p>CEO & Founder</p>
-                <p>John drives innovation with 15+ years in data analytics and leadership.</p>
-            </div>
-            <div class="team-member animate-slide-in" style="animation-delay: 0.1s;">
-                <img src="https://via.placeholder.com/150" alt="Team Member">
-                <h3>Jane Smith</h3>
-                <p>Chief Data Scientist</p>
-                <p>Jane pioneers machine learning solutions for complex challenges.</p>
-            </div>
-            <div class="team-member animate-slide-in" style="animation-delay: 0.2s;">
-                <img src="https://via.placeholder.com/150" alt="Team Member">
-                <h3>Mike Johnson</h3>
-                <p>Lead Developer</p>
-                <p>Mike builds scalable systems for seamless data processing.</p>
-            </div>
-        </div>
-    </section>
+  <section id="home" class="p-8 section-spacing">
+    <h1 class="text-4xl glow mb-4">DataDices</h1>
+    <pre class="tree-line">
+Root
+├── Home
+│   └── Welcome to DataDices, your partner in scalable data engineering
+│       ├── 24/7 Support for seamless operations
+│       ├── Cloud-Native Solutions for agility
+│       └── ETL Automation for efficiency
+    </pre>
+  </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <h2>Our Projects</h2>
-        <div class="project-filter">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="data-engineering">Data Engineering</button>
-            <button class="filter-btn" data-filter="cloud">Cloud Computing</button>
-            <button class="filter-btn" data-filter="ml">Machine Learning</button>
-        </div>
-        <div class="project-grid">
-            <div class="project-card animate-on-scroll" data-category="data-engineering">
-                <img src="https://via.placeholder.com/400x200" alt="Project">
-                <h3>Project Alpha</h3>
-                <p>Data pipeline for a retail giant, boosting efficiency by 30%.</p>
-            </div>
-            <div class="project-card animate-on-scroll" data-category="cloud" style="animation-delay: 0.1s;">
-                <img src="https://via.placeholder.com/400x200" alt="Project">
-                <h3>Project Beta</h3>
-                <p>Cloud migration for a healthcare client, ensuring 99.9% uptime.</p>
-            </div>
-            <div class="project-card animate-on-scroll" data-category="ml" style="animation-delay: 0.2s;">
-                <img src="https://via.placeholder.com/400x200" alt="Project">
-                <h3>Project Gamma</h3>
-                <p>Predictive model for e-commerce, increasing sales by 20%.</p>
-            </div>
-        </div>
-    </section>
+  <div class="section-divider"></div>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <div class="contact-info animate-on-scroll">
-            <p>Email: info@datadices.com</p>
-            <p>Phone: +1 (123) 456-7890</p>
-            <p>Address: 123 Data Street, Tech City, TC 12345</p>
-        </div>
-        <div class="contact-form">
-            <form id="contactForm">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-    </section>
+  <section id="mission" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Our Mission</h2>
+    <pre class="tree-line">
+Root
+└── Mission
+    ├── Empower businesses with data-driven insights
+    ├── Build scalable, secure, and cost-effective data solutions
+    └── Drive innovation through cutting-edge technologies
+    </pre>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 DataDices. All rights reserved.</p>
-        <p>
-            <a href="#">LinkedIn</a> |
-            <a href="#">Twitter</a> |
-            <a href="#">GitHub</a>
-        </p>
-    </footer>
+  <div class="section-divider"></div>
 
-    <script>
-        // Particle Animation for Hero Section
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
+  <section id="services" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Services</h2>
+    <pre class="tree-line">
+Root
+└── Services
+    ├── Cloud Data Pipelines
+    │   ├── Google Cloud (BigQuery, Cloud Run, Functions, Dataflow)
+    │   ├── AWS (Lambda, Redshift, S3, Glue)
+    │   └── Azure (Data Factory, Synapse, Blob Storage)
+    ├── Data Visualization
+    │   ├── Power BI
+    │   ├── Tableau
+    │   ├── Looker Studio
+    │   ├── Metabase
+    │   └── Grafana
+    ├── Automation & Monitoring
+    │   ├── Airflow & Composer
+    │   ├── CI/CD (GitHub Actions, Terraform, Jenkins)
+    │   └── Alerting & Logs (Prometheus, ELK Stack)
+    └── Machine Learning Integration
+        ├── Model Deployment (SageMaker, Vertex AI)
+        ├── Data Preparation for ML
+        └── MLOps Pipelines
+    </pre>
+  </section>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+  <div class="section-divider"></div>
 
-        const particles = [];
-        const particleCount = 100;
+  <section id="technologies" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Technologies</h2>
+    <pre class="tree-line">
+Root
+└── Technologies
+    ├── Cloud Platforms
+    │   ├── Google Cloud Platform
+    │   ├── Amazon Web Services
+    │   └── Microsoft Azure
+    ├── Data Processing
+    │   ├── Apache Spark
+    │   ├── Apache Kafka
+    │   └── dbt
+    ├── Databases
+    │   ├── BigQuery
+    │   ├── Redshift
+    │   ├── Snowflake
+    │   ├── PostgreSQL
+    ├── Orchestration
+    │   ├── Apache Airflow
+    │   ├── Google Cloud Composer
+    │   └── Kubernetes
+    └── DevOps
+        ├── Docker
+        ├── Terraform
+        └── GitHub Actions
+    </pre>
+  </section>
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 5 + 2;
-                this.speedX = Math.random() * 1.5 - 0.75;
-                this.speedY = Math.random() * 1.5 - 0.75;
-                this.glow = Math.random() * 0.5 + 0.5;
-            }
+  <div class="section-divider"></div>
 
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+  <section id="case-studies" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Case Studies</h2>
+    <pre class="tree-line">
+Root
+└── Case Studies
+    ├── E-Commerce Analytics Platform
+    │   ├── Built scalable ETL pipelines on AWS
+    │   └── Reduced data processing time by 60%
+    ├── Healthcare Data Warehouse
+    │   ├── Integrated BigQuery with real-time patient data
+    │   └── Enabled predictive analytics for patient care
+    └── Retail BI Dashboards
+        ├── Deployed Tableau dashboards for sales insights
+        └── Improved decision-making by 40%
+    </pre>
+  </section>
 
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  <div class="section-divider"></div>
 
-                this.glow += Math.random() * 0.1 - 0.05;
-                if (this.glow < 0.5) this.glow = 0.5;
-                if (this.glow > 1) this.glow = 1;
-            }
+  <section id="stats" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Stats</h2>
+    <pre class="tree-line">
+Root
+└── Stats
+    ├── GCP Projects: 25+
+    ├── AWS Projects: 15+
+    ├── Azure Projects: 10+
+    ├── Total Data Projects: 60+
+    └── Data Processed: 1PB+
+    </pre>
+  </section>
 
-            draw() {
-                ctx.fillStyle = `rgba(0, 163, 184, ${this.glow})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#00A3B8';
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
+  <div class="section-divider"></div>
+
+  <section id="team" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Team</h2>
+    <pre class="tree-line">
+Root
+└── Team
+    ├── Danish Meghwar
+    │   └── Founder & Lead Data Engineer
+    ├── Laiba Answer
+    │   └── Data Visualization Specialist
+    └── Talha Arshad
+        └── Senior Data Engineer
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="projects" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Projects</h2>
+    <pre class="tree-line">
+Root
+└── Projects
+    ├── GCP ETL Pipelines
+    ├── AWS Data Pipelines
+    ├── Azure Data Integration
+    ├── Data Warehousing
+    ├── Business Intelligence Dashboards
+    └── Machine Learning Pipelines
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="workflow" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Workflow</h2>
+    <pre class="tree-line">
+Root
+└── How We Work
+    ├── Discover
+    │   └── Understand client needs and data landscape
+    ├── Design
+    │   └── Architect scalable data solutions
+    ├── Develop
+    │   └── Build robust pipelines and systems
+    ├── Test
+    │   └── Ensure data quality and performance
+    ├── Deploy
+    │   └── Launch solutions with zero downtime
+    └── Support
+        └── Provide 24/7 monitoring and optimization
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="approach" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Approach</h2>
+    <pre class="tree-line">
+Root
+└── Our Approach
+    ├── Ingestion
+    │   └── APIs, Streaming, Batch (Lambda, Pub/Sub, S3, Kinesis)
+    ├── Transformation
+    │   └── dbt, SQL, PySpark, Pandas
+    ├── Storage
+    │   └── BigQuery, Redshift, Snowflake, Lake Storage
+    ├── Orchestration
+    │   └── Airflow, Composer, Kubernetes
+    ├── Visualization
+    │   └── BI Tools (Looker, Tableau, Power BI, Metabase)
+    └── DevOps
+        └── CI/CD, Docker, Terraform, GitHub Actions
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="testimonials" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Testimonials</h2>
+    <pre class="tree-line">
+Root
+└── Testimonials
+    ├── Client A - E-Commerce
+    │   └── "DataDices transformed our data pipelines, saving us millions."
+    ├── Client B - Healthcare
+    │   └── "Their BI dashboards revolutionized our patient analytics."
+    └── Client C - Retail
+        └── "Seamless integration and top-notch support!"
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="blog" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Blog</h2>
+    <pre class="tree-line">
+Root
+└── Blog
+    ├── Scaling ETL Pipelines with Airflow
+    ├── Real-Time Analytics with Kafka
+    ├── Building Cost-Effective Data Lakes
+    └── MLOps Best Practices
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="careers" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Careers</h2>
+    <pre class="tree-line">
+Root
+└── Careers
+    ├── Open Positions
+    │   ├── Data Engineer
+    │   └── BI Developer
+    └── Why Join Us
+        ├── Work on cutting-edge data projects
+        ├── Flexible remote work
+        └── Continuous learning opportunities
+    </pre>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="contact" class="p-8 section-spacing">
+    <h2 class="text-3xl glow mb-4">Contact</h2>
+    <pre class="tree-line">
+Root
+└── Contact
+    ├── Email: danish@datadices.com
+    ├── Phone: +92 333 2560088
+    ├── LinkedIn: https://www.linkedin.com/company/datadices
+    ├── Website: https://datadices.github.io/
+    └── Upwork: https://www.upwork.com//agencies/datadices
+    </pre>
+  </section>
+
+  <footer class="text-center text-gray-600 p-4 border-t border-gray-700">
+    <p>© 2025 DataDices — Empowering Data for Growth</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      const hamburger = document.getElementById('hamburger');
+      const body = document.body;
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('active');
+      body.classList.toggle('menu-open');
+    }
+
+    // Slider navigation logic
+    const sections = [
+      { id: 'home', name: 'home' },
+      { id: 'mission', name: 'mission' },
+      { id: 'services', name: 'services' },
+      { id: 'technologies', name: 'technologies' },
+      { id: 'case-studies', name: 'case-studies' },
+      { id: 'stats', name: 'stats' },
+      { id: 'team', name: 'team' },
+      { id: 'projects', name: 'projects' },
+      { id: 'workflow', name: 'workflow' },
+      { id: 'approach', name: 'approach' },
+      { id: 'testimonials', name: 'testimonials' },
+      { id: 'blog', name: 'blog' },
+      { id: 'careers', name: 'careers' },
+      { id: 'contact', name: 'contact' }
+    ];
+
+    let lastSectionId = 'home';
+    let lastScroll = 0;
+
+    function updateSliderNav(currentSectionId, direction) {
+      const sliderNav = document.getElementById('slider-nav');
+      const sliderContent = document.getElementById('slider-content');
+      const currentIndex = sections.findIndex(section => section.id === currentSectionId);
+      
+      sliderNav.classList.remove('visible', 'slide-left', 'slide-right');
+      sliderContent.innerHTML = '';
+      
+      // Add previous section if it exists
+      if (currentIndex > 0) {
+        const prev = sections[currentIndex - 1];
+        const prevLink = document.createElement('a');
+        prevLink.href = `#${prev.id}`;
+        prevLink.textContent = prev.name;
+        sliderContent.appendChild(prevLink);
+        sliderContent.appendChild(document.createTextNode(' '));
+        const separator = document.createElement('span');
+        separator.className = 'separator';
+        separator.textContent = '----';
+        sliderContent.appendChild(separator);
+        sliderContent.appendChild(document.createTextNode(' '));
+      }
+      
+      // Add current section
+      const currentLink = document.createElement('a');
+      currentLink.href = `#${sections[currentIndex].id}`;
+      currentLink.textContent = sections[currentIndex].name;
+      currentLink.className = 'active';
+      sliderContent.appendChild(currentLink);
+      
+      // Add next section if it exists
+      if (currentIndex < sections.length - 1) {
+        sliderContent.appendChild(document.createTextNode(' '));
+        const separator = document.createElement('span');
+        separator.className = 'separator';
+        separator.textContent = '----';
+        sliderContent.appendChild(separator);
+        sliderContent.appendChild(document.createTextNode(' '));
+        const next = sections[currentIndex + 1];
+        const nextLink = document.createElement('a');
+        nextLink.href = `#${next.id}`;
+        nextLink.textContent = next.name;
+        sliderContent.appendChild(nextLink);
+      }
+
+      // Apply slide animation based on scroll direction
+      if (direction === 'down') {
+        sliderNav.classList.add('slide-left');
+      } else if (direction === 'up') {
+        sliderNav.classList.add('slide-right');
+      }
+
+      // Trigger visibility animation
+      setTimeout(() => {
+        sliderNav.classList.add('visible');
+        // Reset slide animation after transition
+        setTimeout(() => {
+          sliderNav.classList.remove('slide-left', 'slide-right');
+          sliderContent.style.transform = 'translateX(0)';
+        }, 500);
+      }, 10);
+    }
+
+    // Scroll-based section detection
+    function getCurrentSection() {
+      const viewportCenter = window.scrollY + window.innerHeight / 2;
+      let closestSectionId = 'home';
+      let minDistance = Infinity;
+
+      sections.forEach(section => {
+        const element = document.getElementById(section.id);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const sectionCenter = rect.top + window.scrollY + rect.height / 2;
+          const distance = Math.abs(viewportCenter - sectionCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestSectionId = section.id;
+          }
         }
+      });
 
-        function initParticles() {
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+      return closestSectionId;
+    }
+
+    // Star repositioning logic
+    function repositionStar(star) {
+      const sections = document.querySelectorAll('section');
+      const randomSection = sections[Math.floor(Math.random() * sections.length)];
+      const sectionRect = randomSection.getBoundingClientRect();
+      const randomTop = Math.random() * (window.innerHeight - 50) + sectionRect.top;
+      const randomLeft = Math.random() * (window.innerWidth - 50);
+      star.style.top = `${randomTop}px`;
+      star.style.left = `${randomLeft}px`;
+    }
+
+    document.querySelectorAll('.star').forEach(star => {
+      star.addEventListener('animationiteration', () => {
+        star.dataset.twinkleCount = (parseInt(star.dataset.twinkleCount || 0) + 1);
+        if (star.dataset.twinkleCount >= 5) {
+          repositionStar(star);
+          star.dataset.twinkleCount = 0;
         }
+      });
+      repositionStar(star); // Initial position
+    });
 
-        function connectParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 120) {
-                        ctx.strokeStyle = `rgba(0, 163, 184, ${1 - distance / 120})`;
-                        ctx.lineWidth = 1.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
+    // Update slider on scroll and hash change
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (Math.abs(currentScroll - lastScroll) > 50) { // Debounce scroll
+        const currentSectionId = getCurrentSection();
+        if (currentSectionId !== lastSectionId) {
+          const direction = currentScroll > lastScroll ? 'down' : 'up';
+          updateSliderNav(currentSectionId, direction);
+          lastSectionId = currentSectionId;
         }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(26, 43, 79, 0.7)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            connectParticles();
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // Scroll Animations
-        const animateOnScroll = document.querySelectorAll('.animate-on-scroll, .animate-slide-in');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, { threshold: 0.2 });
-
-        animateOnScroll.forEach(element => {
-            observer.observe(element);
-        });
-
-        // Stats Counter Animation
-        function animateCounter(id, end, duration) {
-            let start = 0;
-            const element = document.getElementById(id);
-            const increment = end / (duration / 16);
-            const step = () => {
-                start += increment;
-                if (start >= end) {
-                    element.textContent = end;
-                    return;
-                }
-                element.textContent = Math.round(start);
-                requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-        }
-
-        // Trigger counters when stats section is in view
-        const statsSection = document.getElementById('stats');
-        const statsObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                animateCounter('team-size', 25, 2000); // Update with actual team size
-                animateCounter('projects-completed', 50, 2000); // Update with actual project count
-                animateCounter('clients-served', 30, 2000); // Update with actual client count
-                statsObserver.disconnect();
-            }
-        }, { threshold: 0.5 });
-        statsObserver.observe(statsSection);
-
-        // Project Filter
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const filter = button.dataset.filter;
-
-                projectCards.forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Form Submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
-        });
-    </script>
+        lastScroll = currentScroll;
+      }
+    });
+    window.addEventListener('hashchange', () => {
+      const currentSectionId = window.location.hash.slice(1) || 'home';
+      updateSliderNav(currentSectionId, 'none');
+      lastSectionId = currentSectionId;
+    });
+    window.addEventListener('load', () => {
+      const currentSectionId = getCurrentSection();
+      updateSliderNav(currentSectionId, 'none');
+      lastSectionId = currentSectionId;
+    });
+  </script>
 </body>
 </html>
