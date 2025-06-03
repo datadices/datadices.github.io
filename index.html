@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>DataDices - Scalable Data Engineering Solutions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -13,7 +13,6 @@
       color: #e0e6ed;
       overflow-x: hidden;
       transition: margin-left 0.3s ease;
-      position: relative;
       margin: 0;
       padding: 0;
     }
@@ -114,6 +113,7 @@
     }
     .slider-nav {
       position: fixed;
+      bottom: 1rem;
       left: 50%;
       transform: translateX(-50%);
       background: #1c1f2b;
@@ -124,7 +124,7 @@
       z-index: 10;
       box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
       opacity: 0;
-      transform: translateX(-50%) translateY(-10px);
+      transform: translateX(-50%) translateY(10px);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .slider-nav.visible {
@@ -155,56 +155,107 @@
       color: #00ffcc;
       align-self: center;
     }
-    .slider-nav.slide-left .slider-content {
-      transform: translateX(-10px);
+    .card {
+      background: #1f2525;
+      border-radius: 10px;
+      border: 2px solid #00ffcc;
+      padding: 2rem;
+      margin: 0 auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+      z-index: 2;
+      position: relative;
     }
-    .slider-nav.slide-right .slider-content {
-      transform: translateX(10px);
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+    }
+    .glow {
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+    }
+    .tree-line {
+      white-space: pre;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      color: #e0e6ed;
+      background: #1c1f2b;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 255, 204, 0.2);
+    }
+    .pipeline-connector {
+      position: absolute;
+      width: 2px;
+      background: linear-gradient(to bottom, #00ffcc, transparent);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+      animation: flowPulse 2s ease-in-out infinite;
+    }
+    .pipeline-anchor {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #00ffcc;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 5px #00ffcc;
+      z-index: 0;
+    }
+    @keyframes flowPulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+      100% { opacity: 0.3; }
     }
     /* Desktop (Landscape) */
     @media (orientation: landscape) {
       body.menu-open {
         margin-left: 250px;
       }
-      .tree-line {
-        white-space: pre;
-        line-height: 1.6;
-        font-size: 0.9rem;
-      }
-      .glow {
-        color: #00ffcc;
-        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
-      }
-      .tree-branch {
-        margin-left: 2rem;
-      }
-      .section-spacing {
+      .section {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 3rem 2rem;
+        align-items: center;
+        padding: 4rem 2rem;
+        position: relative;
+      }
+      .card {
+        max-width: 800px;
+        font-size: 1rem;
+        padding: 2rem;
+      }
+      .section h1 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+      }
+      .section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
       }
       .section-divider {
-        margin: 2rem 0;
+        margin: 4rem 0;
       }
       .quick-links {
         position: fixed;
         top: 50%;
-        right: 1rem;
+        right: 2rem;
         transform: translateY(-50%);
         background: #1c1f2b;
-        padding: 0.8rem;
+        padding: 1rem;
         border-radius: 6px;
         box-shadow: 0 0 8px rgba(0, 255, 204, 0.2);
         z-index: 10;
       }
       .quick-links a {
         display: block;
-        margin: 0.4rem 0;
+        margin: 0.5rem 0;
         color: #e0e6ed;
         text-decoration: none;
-        font-size: 0.85rem;
+        font-size: 1rem;
       }
       .quick-links a:hover {
         color: #00ffcc;
@@ -217,25 +268,28 @@
         width: 250px;
       }
       .slider-nav {
-        top: 4rem;
-        padding: 0.2rem 0.4rem;
-        gap: 0.2rem;
+        padding: 0.3rem 0.5rem;
+        gap: 0.3rem;
       }
       .slider-nav .slider-content {
-        gap: 0.2rem;
+        gap: 0.3rem;
       }
       .slider-nav a {
-        font-size: 0.7rem;
-        padding: 0.15rem 0.3rem;
+        font-size: 0.9rem;
+        padding: 0.2rem 0.4rem;
       }
       .slider-nav .separator {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
       }
-      h1 {
-        font-size: 2.5rem;
+      .tree-line {
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
-      h2 {
-        font-size: 2rem;
+      .pipeline-connector {
+        height: 4rem;
+      }
+      .pipeline-anchor {
+        top: -4rem;
       }
     }
     /* Mobile (Portrait) */
@@ -243,27 +297,30 @@
       body.menu-open {
         margin-left: 80vw;
       }
-      .tree-line {
-        white-space: pre;
-        line-height: 1.4;
-        font-size: 0.75rem;
-      }
-      .glow {
-        color: #00ffcc;
-        text-shadow: 0 0 3px #00ffcc, 0 0 6px #00ffcc;
-      }
-      .tree-branch {
-        margin-left: 1rem;
-      }
-      .section-spacing {
-        min-height: 70vh;
+      .section {
+        min-height: 80vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 1rem 0.5rem;
+        align-items: center;
+        padding: 2rem 1rem;
+        position: relative;
+      }
+      .card {
+        max-width: 95%;
+        font-size: 0.9rem;
+        padding: 1.5rem;
+      }
+      .section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
       }
       .section-divider {
-        margin: 1rem 0;
+        margin: 2rem 0;
       }
       .quick-links {
         position: fixed;
@@ -271,17 +328,17 @@
         right: 0.5rem;
         transform: translateY(-50%);
         background: #1c1f2b;
-        padding: 0.4rem;
+        padding: 0.5rem;
         border-radius: 4px;
         box-shadow: 0 0 6px rgba(0, 255, 204, 0.2);
         z-index: 10;
       }
       .quick-links a {
         display: block;
-        margin: 0.2rem 0;
+        margin: 0.3rem 0;
         color: #e0e6ed;
         text-decoration: none;
-        font-size: 0.65rem;
+        font-size: 0.8rem;
       }
       .quick-links a:hover {
         color: #00ffcc;
@@ -295,25 +352,28 @@
         padding: 1rem;
       }
       .slider-nav {
-        top: 2.5rem;
-        padding: 0.1rem 0.2rem;
-        gap: 0.1rem;
+        padding: 0.2rem 0.3rem;
+        gap: 0.2rem;
       }
       .slider-nav .slider-content {
-        gap: 0.1rem;
+        gap: 0.2rem;
       }
       .slider-nav a {
-        font-size: 0.6rem;
-        padding: 0.1rem 0.2rem;
+        font-size: 0.8rem;
+        padding: 0.15rem 0.3rem;
       }
       .slider-nav .separator {
-        font-size: 0.6rem;
+        font-size: 0.8rem;
       }
-      h1 {
-        font-size: 1.5rem;
+      .tree-line {
+        font-size: 0.85rem;
+        line-height: 1.4;
       }
-      h2 {
-        font-size: 1.2rem;
+      .pipeline-connector {
+        height: 2rem;
+      }
+      .pipeline-anchor {
+        top: -2rem;
       }
     }
   </style>
@@ -358,37 +418,46 @@
     <a href="https://calendly.com/datadices/consultation" target="_blank">Book a Consultation</a>
   </div>
 
-  <section id="home" class="section-spacing">
-    <h1 class="glow mb-4">DataDices</h1>
-    <pre class="tree-line">
-Root
-├── Home
-│   └── Welcome to DataDices, your partner in scalable data engineering
-│       ├── 24/7 Support for seamless operations
-│       ├── Cloud-Native Solutions for agility
-│       └── ETL Automation for efficiency
-    </pre>
+  <section id="home" class="section">
+    <div class="card">
+      <h1 class="glow">DataDices</h1>
+      <p class="mb-4">Your partner in scalable data engineering solutions.</p>
+      <pre class="tree-line">
+DataDices
+└── Home
+    ├── 24/7 Support for seamless operations
+    ├── Cloud-Native Solutions for agility
+    └── ETL Automation for efficiency
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="mission" class="section-spacing">
-    <h2 class="glow mb-4">Our Mission</h2>
-    <pre class="tree-line">
-Root
+  <section id="mission" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Our Mission</h2>
+      <pre class="tree-line">
+DataDices
 └── Mission
     ├── Empower businesses with data-driven insights
     ├── Build scalable, secure, and cost-effective data solutions
     └── Drive innovation through cutting-edge technologies
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="services" class="section-spacing">
-    <h2 class="glow mb-4">Services</h2>
-    <pre class="tree-line">
-Root
+  <section id="services" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Services</h2>
+      <pre class="tree-line">
+DataDices
 └── Services
     ├── Cloud Data Pipelines
     │   ├── Google Cloud (BigQuery, Cloud Run, Functions, Dataflow)
@@ -408,15 +477,19 @@ Root
         ├── Model Deployment (SageMaker, Vertex AI)
         ├── Data Preparation for ML
         └── MLOps Pipelines
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="technologies" class="section-spacing">
-    <h2 class="glow mb-4">Technologies</h2>
-    <pre class="tree-line">
-Root
+  <section id="technologies" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Technologies</h2>
+      <pre class="tree-line">
+DataDices
 └── Technologies
     ├── Cloud Platforms
     │   ├── Google Cloud Platform
@@ -439,15 +512,19 @@ Root
         ├── Docker
         ├── Terraform
         └── GitHub Actions
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="case-studies" class="section-spacing">
-    <h2 class="glow mb-4">Case Studies</h2>
-    <pre class="tree-line">
-Root
+  <section id="case-studies" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Case Studies</h2>
+      <pre class="tree-line">
+DataDices
 └── Case Studies
     ├── E-Commerce Analytics Platform
     │   ├── Built scalable ETL pipelines on AWS
@@ -458,30 +535,38 @@ Root
     └── Retail BI Dashboards
         ├── Deployed Tableau dashboards for sales insights
         └── Improved decision-making by 40%
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="stats" class="section-spacing">
-    <h2 class="glow mb-4">Stats</h2>
-    <pre class="tree-line">
-Root
+  <section id="stats" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Stats</h2>
+      <pre class="tree-line">
+DataDices
 └── Stats
     ├── GCP Projects: 25+
     ├── AWS Projects: 15+
     ├── Azure Projects: 10+
     ├── Total Data Projects: 60+
     └── Data Processed: 1PB+
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="team" class="section-spacing">
-    <h2 class="glow mb-4">Team</h2>
-    <pre class="tree-line">
-Root
+  <section id="team" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Team</h2>
+      <pre class="tree-line">
+DataDices
 └── Team
     ├── Danish Meghwar
     │   └── Founder & Lead Data Engineer
@@ -491,15 +576,19 @@ Root
     │   └── Senior Data Engineer
     └── Aisha
         └── Machine Learning Engineer
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="projects" class="section-spacing">
-    <h2 class="glow mb-4">Projects</h2>
-    <pre class="tree-line">
-Root
+  <section id="projects" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Projects</h2>
+      <pre class="tree-line">
+DataDices
 └── Projects
     ├── GCP ETL Pipelines
     ├── AWS Data Pipelines
@@ -507,16 +596,20 @@ Root
     ├── Data Warehousing
     ├── Business Intelligence Dashboards
     └── Machine Learning Pipelines
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="workflow" class="section-spacing">
-    <h2 class="glow mb-4">Workflow</h2>
-    <pre class="tree-line">
-Root
-└── How We Work
+  <section id="workflow" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Workflow</h2>
+      <pre class="tree-line">
+DataDices
+└── Workflow
     ├── Discover
     │   └── Understand client needs and data landscape
     ├── Design
@@ -529,16 +622,20 @@ Root
     │   └── Launch solutions with zero downtime
     └── Support
         └── Provide 24/7 monitoring and optimization
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="approach" class="section-spacing">
-    <h2 class="glow mb-4">Approach</h2>
-    <pre class="tree-line">
-Root
-└── Our Approach
+  <section id="approach" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Approach</h2>
+      <pre class="tree-line">
+DataDices
+└── Approach
     ├── Ingestion
     │   └── APIs, Streaming, Batch (Lambda, Pub/Sub, S3, Kinesis)
     ├── Transformation
@@ -551,15 +648,19 @@ Root
     │   └── BI Tools (Looker, Tableau, Power BI, Metabase)
     └── DevOps
         └── CI/CD, Docker, Terraform, GitHub Actions
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="testimonials" class="section-spacing">
-    <h2 class="glow mb-4">Testimonials</h2>
-    <pre class="tree-line">
-Root
+  <section id="testimonials" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Testimonials</h2>
+      <pre class="tree-line">
+DataDices
 └── Testimonials
     ├── Client A - E-Commerce
     │   └── "DataDices transformed our data pipelines, saving us millions."
@@ -567,29 +668,37 @@ Root
     │   └── "Their BI dashboards revolutionized our patient analytics."
     └── Client C - Retail
         └── "Seamless integration and top-notch support!"
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="blog" class="section-spacing">
-    <h2 class="glow mb-4">Blog</h2>
-    <pre class="tree-line">
-Root
+  <section id="blog" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Blog</h2>
+      <pre class="tree-line">
+DataDices
 └── Blog
     ├── Scaling ETL Pipelines with Airflow
     ├── Real-Time Analytics with Kafka
     ├── Building Cost-Effective Data Lakes
     └── MLOps Best Practices
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="careers" class="section-spacing">
-    <h2 class="glow mb-4">Careers</h2>
-    <pre class="tree-line">
-Root
+  <section id="careers" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Careers</h2>
+      <pre class="tree-line">
+DataDices
 └── Careers
     ├── Open Positions
     │   ├── Data Engineer
@@ -599,15 +708,19 @@ Root
         ├── Work on cutting-edge data projects
         ├── Flexible remote work
         └── Continuous learning opportunities
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section id="contact" class="section-spacing">
-    <h2 class="glow mb-4">Contact</h2>
-    <pre class="tree-line">
-Root
+  <section id="contact" class="section">
+    <div class="pipeline-anchor"></div>
+    <div class="pipeline-connector"></div>
+    <div class="card">
+      <h2 class="glow">Contact</h2>
+      <pre class="tree-line">
+DataDices
 └── Contact
     ├── Email: danish@datadices.com
     ├── Phone: +92 333 2560088
@@ -615,7 +728,8 @@ Root
     ├── Website: https://datadices.github.io/
     ├── Upwork: upwork.com/agencies/datadices
     └── Twitter: twitter.com/datadices
-    </pre>
+      </pre>
+    </div>
   </section>
 
   <footer class="text-center text-gray-600 p-4 border-t border-gray-700">
