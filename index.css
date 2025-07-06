@@ -1,0 +1,320 @@
+body {
+  font-family: 'Fira Code', monospace;
+  background: #0b0f1a;
+  color: #e0e6ed;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+.dropdown-menu-scrollable {
+  max-height: 300px;
+  /* Adjust height as needed */
+  overflow-y: auto;
+}
+
+.dropdown-menu-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-menu-scrollable::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.dropdown-menu-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+ .card:hover {
+   transform: translateY(-5px);
+   transition: transform 0.3s ease;
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+ }
+
+
+ .image-1 {
+   height: 50px;
+   width: 50px;
+   border-radius: 20px;
+ }
+
+ .home {
+   display: flex;
+ }
+
+ #service-slider {
+   transition: all 0.5s ease-in-out;
+ }
+
+ .card:hover {
+   transform: translateY(-4px);
+   transition: transform 0.3s ease;
+   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+ }
+
+ .mission-card {
+   max-width: 900px;
+   background: linear-gradient(135deg, #2a2a2a, #444);
+   border-radius: 1.2rem;
+   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+   transition: all 0.5s ease;
+   min-height: 120px;
+ }
+
+ #missionText {
+   opacity: 0;
+   transition: opacity 1s ease-in-out;
+ }
+
+ #missionText.fade-in {
+   opacity: 1;
+ }
+
+ .tech-card {
+   background: linear-gradient(135deg, #1c1c1c, #333);
+   color: white;
+   padding: 1.5rem;
+   border-radius: 1rem;
+   box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+   text-align: center;
+   transform-style: preserve-3d;
+   transition: transform 0.6s ease;
+ }
+
+ .tech-card:hover {
+   transform: rotateY(180deg);
+ }
+
+ .tech-card h5 {
+   font-weight: 600;
+   margin-bottom: 1rem;
+   color: #00ffc3;
+ }
+
+ .tech-card ul {
+   padding: 0;
+   list-style: none;
+ }
+
+ .tech-card ul li {
+   padding: 0.3rem 0;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ }
+
+ @media (max-width: 768px) {
+   .tech-card {
+     transform: none !important;
+   }
+ }
+
+ .case-card {
+   background: linear-gradient(to bottom right, #1a1a1a, #2e2e2e);
+   color: white;
+   padding: 1.5rem;
+   border-radius: 1rem;
+   box-shadow: 0 0 18px rgba(0, 255, 200, 0.1);
+   transition: transform 0.4s ease, box-shadow 0.4s ease;
+   text-align: left;
+   height: 100%;
+ }
+
+ .case-card:hover {
+   transform: translateY(-8px);
+   box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
+ }
+
+ .case-card h5 {
+   color: #00ffc3;
+   font-weight: 600;
+   margin-bottom: 1rem;
+ }
+
+ .case-card ul {
+   list-style-type: none;
+   padding-left: 0;
+ }
+
+ .case-card ul li {
+   padding: 0.4rem 0;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   font-size: 0.95rem;
+ }
+
+ @media (max-width: 768px) {
+   .case-card {
+     text-align: center;
+   }
+ }
+
+ .stat-circle {
+   background: linear-gradient(135deg, #00c6ff, #0072ff);
+   border-radius: 50%;
+   height: 150px;
+   width: 150px;
+   margin: 0 auto;
+   padding: 1rem;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   transition: transform 0.4s ease, box-shadow 0.4s ease;
+   box-shadow: 0 0 12px rgba(0, 200, 255, 0.15);
+ }
+
+ .stat-circle:hover {
+   transform: translateX(10px);
+   box-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
+ }
+
+ .stat-number {
+   font-size: 2rem;
+   font-weight: 700;
+ }
+
+ .stat-label {
+   font-size: 0.9rem;
+   margin-top: 0.4rem;
+ }
+
+ @media (max-width: 768px) {
+   .stat-circle {
+     height: 120px;
+     width: 120px;
+   }
+
+   .stat-number {
+     font-size: 1.5rem;
+   }
+
+   .stat-label {
+     font-size: 0.8rem;
+   }
+ }
+
+ .team-card {
+   background: linear-gradient(135deg, #1c1c1c, #2a2a2a);
+   color: #fff;
+   border: none;
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   border-radius: 20px;
+   box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+ }
+
+ .team-card:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+ }
+
+ .team-img {
+   width: 120px;
+   height: 120px;
+   border-radius: 50%;
+   object-fit: cover;
+   margin: 20px auto 10px;
+   display: block;
+   background-color: #2e2e2e;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+ }
+
+ .card-title {
+   font-weight: bold;
+   font-size: 1.2rem;
+ }
+
+ .card-text {
+   font-size: 0.95rem;
+   color: #ccc;
+ }
+
+ @media (max-width: 576px) {
+   .team-img {
+     height: 160px;
+   }
+ }
+
+ .workflow-step {
+   background: linear-gradient(135deg, #1a1f38, #0d2b45);
+   color: white;
+   text-align: center;
+   padding: 20px;
+   border-radius: 15px;
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .workflow-step i {
+   font-size: 2.5rem;
+   margin-bottom: 10px;
+   color: #00bcd4;
+ }
+
+ .workflow-step h5 {
+   margin: 10px 0 5px;
+   font-weight: bold;
+ }
+
+ .workflow-step:hover {
+   transform: translateY(-8px);
+   box-shadow: 0 12px 24px rgba(0, 188, 212, 0.4);
+ }
+
+ #approach {
+   /* background: linear-gradient(135deg, #1c1c1c, #292929); */
+ }
+
+ .approach-card {
+   background: linear-gradient(145deg, #232323, #2e2e2e);
+   color: #fff;
+   border: none;
+   border-radius: 16px;
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .approach-card:hover {
+   transform: translateY(-8px) scale(1.02);
+   box-shadow: 0 12px 24px rgba(0, 255, 255, 0.3);
+ }
+
+ .approach-card h5 {
+   color: #00e6e6;
+   font-weight: 600;
+ }
+
+ .testimonial-card,
+ .blog-card,
+ .careers-card {
+   background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+   color: #fff;
+   border: none;
+   border-radius: 16px;
+   box-shadow: 0 8px 16px rgba(0, 255, 255, 0.1);
+   transition: transform 0.3s ease;
+ }
+
+ .testimonial-card:hover,
+ .blog-card:hover,
+ .careers-card:hover {
+   transform: translateY(-8px);
+   box-shadow: 0 12px 24px rgba(0, 255, 255, 0.4);
+ }
+
+ .card-body {
+   padding: 1.5rem;
+   font-size: 1rem;
+ }
+
+ ul {
+   padding-left: 1rem;
+ }
+
+ #contact a {
+   color: #00e6e6;
+   text-decoration: none;
+ }
+
+ #contact a:hover {
+   text-decoration: underline;
+ }

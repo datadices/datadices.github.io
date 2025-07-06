@@ -1,886 +1,627 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>DataDices - Scalable Data Engineering Solutions</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Fira Code', monospace;
-      background: #0b0f1a;
-      color: #e0e6ed;
-      overflow-x: hidden;
-      transition: margin-left 0.3s ease;
-      margin: 0;
-      padding: 0;
-    }
-    .animated-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(#1c1f2b 1px, transparent 1px);
-      background-size: 20px 20px;
-      animation: moveBg 20s linear infinite;
-      z-index: -1;
-      opacity: 0.1;
-    }
-    @keyframes moveBg {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
-    }
-    .nav-link:hover {
-      color: #00ffcc;
-      transition: color 0.3s ease;
-    }
-    .section-divider {
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #00ffcc, transparent);
-      animation: pulseDivider 2s ease-in-out infinite;
-    }
-    @keyframes pulseDivider {
-      0% { opacity: 0.5; }
-      50% { opacity: 1; }
-      100% { opacity: 0.5; }
-    }
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      z-index: 30;
-    }
-    .hamburger span {
-      width: 100%;
-      height: 3px;
-      background: #00ffcc;
-      transition: all 0.3s ease;
-    }
-    #nav-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      background: #1c1f2b;
-      padding: 2rem;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 255, 204, 0);
-      z-index: 20;
-    }
-    #nav-menu.active {
-      display: block;
-      transform: translateX(0);
-      box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-    }
-    #nav-menu li {
-      margin: 1rem 0;
-      opacity: 0;
-      transform: translateX(-20px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    #nav-menu.active li {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    #nav-menu.active li:nth-child(1) { transition-delay: 0.1s; }
-    #nav-menu.active li:nth-child(2) { transition-delay: 0.15s; }
-    #nav-menu.active li:nth-child(3) { transition-delay: 0.2s; }
-    #nav-menu.active li:nth-child(4) { transition-delay: 0.25s; }
-    #nav-menu.active li:nth-child(5) { transition-delay: 0.3s; }
-    #nav-menu.active li:nth-child(6) { transition-delay: 0.35s; }
-    #nav-menu.active li:nth-child(7) { transition-delay: 0.4s; }
-    #nav-menu.active li:nth-child(8) { transition-delay: 0.45s; }
-    #nav-menu.active li:nth-child(9) { transition-delay: 0.5s; }
-    #nav-menu.active li:nth-child(10) { transition-delay: 0.55s; }
-    #nav-menu.active li:nth-child(11) { transition-delay: 0.6s; }
-    #nav-menu.active li:nth-child(12) { transition-delay: 0.65s; }
-    #nav-menu.active li:nth-child(13) { transition-delay: 0.7s; }
-    #nav-menu.active li:nth-child(14) { transition-delay: 0.75s; }
-    #hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    #hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    #hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-    }
-    .slider-nav {
-      position: fixed;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1c1f2b;
-      border-radius: 3px;
-      border: 1px solid #00ffcc;
-      display: flex;
-      align-items: center;
-      z-index: 10;
-      box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
-      opacity: 0;
-      transform: translateX(-50%) translateY(10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .slider-nav.visible {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    .slider-nav .slider-content {
-      display: flex;
-      align-items: center;
-      transition: transform 0.5s ease;
-    }
-    .slider-nav a {
-      color: #e0e6ed;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
-    }
-    .slider-nav a.active {
-      color: #00ffcc;
-      background: rgba(0, 255, 204, 0.1);
-      transform: scale(1.1);
-    }
-    .slider-nav a:hover {
-      color: #00ffcc;
-      transform: scale(1.05);
-    }
-    .slider-nav .separator {
-      color: #00ffcc;
-      align-self: center;
-    }
-    .card {
-      background: #1f2525;
-      border-radius: 10px;
-      border: 2px solid #00ffcc;
-      padding: 2rem;
-      margin: 0 auto;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
-      z-index: 2;
-      position: relative;
-      width: 100%;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
-    }
-    .glow {
-      color: #00ffcc;
-      text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
-    }
-    .tree-line {
-      white-space: pre;
-      line-height: 1.6;
-      color: #e0e6ed;
-      background: #1c1f2b;
-      padding: 1rem;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 255, 204, 0.2);
-      overflow-x: auto;
-      max-width: 100%;
-    }
-    .pipeline-connector {
-      position: absolute;
-      width: 2px;
-      background: linear-gradient(to bottom, #00ffcc, transparent);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: -1;
-      animation: flowPulse 2s ease-in-out infinite;
-    }
-    .pipeline-anchor {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #00ffcc;
-      border-radius: 50%;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 0 5px #00ffcc;
-      z-index: 0;
-    }
-    @keyframes flowPulse {
-      0% { opacity: 0.3; }
-      50% { opacity: 0.7; }
-      100% { opacity: 0.3; }
-    }
-    /* Desktop (Landscape) */
-    @media (orientation: landscape) {
-      body.menu-open {
-        margin-left: 250px;
-      }
-      .section {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 4rem 2rem;
-        position: relative;
-      }
-      .card {
-        max-width: 800px;
-        font-size: 1rem;
-        padding: 2rem;
-      }
-      .section h1 {
-        font-size: 4rem;
-        margin-bottom: 2rem;
-      }
-      .section h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-      .section-divider {
-        margin: 4rem 0;
-      }
-      .quick-links {
-        position: fixed;
-        top: 50%;
-        right: 2rem;
-        transform: translateY(-50%);
-        background: #1c1f2b;
-        padding: 1rem;
-        border-radius: 6px;
-        box-shadow: 0 0 8px rgba(0, 255, 204, 0.2);
-        z-index: 10;
-      }
-      .quick-links a {
-        display: block;
-        margin: 0.5rem 0;
-        color: #e0e6ed;
-        text-decoration: none;
-        font-size: 1rem;
-      }
-      .quick-links a:hover {
-        color: #00ffcc;
-      }
-      .hamburger {
-        width: 30px;
-        height: 20px;
-      }
-      #nav-menu {
-        width: 250px;
-      }
-      .slider-nav {
-        padding: 0.3rem 0.5rem;
-        gap: 0.3rem;
-      }
-      .slider-nav .slider-content {
-        gap: 0.3rem;
-      }
-      .slider-nav a {
-        font-size: 0.9rem;
-        padding: 0.2rem 0.4rem;
-      }
-      .slider-nav .separator {
-        font-size: 0.9rem;
-      }
-      .tree-line {
-        font-size: 0.95rem;
-        line-height: 1.6;
-      }
-      .pipeline-connector {
-        height: 4rem;
-      }
-      .pipeline-anchor {
-        top: -4rem;
-      }
-    }
-    /* Mobile (Portrait) */
-    @media (orientation: portrait) {
-      body.menu-open {
-        margin-left: 80vw;
-      }
-      .section {
-        min-height: 80vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem 1rem;
-        position: relative;
-      }
-      .card {
-        max-width: 100%;
-        font-size: 0.85rem;
-        padding: 1rem;
-        box-sizing: border-box;
-      }
-      .section h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-      }
-      .section h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-      .section-divider {
-        margin: 2rem 0;
-      }
-      .quick-links {
-        position: fixed;
-        top: 50%;
-        right: 0.5rem;
-        transform: translateY(-50%);
-        background: #1c1f2b;
-        padding: 0.5rem;
-        border-radius: 4px;
-        box-shadow: 0 0 6px rgba(0, 255, 204, 0.2);
-        z-index: 10;
-      }
-      .quick-links a {
-        display: block;
-        margin: 0.3rem 0;
-        color: #e0e6ed;
-        text-decoration: none;
-        font-size: 0.8rem;
-      }
-      .quick-links a:hover {
-        color: #00ffcc;
-      }
-      .hamburger {
-        width: 25px;
-        height: 18px;
-      }
-      #nav-menu {
-        width: 80vw;
-        padding: 1rem;
-      }
-      .slider-nav {
-        padding: 0.2rem 0.3rem;
-        gap: 0.2rem;
-      }
-      .slider-nav .slider-content {
-        gap: 0.2rem;
-      }
-      .slider-nav a {
-        font-size: 0.8rem;
-        padding: 0.15rem 0.3rem;
-      }
-      .slider-nav .separator {
-        font-size: 0.8rem;
-      }
-      .tree-line {
-        font-size: 0.75rem;
-        line-height: 1.3;
-        padding: 0.75rem;
-        word-wrap: break-word;
-        white-space: pre-wrap;
-      }
-      .pipeline-connector {
-        height: 2rem;
-      }
-      .pipeline-anchor {
-        top: -2rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="index.css">
 </head>
-<body>
-  <div class="animated-bg"></div>
 
-  <nav class="fixed top-0 w-full bg-[#0b0f1a] border-b border-gray-700 p-4 z-20">
-    <div class="flex justify-between items-center max-w-7xl mx-auto px-2">
-      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <img class="image-1" src="https://assets.static-upwork.com/org-logo/1859648701906111668?date=1751800679498"
+        href="#home"></img>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact Us</a>
+          </li>
+
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              More
+            </a>
+           <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-scrollable">
+
+              <li><a class="dropdown-item" href="#mission">Mission</a></li>
+              <li><a class="dropdown-item" href="#technologies">Technologies</a></li>
+              <li><a class="dropdown-item" href="#case-studies">Case Studies</a></li>
+              <li><a class="dropdown-item" href="#stats">Stats</a></li>
+              <li><a class="dropdown-item" href="#team">Team</a></li>
+              <li><a class="dropdown-item" href="#workflow">Workflow</a></li>
+              <li><a class="dropdown-item" href="#approach">Approach</a></li>
+              <li><a class="dropdown-item" href="#testimonials">Testimonials</a></li>
+              <li><a class="dropdown-item" href="#blog">Blog</a></li>
+              <li><a class="dropdown-item" href="#careers">Careers</a></li>
+            </ul>
+          </li>
+
+        </ul>
       </div>
-      <ul id="nav-menu">
-        <li><a href="#home" class="nav-link">Home</a></li>
-        <li><a href="#mission" class="nav-link">Mission</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
-        <li><a href="#technologies" class="nav-link">Technologies</a></li>
-        <li><a href="#case-studies" class="nav-link">Case Studies</a></li>
-        <li><a href="#stats" class="nav-link">Stats</a></li>
-        <li><a href="#team" class="nav-link">Team</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#workflow" class="nav-link">Workflow</a></li>
-        <li><a href="#approach" class="nav-link">Approach</a></li>
-        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
-        <li><a href="#blog" class="nav-link">Blog</a></li>
-        <li><a href="#careers" class="nav-link">Careers</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-      </ul>
     </div>
   </nav>
 
-  <div class="slider-nav" id="slider-nav">
-    <div class="slider-content" id="slider-content"></div>
+  <!-- Sections -->
+  <div class="container mt-5 pt-5">
+
+   <section id="home" class="py-5 text-white" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left: Text Content -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <h1 class="display-4 fw-bold">Empowering Data. Accelerating Insights.</h1>
+        <p class="lead mt-3">We build cloud-native, scalable, and automated data solutions that unlock business value — faster.</p>
+        <a href="#services" class="btn btn-outline-light btn-lg mt-4 me-3">Explore Services</a>
+        <a href="#contact" class="btn btn-primary btn-lg mt-4">Get in Touch</a>
+      </div>
+
+      <!-- Right: Image or Graphic -->
+      <div class="col-md-6 text-center">
+        <img src="https://cdn-icons-png.flaticon.com/512/1844/1844250.png" alt="Data Illustration" class="img-fluid" style="max-height: 350px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <section id="services" class="text-center py-5">
+      <div class="container">
+        <h2 class="mb-4 text-primary fw-bold">Services</h2>
+
+        <div class="row" id="service-slider">
+          <!-- JS will populate slides here -->
+        </div>
+      </div>
+    </section>
+
+
+    <section id="projects" class="py-5 text-white">
+      <div class="container">
+        <h2 class="text-center fw-bold mb-4">Projects</h2>
+        <div class="row g-4">
+          <!-- Project Card 1 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); box-shadow: 0 0 15px rgba(44, 83, 100, 0.6);">
+              <div class="card-body">
+                <h5 class="card-title">GCP ETL</h5>
+                <p class="card-text">End-to-end pipelines using BigQuery, Dataflow, and Cloud Functions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 2 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #1e3c72, #2a5298); box-shadow: 0 0 15px rgba(30, 60, 114, 0.5);">
+              <div class="card-body">
+                <h5 class="card-title">AWS Data</h5>
+                <p class="card-text">Data pipelines and analytics using Redshift, S3, and Glue.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 3 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #42275a, #734b6d); box-shadow: 0 0 15px rgba(115, 75, 109, 0.5);">
+              <div class="card-body">
+                <h5 class="card-title">Azure Data</h5>
+                <p class="card-text">Building solutions with Azure Synapse, ADF, and Blob Storage.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 4 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); box-shadow: 0 0 15px rgba(48, 43, 99, 0.5);">
+              <div class="card-body">
+                <h5 class="card-title">Warehousing</h5>
+                <p class="card-text">Scalable data warehouses for real-time reporting and analytics.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 5 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #485563, #29323c); box-shadow: 0 0 15px rgba(72, 85, 99, 0.5);">
+              <div class="card-body">
+                <h5 class="card-title">BI Dashboards</h5>
+                <p class="card-text">Interactive dashboards using Tableau, Power BI, and Looker.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 6 -->
+          <div class="col-md-4">
+            <div class="card h-100 text-white border-0"
+              style="background: linear-gradient(135deg, #141e30, #243b55); box-shadow: 0 0 15px rgba(36, 59, 85, 0.5);">
+              <div class="card-body">
+                <h5 class="card-title">ML Pipelines</h5>
+                <p class="card-text">Automated machine learning workflows from training to deployment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Dropdown Sections -->
+    <section id="mission" class="py-5">
+      <div class="container">
+        <h2 class="text-center text-white fw-bold mb-4">Mission</h2>
+        <div class="mission-card mx-auto text-white px-5 py-4">
+          <p id="missionText" class="fs-4 text-center m-0"></p>
+        </div>
+      </div>
+    </section>
+    <section id="technologies" class="py-5">
+      <div class="container">
+        <h2 class="text-center text-white fw-bold mb-4">Technologies</h2>
+        <div class="row g-4 justify-content-center">
+
+          <!-- Card 1 -->
+          <div class="col-md-4">
+            <div class="tech-card">
+              <h5>Cloud Platforms</h5>
+              <ul>
+                <li>Google Cloud Platform</li>
+                <li>Amazon Web Services</li>
+                <li>Microsoft Azure</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-md-4">
+            <div class="tech-card">
+              <h5>Data Processing</h5>
+              <ul>
+                <li>Apache Spark</li>
+                <li>Apache Kafka</li>
+                <li>dbt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-md-4">
+            <div class="tech-card">
+              <h5>Databases</h5>
+              <ul>
+                <li>BigQuery</li>
+                <li>Redshift</li>
+                <li>Snowflake</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col-md-4">
+            <div class="tech-card">
+              <h5>Orchestration</h5>
+              <ul>
+                <li>Apache Airflow</li>
+                <li>Kubernetes</li>
+                <li>Composer</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="col-md-4">
+            <div class="tech-card">
+              <h5>DevOps</h5>
+              <ul>
+                <li>Docker</li>
+                <li>Terraform</li>
+                <li>GitHub Actions</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+   <section id="case-studies" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-white fw-bold mb-4">Case Studies</h2>
+    <div class="row g-4 justify-content-center">
+
+      <!-- Case Study 1 -->
+      <div class="col-md-4">
+        <div class="case-card">
+          <h5>E-Commerce Analytics Platform</h5>
+          <ul>
+            <li>Built scalable ETL pipelines on AWS</li>
+            <li>Reduced data processing time by 60%</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Case Study 2 -->
+      <div class="col-md-4">
+        <div class="case-card">
+          <h5>Healthcare Data Warehouse</h5>
+          <ul>
+            <li>Integrated BigQuery with real-time data</li>
+            <li>Enabled predictive analytics</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Case Study 3 -->
+      <div class="col-md-4">
+        <div class="case-card">
+          <h5>Retail BI</h5>
+          <ul>
+            <li>Interactive Dashboards</li>
+            <li>Improved decision-making</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <section id="stats" class="py-5">
+  <div class="container text-center">
+    <h2 class="text-white fw-bold mb-5">Statistics</h2>
+    <div class="row g-4 justify-content-center">
+
+      <!-- GCP Projects -->
+      <div class="col-6 col-md-2">
+        <div class="stat-circle">
+          <div class="stat-number">25+</div>
+          <div class="stat-label">GCP Projects</div>
+        </div>
+      </div>
+
+      <!-- AWS Projects -->
+      <div class="col-6 col-md-2">
+        <div class="stat-circle">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">AWS Projects</div>
+        </div>
+      </div>
+
+      <!-- Azure Projects -->
+      <div class="col-6 col-md-2">
+        <div class="stat-circle">
+          <div class="stat-number">8+</div>
+          <div class="stat-label">Azure Projects</div>
+        </div>
+      </div>
+
+      <!-- Total Projects -->
+      <div class="col-6 col-md-2">
+        <div class="stat-circle">
+          <div class="stat-number">60+</div>
+          <div class="stat-label">Total Projects</div>
+        </div>
+      </div>
+
+      <!-- Data Processed -->
+      <div class="col-6 col-md-2">
+        <div class="stat-circle">
+          <div class="stat-number">2PB+</div>
+          <div class="stat-label">Data Processed</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+   <section id="team" class="py-5">
+  <div class="container text-center">
+    <h2 class="text-white fw-bold mb-5">Our Team</h2>
+    <div class="row g-4 justify-content-center">
+
+      <!-- Danish Meghwar -->
+      <div class="col-md-3 col-6">
+        <div class="card team-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Danish Meghwar">
+          <div class="card-body">
+            <h5 class="card-title">Danish Meghwar</h5>
+            <p class="card-text">Lead Developer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laiba -->
+      <div class="col-md-3 col-6">
+        <div class="card team-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Laiba">
+          <div class="card-body">
+            <h5 class="card-title">Laiba</h5>
+            <p class="card-text">Visual Specialist</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Talha -->
+      <div class="col-md-3 col-6">
+        <div class="card team-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Talha">
+          <div class="card-body">
+            <h5 class="card-title">Talha</h5>
+            <p class="card-text">Senior Engineer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aisha -->
+      <div class="col-md-3 col-6">
+        <div class="card team-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Aisha">
+          <div class="card-body">
+            <h5 class="card-title">Aisha</h5>
+            <p class="card-text">ML Engineer</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <section id="workflow" class="py-5 text-white">
+  <div class="container">
+    <h2 class="text-center mb-4">Workflow</h2>
+    <div class="row justify-content-center">
+      <!-- Each Step -->
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-search"></i>
+          <h5>Discover</h5>
+          <p>Understand client needs</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-drafting-compass"></i>
+          <h5>Design</h5>
+          <p>Scalable solutions</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-code"></i>
+          <h5>Develop</h5>
+          <p>Build robust pipelines</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-vial"></i>
+          <h5>Test</h5>
+          <p>Ensure data quality</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-rocket"></i>
+          <h5>Deploy</h5>
+          <p>Launch solutions</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="workflow-step">
+          <i class="fas fa-headset"></i>
+          <h5>Support</h5>
+          <p>24/7 monitoring</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+   <section id="approach" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-white mb-5">Our Approach</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Ingestion</h5>
+            <p class="card-text">APIs, Streaming, Batch</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Transformation</h5>
+            <p class="card-text">dbt, SQL, PySpark</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Storage</h5>
+            <p class="card-text">BigQuery, Redshift, Snowflake</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Orchestration</h5>
+            <p class="card-text">Airflow, Kubernetes</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Visualization</h5>
+            <p class="card-text">BI Tools (Tableau, Power BI)</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card approach-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">DevOps</h5>
+            <p class="card-text">CI/CD, Docker, Terraform</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+   <section id="testimonials" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-white mb-4">Testimonials</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card testimonial-card">
+          <div class="card-body">
+            <h5 class="card-title">Client A</h5>
+            <p class="card-text">"Transformed our data pipelines."</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card testimonial-card">
+          <div class="card-body">
+            <h5 class="card-title">Client B</h5>
+            <p class="card-text">"Revolutionized our analytics."</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card testimonial-card">
+          <div class="card-body">
+            <h5 class="card-title">Client C</h5>
+            <p class="card-text">"Seamless integration."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+   <section id="blog" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-white mb-4">Blog Highlights</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card blog-card">
+          <div class="card-body">Scaling ETL with Airflow</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card blog-card">
+          <div class="card-body">Real-Time Analytics</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card blog-card">
+          <div class="card-body">Cost-Effective Data Lakes</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card blog-card">
+          <div class="card-body">MLOps Practices</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <section id="careers" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-white mb-4">Careers at DataDices</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card careers-card">
+          <div class="card-body">
+            <h5 class="card-title">Open Positions</h5>
+            <ul>
+              <li>Data Engineer</li>
+              <li>Cloud Architect</li>
+              <li>BI Developer</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card careers-card">
+          <div class="card-body">
+            <h5 class="card-title">Why Join Us</h5>
+            <ul>
+              <li>Cutting-edge projects</li>
+              <li>Remote work</li>
+              <li>Learning opportunities</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <section id="contact" class="py-5 text-white">
+  <div class="container">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <p><strong>Email:</strong> danish@datadices.com</p>
+        <p><strong>Phone:</strong> +92 333 2560088</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>LinkedIn:</strong><br>linkedin.com/company/datadices</p>
+        <p><strong>Website:</strong><br><a href="https://datadices.github.io/" target="_blank">datadices.github.io</a></p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Upwork:</strong><br>upwork.com/agencies/datadices</p>
+        <p><strong>Twitter:</strong><br>twitter.com/datadices</p>
+      </div>
+    </div>
+  </div>
+</section>
+
   </div>
 
-  <div class="quick-links">
-    <h3 class="text-sm glow mb-2">Quick Links</h3>
-    <a href="https://github.com/datadices" target="_blank">GitHub</a>
-    <a href="https://medium.com/@datadices" target="_blank">Medium</a>
-    <a href="https://calendly.com/datadices/consultation" target="_blank">Book a Consultation</a>
-  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <section id="home" class="section">
-    <div class="card">
-      <h1 class="glow">DataDices</h1>
-      <p class="mb-4">Your partner in scalable data engineering solutions.</p>
-      <pre class="tree-line">
-DataDices
-└── Home
-    ├── 24/7 Support for seamless operations
-    ├── Cloud-Native Solutions for agility
-    └── ETL Automation for efficiency
-      </pre>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="mission" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Our Mission</h2>
-      <pre class="tree-line">
-DataDices
-└── Mission
-    ├── Empower businesses with data-driven insights
-    ├── Build scalable, secure, and cost-effective data solutions
-    └── Drive innovation through cutting-edge technologies
-      </pre>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="services" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Services</h2>
-      <pre class="tree-line">
-DataDices
-└── Services
-    ├── Cloud Data Pipelines
-    │   ├── Google Cloud (BigQuery, Cloud Run, Functions, Dataflow)
-    │   ├── AWS (Lambda, Redshift, S3, Glue)
-    │   └── Azure (Data Factory, Synapse, Blob Storage)
-    ├── Data Visualization
-    │   ├── Power BI
-    │   ├── Tableau
-    │   ├── Looker
-    │   ├── Metabase
-    │   └── Grafana
-    ├── Automation
-    │   ├── Airflow
-    │   ├── CI/CD (Jenkins, Terraform, Actions)
-    │   └── Monitoring
-    └── Content
-        ├── ML Models
-        ├── Data Prep
-        └── MLOps
-      </pre>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="technologies" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Technologies</h2>
-      <pre class="tree-line">
-DataDices
-└── Technologies
-    ├── Cloud Platforms
-    │   ├── Google Cloud Platform
-    │   ├── Amazon Web Services
-    │   └── Microsoft Azure
-    ├── Data Processing
-    │   ├── Apache Spark
-    │   ├── Apache Kafka
-    │   └── dbt
-    ├── Databases
-    │   ├── BigQuery
-    │   ├── Redshift
-    │   ├── Snowflake
-    ├── Orchestration
-    │   ├── Apache Airflow
-    │   ├── Kubernetes
-    │   └── Composer
-    └── DevOps
-        ├── Docker
-        ├── Terraform
-        └── GitHub Actions
-      </pre>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="case-studies" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Case Studies</h2>
-      <pre class="tree-line">
-DataDices
-└── Case Studies
-    ├── E-Commerce Analytics Platform
-    │   ├── Built scalable ETL pipelines on AWS
-    │   └── Reduced data processing time by 60%
-    ├── Healthcare Data Warehouse
-    │   ├── Integrated BigQuery with real-time data
-    │   └── Enabled predictive analytics
-    └── Retail BI
-        ├── Dashboard
-        └── Improved Decision-making
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="stats" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Stats</h2>
-      <pre class="tree-line">
-DataDices
-└── Stats
-    ├── GCP Projects: 25+
-    ├── AWS Projects: 15+
-    ├── Azure Projects: 8+
-    ├── Total Projects: 60+
-    └── Data Processed: 2PB+
-      </pre>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="team" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Team</h2>
-      <pre class="tree-line">
-DataDices
-└── Team
-    ├── Danish Meghwar
-    │   └── Lead Developer
-    ├── Laiba
-    │   └── Visual Specialist
-    ├── Talha
-    │   └── Senior Engineer
-    └── Aisha
-        └── ML Engineer
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="projects" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Projects</h2>
-      <pre class="tree-line">
-DataDices
-└── Projects
-    ├── GCP ETL
-    ├── AWS Data
-    ├── Azure Data
-    ├── Warehousing
-    ├── BI Dashboards
-    └── ML Pipelines
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="workflow" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Workflow</h2>
-      <pre class="tree-line">
-DataDices
-└── Workflow
-    ├── Discover
-    │   └── Understand client needs
-    ├── Design
-    │   └── Architect scalable solutions
-    ├── Develop
-    │   └── Build robust pipelines
-    ├── Test
-    │   └── Ensure data quality
-    ├── Deploy
-    │   └── Launch solutions
-    └── Support
-        └── Provide 24/7 monitoring
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="approach" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Approach</h2>
-      <pre class="tree-line">
-DataDices
-└── Approach
-    ├── Ingestion
-    │   └── APIs, Streaming, Batch
-    ├── Transformation
-    │   └── dbt, SQL, PySpark
-    ├── Storage
-    │   └── BigQuery, Redshift, Snowflake
-    ├── Orchestration
-    │   └── Airflow, Kubernetes
-    ├── Visualization
-    │   └── BI Tools (Tableau, Power BI)
-    └── DevOps
-        └── CI/CD, Docker, Terraform
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="testimonials" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Testimonials</h2>
-      <pre class="tree-line">
-DataDices
-└── Testimonials
-    ├── Client A
-    │   └── "Transformed our data pipelines."
-    ├── Client B
-    │   └── "Revolutionized our analytics."
-    └── Client C
-        └── "Seamless integration."
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="blog" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Blog</h2>
-      <pre class="tree-line">
-DataDices
-└── Blog
-    ├── Scaling ETL with Airflow
-    ├── Real-Time Analytics
-    ├── Cost-Effective Data Lakes
-    └── MLOps Practices
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="careers" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Careers</h2>
-      <pre class="tree-line">
-DataDices
-└── Careers
-    ├── Open Positions
-    │   ├── Data Engineer
-    │   ├── Cloud Architect
-    │   └── BI Developer
-    └── Why Join Us
-        ├── Cutting-edge projects
-        ├── Remote work
-        └── Learning opportunities
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section id="contact" class="section">
-    <div class="pipeline-anchor"></div>
-    <div class="pipeline-connector"></div>
-    <div class="card">
-      <h2 class="glow">Contact</h2>
-      <pre class="tree-line">
-DataDices
-└── Contact
-    ├── Email: danish@datadices.com
-    ├── Phone: +92 333 2560088
-    ├── LinkedIn: linkedin.com/company/datadices
-    ├── Website: https://datadices.github.io/
-    ├── Upwork: upwork.com/agencies/datadices
-    └── Twitter: twitter.com/datadices
-      </pre>
-    </div>
-</div>
-  </section>
-
-  <footer class="text-center text-gray-600 p-4 border-t border-gray-700">
-    <p>© 2025 DataDices — Empowering Data for Growth</p>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('nav-menu');
-      const hamburger = document.getElementById('hamburger');
-      const body = document.body;
-      menu.classList.toggle('active');
-      hamburger.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    }
-
-    // Slider navigation logic
-    const sections = [
-      { id: 'home', name: 'home' },
-      { id: 'mission', name: 'mission' },
-      { id: 'services', name: 'services' },
-      { id: 'technologies', name: 'technologies' },
-      { id: 'case-studies', name: 'case-studies' },
-      { id: 'stats', name: 'stats' },
-      { id: 'team', name: 'team' },
-      { id: 'projects', name: 'projects' },
-      { id: 'workflow', name: 'workflow' },
-      { id: 'approach', name: 'approach' },
-      { id: 'testimonials', name: 'testimonials' },
-      { id: 'blog', name: 'blog' },
-      { id: 'careers', name: 'careers' },
-      { id: 'contact', name: 'contact' }
-    ];
-
-    let lastSectionId = 'home';
-    let lastScroll = 0;
-
-    function updateSliderNav(currentSectionId, direction) {
-      const sliderNav = document.getElementById('slider-nav');
-      const sliderContent = document.getElementById('slider-content');
-      const currentIndex = sections.findIndex(section => section.id === currentSectionId);
-      
-      sliderNav.classList.remove('visible', 'slide-left', 'slide-right');
-      sliderContent.innerHTML = '';
-      
-      if (currentIndex > 0) {
-        const prev = sections[currentIndex - 1];
-        const prevLink = document.createElement('a');
-        prevLink.href = `#${prev.id}`;
-        prevLink.textContent = prev.name;
-        sliderContent.appendChild(prevLink);
-        sliderContent.appendChild(document.createTextNode(' '));
-        const separator = document.createElement('span');
-        separator.className = 'separator';
-        separator.textContent = '----';
-        sliderContent.appendChild(separator);
-        sliderContent.appendChild(document.createTextNode(' '));
-      }
-      
-      const currentLink = document.createElement('a');
-      currentLink.href = `#${sections[currentIndex].id}`;
-      currentLink.textContent = sections[currentIndex].name;
-      currentLink.className = 'active';
-      sliderContent.appendChild(currentLink);
-      
-      if (currentIndex < sections.length - 1) {
-        sliderContent.appendChild(document.createTextNode(' '));
-        const separator = document.createElement('span');
-        separator.className = 'separator';
-        separator.textContent = '----';
-        sliderContent.appendChild(separator);
-        sliderContent.appendChild(document.createTextNode(' '));
-        const next = sections[currentIndex + 1];
-        const nextLink = document.createElement('a');
-        nextLink.href = `#${next.id}`;
-        nextLink.textContent = next.name;
-        sliderContent.appendChild(nextLink);
-      }
-
-      if (direction === 'down') {
-        sliderNav.classList.add('slide-left');
-      } else if (direction === 'up') {
-        sliderNav.classList.add('slide-right');
-      }
-
-      setTimeout(() => {
-        sliderNav.classList.add('visible');
-        setTimeout(() => {
-          sliderNav.classList.remove('slide-left', 'slide-right');
-          sliderContent.style.transform = 'translateX(0)';
-        }, 500);
-      }, 10);
-    }
-
-    function getCurrentSection() {
-      const viewportCenter = window.scrollY + window.innerHeight / 2;
-      let closestSectionId = 'home';
-      let minDistance = Infinity;
-
-      sections.forEach(section => {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const sectionCenter = rect.top + window.scrollY + rect.height / 2;
-          const distance = Math.abs(viewportCenter - sectionCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestSectionId = section.id;
-          }
-        }
-      });
-
-      return closestSectionId;
-    }
-
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-      if (Math.abs(currentScroll - lastScroll) > 50) {
-        const currentSectionId = getCurrentSection();
-        if (currentSectionId !== lastSectionId) {
-          const direction = currentScroll > lastScroll ? 'down' : 'up';
-          updateSliderNav(currentSectionId, direction);
-          lastSectionId = currentSectionId;
-        }
-        lastScroll = currentScroll;
-      }
-    });
-    window.addEventListener('hashchange', () => {
-      const currentSectionId = window.location.hash.slice(1) || 'home';
-      updateSliderNav(currentSectionId, 'none');
-      lastSectionId = currentSectionId;
-    });
-    window.addEventListener('load', () => {
-      const currentSectionId = getCurrentSection();
-      updateSliderNav(currentSectionId, 'none');
-      lastSectionId = currentSectionId;
-    });
-  </script>
 </body>
+
+<script src="index.js"></script>
+
 </html>
