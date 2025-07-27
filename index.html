@@ -1,627 +1,886 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>DataDices - Scalable Data Engineering Solutions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>DataDices - Data Engineering Solutions</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #181f23;
+            color: #fff;
+            font-family: 'Montserrat', Arial, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(24, 31, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0 5vw;
+            border-bottom: 1px solid rgba(43, 184, 163, 0.2);
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #2bb8a3;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(43, 184, 163, 0.3);
+            margin-right: 16px;
+        }
+        .logo svg {
+            width: 30px;
+            height: 30px;
+        }
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2bb8a3;
+            text-shadow: 0 0 8px rgba(43, 184, 163, 0.3);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #2bb8a3;
+            text-shadow: 0 0 8px rgba(43, 184, 163, 0.5);
+        }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2bb8a3;
+            box-shadow: 0 0 8px #2bb8a3;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: #2bb8a3;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Background Animation */
+        .nodes-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 80px 5vw 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #2bb8a3, #24a08e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(43, 184, 163, 0.3);
+        }
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: #e0e6ea;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .cta-btn {
+            padding: 18px 48px;
+            background: linear-gradient(135deg, #2bb8a3, #24a08e);
+            color: #181f23;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(43, 184, 163, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 12px 12px 0;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(43, 184, 163, 0.4);
+        }
+        .cta-btn.secondary {
+            background: transparent;
+            color: #2bb8a3;
+            border: 2px solid #2bb8a3;
+            box-shadow: 0 0 20px rgba(43, 184, 163, 0.2);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            padding: 80px 5vw;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 32px 24px;
+            background: rgba(43, 184, 163, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(43, 184, 163, 0.2);
+            transition: all 0.3s;
+        }
+        .stat-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(43, 184, 163, 0.2);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2bb8a3;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #b0b6ba;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 5vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2bb8a3;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #e0e6ea;
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        .service-card {
+            background: rgba(43, 184, 163, 0.08);
+            border: 1px solid rgba(43, 184, 163, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(43, 184, 163, 0.2);
+            border-color: rgba(43, 184, 163, 0.4);
+        }
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: #2bb8a3;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(43, 184, 163, 0.3);
+            font-size: 1.5rem;
+        }
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .service-description {
+            color: #b0b6ba;
+            line-height: 1.6;
+        }
+
+        /* Process Steps */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: #181f23;
+            color: #fff;
+        }
+
+        .content-section {
+            padding: 60px 5vw;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2bb8a3;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #e0e6ea;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto 80px;
+        }
+
+        .process-step {
+            background: #1f2b32;
+            border: 1px solid rgba(43, 184, 163, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 12px rgba(43, 184, 163, 0.2);
+        }
+
+        .step-number {
+            background: #2bb8a3;
+            color: #181f23;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.2rem;
+        }
+
+        .step-title {
+            color: #2bb8a3;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .arrow {
+            position: absolute;
+            font-size: 2rem;
+            color: #2bb8a3;
+        }
+
+        .arrow-down {
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .arrow-right {
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%);
+        }
+
+        .arrow-left {
+            top: 50%;
+            left: -25px;
+            transform: translateY(-50%);
+        }
+
+        .final-cta {
+            text-align: center;
+            padding: 48px;
+            background: rgba(43, 184, 163, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(43, 184, 163, 0.2);
+        }
+
+        .final-cta h3 {
+            color: #2bb8a3;
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+        }
+
+        .final-cta p {
+            color: #e0e6ea;
+            font-size: 1.2rem;
+            margin-bottom: 32px;
+        }
+
+        .cta-btn {
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #2bb8a3, #24a08e);
+            color: #181f23;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 32px;
+            box-shadow: 0 0 24px rgba(43, 184, 163, 0.4);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        /* Contact Details Block */
+        .contact-details {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .contact-info {
+            font-size: 1.1rem;
+            color: #e0e6ea;
+            margin: 12px 0;
+        }
+        .cta-book-call {
+            display: inline-block;
+            margin-top: 32px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #2bb8a3, #24a08e);
+            color: #181f23;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 32px;
+            box-shadow: 0 0 24px rgba(43, 184, 163, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-book-call:hover {
+            box-shadow: 0 0 40px rgba(43, 184, 163, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        .testimonial {
+            background: rgba(43, 184, 163, 0.08);
+            border: 1px solid rgba(43, 184, 163, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .testimonial-text {
+            font-style: italic;
+            color: #e0e6ea;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .testimonial-author {
+            color: #2bb8a3;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu {
+                display: flex;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <img class="image-1" src="https://assets.static-upwork.com/org-logo/1859648701906111668?date=1751800679498"
-        href="#home"></img>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-
-          <li class="nav-item">
-            <a class="nav-link" href="#home">Home</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#services">Services</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#projects">Projects</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact Us</a>
-          </li>
-
-          <!-- Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-              More
-            </a>
-           <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-scrollable">
-
-              <li><a class="dropdown-item" href="#mission">Mission</a></li>
-              <li><a class="dropdown-item" href="#technologies">Technologies</a></li>
-              <li><a class="dropdown-item" href="#case-studies">Case Studies</a></li>
-              <li><a class="dropdown-item" href="#stats">Stats</a></li>
-              <li><a class="dropdown-item" href="#team">Team</a></li>
-              <li><a class="dropdown-item" href="#workflow">Workflow</a></li>
-              <li><a class="dropdown-item" href="#approach">Approach</a></li>
-              <li><a class="dropdown-item" href="#testimonials">Testimonials</a></li>
-              <li><a class="dropdown-item" href="#blog">Blog</a></li>
-              <li><a class="dropdown-item" href="#careers">Careers</a></li>
-            </ul>
-          </li>
-
-        </ul>
-      </div>
+    <div class="nodes-bg">
+        <canvas id="nodesCanvas"></canvas>
     </div>
-  </nav>
 
-  <!-- Sections -->
-  <div class="container mt-5 pt-5">
-
-   <section id="home" class="py-5 text-white" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
-  <div class="container">
-    <div class="row align-items-center">
-      <!-- Left: Text Content -->
-      <div class="col-md-6 mb-4 mb-md-0">
-        <h1 class="display-4 fw-bold">Empowering Data. Accelerating Insights.</h1>
-        <p class="lead mt-3">We build cloud-native, scalable, and automated data solutions that unlock business value — faster.</p>
-        <a href="#services" class="btn btn-outline-light btn-lg mt-4 me-3">Explore Services</a>
-        <a href="#contact" class="btn btn-primary btn-lg mt-4">Get in Touch</a>
-      </div>
-
-      <!-- Right: Image or Graphic -->
-      <div class="col-md-6 text-center">
-        <img src="https://cdn-icons-png.flaticon.com/512/1844/1844250.png" alt="Data Illustration" class="img-fluid" style="max-height: 350px;">
-      </div>
-    </div>
-  </div>
-</section>
-
-
-    <section id="services" class="text-center py-5">
-      <div class="container">
-        <h2 class="mb-4 text-primary fw-bold">Services</h2>
-
-        <div class="row" id="service-slider">
-          <!-- JS will populate slides here -->
+    <nav>
+        <div class="nav-container">
+            <header style="display: flex; align-items: center; padding: 1px 5vw 30px 5vw; justify-content: flex-start;">
+                <img src="datadices.png" alt="DataDices Logo" style="height: 120px; margin-right: 32px; border-radius: 12px;">
+            </header>
+                <ul class="nav-links">
+                  <li><a href="#home">Home</a></li>
+                  <li><a href="#about">About</a></li>
+                  <li><a href="#services">Services</a></li>
+                  <li><a href="#process">Process</a></li>
+                  <li><a href="#contact">Contact</a></li>
+                </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-      </div>
-    </section>
+    </nav>
 
+    <main>
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <section class="hero">
+              <div style="margin-top:260px;"></div>
+                <h1>Rolling in Data, Winning Insights</h1>
+                <p class="hero-tagline">Cost-effective, scalable data engineering solutions with 24/7 support for growing businesses. Transform your data into competitive advantage.</p>
+                <div style="margin-top:32px;"></div>
+                  <a href="https://calendly.com/datadices" class="cta-btn animated-cta" target="_blank">📅 Book a Free Consultation</a>
+                </div>
+                <style>
+                .animated-cta {
+                  animation: pulseGlow 1.2s infinite alternate;
+                  box-shadow: 0 0 24px rgba(43,184,163,0.4);
+                  position: relative;
+                }
+                @keyframes pulseGlow {
+                  0% {
+                    box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                    transform: scale(1);
+                  }
+                  70% {
+                    box-shadow: 0 0 40px rgba(43,184,163,0.7), 0 0 12px #2bb8a3;
+                    transform: scale(1.05);
+                  }
+                  100% {
+                    box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                    transform: scale(1);
+                  }
+                }
+                </style>
+            </section>
 
-    <section id="projects" class="py-5 text-white">
-      <div class="container">
-        <h2 class="text-center fw-bold mb-4">Projects</h2>
-        <div class="row g-4">
-          <!-- Project Card 1 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); box-shadow: 0 0 15px rgba(44, 83, 100, 0.6);">
-              <div class="card-body">
-                <h5 class="card-title">GCP ETL</h5>
-                <p class="card-text">End-to-end pipelines using BigQuery, Dataflow, and Cloud Functions.</p>
+            <section class="content-section">
+                <h2 class="section-title">Why Choose DataDices?</h2>
+                <p class="section-subtitle">"Every number tells a story—our job is to bring that story to life."</p>
+                <div class="stats" style="display: flex; justify-content: center; gap: 26px; flex-wrap: nowrap; margin-top: 20px;">
+                    <div class="stat-item" style="text-align:center; width: 180px;">
+                    <span class="stat-number" data-target="40" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
+                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Enterprise Projects</span>
+                    </div>
+                    <div class="stat-item" style="text-align:center; width: 180px;">
+                    <span class="stat-number" data-target="4" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
+                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Global Regions</span>
+                    </div>
+                    <div class="stat-item" style="text-align:center; width: 180px;">
+                    <span class="stat-number" data-target="24" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
+                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Support Available</span>
+                    </div>
+                    <div class="stat-item" style="text-align:center; width: 180px;">
+                    <span class="stat-number" data-target="100" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
+                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Client Satisfaction</span>
+                    </div>
+                </div>
+              <script>
+                // Animated counter for stats
+                document.addEventListener("DOMContentLoaded", function() {
+                  function animateCount(el, target, duration = 1200) {
+                    let start = 0;
+                    let end = parseInt(target, 10);
+                    let startTime = null;
+                    function update(timestamp) {
+                      if (!startTime) startTime = timestamp;
+                      let progress = Math.min((timestamp - startTime) / duration, 1);
+                      let value = Math.floor(progress * (end - start) + start);
+                      el.textContent = (el.dataset.target === "24") ? value + "/7" : value + (el.dataset.target === "100" ? "%" : "");
+                      if (progress < 1) {
+                        requestAnimationFrame(update);
+                      } else {
+                        el.textContent = (el.dataset.target === "24") ? "24/7" : end + (el.dataset.target === "100" ? "%" : "");
+                      }
+                    }
+                    requestAnimationFrame(update);
+                  }
+                  document.querySelectorAll('.stat-number').forEach(function(el) {
+                    animateCount(el, el.dataset.target);
+                  });
+                });
+              </script>
+              <div class="services-grid" style="display: flex; justify-content: center; gap: 40px; flex-wrap: nowrap; margin-top:2px;">
+                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px;">⚡</div>
+                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Lightning Fast</h3>
+                  <p class="service-description" style="font-size:0.9rem;">From MVP in 2 weeks to full-scale deployment in 6 months. We deliver results at the speed of business.</p>
+                </div>
+                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px;">🔒</div>
+                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Enterprise Security</h3>
+                  <p class="service-description" style="font-size:0.9rem;">Highest standards of data integrity, security, and compliance. Your data is safe with us.</p>
+                </div>
+                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px;">📈</div>
+                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Scalable Solutions</h3>
+                  <p class="service-description" style="font-size:0.9rem;">Built for growth. Scale from 10K to 10M+ records seamlessly with our cloud-native architecture.</p>
+                </div>
               </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Client Success Stories</h2>
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <p class="testimonial-text">"DataDices transformed our messy data stack into a clean, unified dashboard. Game changer!"</p>
+                        <p class="testimonial-author">— SaaS Company, UAE</p>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-text">"Thanks to their ML expertise, we predicted user churn and improved retention by 22%."</p>
+                        <p class="testimonial-author">— Fintech Startup, US</p>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-text">"Professional, fast, and deeply knowledgeable. A dream partner for data initiatives."</p>
+                        <p class="testimonial-author">— Retail Chain, UK</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="content-section">
+                    <h2 class="section-title">About DataDices</h2>
+                    <p class="section-subtitle">We build scalable data infrastructure and pipelines tailored to your business.</p>
+                    <div class="about-cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto;">
+
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3 class="service-title">Innovative</h3>
+                        <p class="service-description">We constantly explore cutting-edge solutions—from generative AI to real-time analytics—so your business always stays ahead of the curve.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🤝</div>
+                        <h3 class="service-title">Collaborative</h3>
+                        <p class="service-description">We partner closely with clients, creating a shared vision that turns complex ideas into simple, scalable data systems.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎯</div>
+                        <h3 class="service-title">Customer-Focused</h3>
+                        <p class="service-description">We don't believe in one-size-fits-all. Every solution is built around your challenges, goals, and growth.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔧</div>
+                        <h3 class="service-title">Scalable by Design</h3>
+                        <p class="service-description">Our work doesn't just meet today's needs—it anticipates tomorrow's. Whether you're scaling from 10K to 10M records, we've got you covered.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">✅</div>
+                        <h3 class="service-title">Data Integrity</h3>
+                        <p class="service-description">We uphold the highest standards of accuracy, security, and ethical use of data. Clean data is not a luxury—it's a necessity.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🌍</div>
+                        <h3 class="service-title">Global Reach</h3>
+                        <p class="service-description">We champion inclusive, responsible data practices and build systems that work for everyone, everywhere.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 60px;">
+                    <h3 style="color: #2bb8a3; font-size: 1.5rem; margin-bottom: 24px;">Our Expertise Spans</h3>
+                    <p style="color: #e0e6ea; font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                        E-commerce, Healthcare, Finance, and Logistics industries across UAE, US, UK, and Southeast Asia. 
+                        We're specialists in cloud-native platforms including BigQuery, Azure, and AWS.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- SERVICES PAGE -->
+        <section id="services" class="content-section">
+            <section class="content-section">
+                <h1 class="section-title">Our Services</h1>
+                <p class="section-subtitle">End-to-end data services to help organizations make better decisions, faster.</p>
+
+                <div class="services-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; justify-content: center; max-width: 1200px; margin: 0 auto;">
+                    <!-- Service Card Example -->
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Strategy</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Align your business goals with a long-term, scalable data roadmap. From defining KPIs to building governance frameworks.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🏗️</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Platform Design</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Secure, flexible, cloud-native platforms customized for your needs. Multi-cloud, hybrid systems with high-availability architecture.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">⚙️</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Engineering</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">ETL/ELT pipelines, batch and real-time integrations, automated data flows. From raw to refined data with speed and precision.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📈</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Analytics</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Descriptive, diagnostic, and predictive analytics. Understand what happened, why it happened, and what will happen next.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📋</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Business Intelligence</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Custom dashboards in Power BI, Tableau, and Looker. Track KPIs, monitor metrics, and empower teams to act fast.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🛡️</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Governance</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Policies, procedures, and tools that keep your data accurate, secure, and audit-ready with full compliance.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🤖</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Machine Learning & AI</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Intelligent systems for prediction, classification, recommendation, and automation. Deployable on cloud or edge.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Visualization</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Transform rows and columns into intuitive, beautiful dashboards that drive real business impact.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">☁️</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Cloud Migration</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Migrate from legacy systems to the cloud safely, smoothly, and without data loss. Full migration support.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔗</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">API Integration</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Connect data sources across platforms and automate time-consuming processes. Less manual work, more value.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔄</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">DataOps</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">CI/CD pipelines, version control, and continuous testing for your data workflows. Faster releases, fewer errors.</p>
+                    </div>
+                    <div class="service-card" style="width:340px; min-height:220px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
+                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Statistical Analysis</h3>
+                        </div>
+                        <div style="height:18px;"></div>
+                        <p class="service-description">Regression models, hypothesis testing, and rigorous statistical methods to reveal real insights from your data.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- PROCESS PAGE -->
+        <section id="process" class="content-section">
+              <section class="content-section"></section>
+            <h1 class="section-title">How We Work</h1>
+            <p class="section-subtitle">Our proven 6-step process ensures successful delivery of every project, from discovery to ongoing support.</p>
+
+            <div class="process-flow" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto 40px;">
+          <div class="process-step">
+              <div class="step-number">1</div>
+              <h3 class="step-title">Discovery</h3>
+              <p class="step-description">We start by deeply understanding your data challenges, systems, and vision through workshops, audits, and interviews.</p>
+          </div>
+          <div class="process-step">
+              <div class="step-number">2</div>
+              <h3 class="step-title">Conceptualization</h3>
+              <p class="step-description">We design detailed blueprints including architecture diagrams and solution outlines.</p>
+          </div>
+          <div class="process-step">
+              <div class="step-number">3</div>
+              <h3 class="step-title">Strategy & Roadmap</h3>
+              <p class="step-description">Clear timelines broken into phases, aligned with your business calendar.</p>
+          </div>
+          <div class="process-step">
+              <div class="step-number">4</div>
+              <h3 class="step-title">Implementation</h3>
+              <p class="step-description">Our team works sprint by sprint with testing, documentation, and feedback checkpoints.</p>
+          </div>
+          <div class="process-step">
+              <div class="step-number">5</div>
+              <h3 class="step-title">Quality Assurance</h3>
+              <p class="step-description">We validate every integration and visualization with automated tests and feedback.</p>
+          </div>
+          <div class="process-step">
+              <div class="step-number">6</div>
+              <h3 class="step-title">Support & Handover</h3>
+              <p class="step-description">Training, documentation, and long-term support or handover to your internal team.</p>
+          </div>
             </div>
-          </div>
 
-          <!-- Project Card 2 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #1e3c72, #2a5298); box-shadow: 0 0 15px rgba(30, 60, 114, 0.5);">
-              <div class="card-body">
-                <h5 class="card-title">AWS Data</h5>
-                <p class="card-text">Data pipelines and analytics using Redshift, S3, and Glue.</p>
-              </div>
+            <div class="final-cta">
+          <h3>Ready to Transform Your Data?</h3>
+          <p>Let's discuss your project and create a custom solution that drives real business results.</p>
+          <button class="cta-btn" onclick="location.href='#contact'">Start Your Project</button>
             </div>
-          </div>
+        </section>
 
-          <!-- Project Card 3 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #42275a, #734b6d); box-shadow: 0 0 15px rgba(115, 75, 109, 0.5);">
-              <div class="card-body">
-                <h5 class="card-title">Azure Data</h5>
-                <p class="card-text">Building solutions with Azure Synapse, ADF, and Blob Storage.</p>
-              </div>
+
+        <!-- CONTACT PAGE -->
+    <section id="contact" class="content-section">
+        <section class="content-section">
+            <h1 class="section-title">Get In Touch</h1>
+            <p class="section-subtitle">Ready to transform your data into competitive advantage? Let's start the conversation.</p>
+
+            <div class="contact-details">
+                <p class="contact-info">📧 Email: <a href="mailto:danish@datadices.com" style="color:#2bb8a3; text-decoration:underline;">danish@datadices.com</a></p>
+                <p class="contact-info">📞 Phone: +92-333-2560088</p>
+                <p class="contact-info">🔗 LinkedIn: <a href="https://www.linkedin.com/company/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
+                <p class="contact-info">💻 GitHub: <a href="https://github.com/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
+
+                <a href="https://calendly.com/datadices" class="cta-book-call animated-cta" target="_blank">
+                  📅 Book a Free Consultation
+                </a>
+                <style>
+                .animated-cta {
+                  animation: pulseGlow 1.2s infinite alternate;
+                  box-shadow: 0 0 24px rgba(43,184,163,0.4);
+                  position: relative;
+                }
+                @keyframes pulseGlow {
+                  0% {
+                  box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                  transform: scale(1);
+                  }
+                  70% {
+                  box-shadow: 0 0 40px rgba(43,184,163,0.7), 0 0 12px #2bb8a3;
+                  transform: scale(1.05);
+                  }
+                  100% {
+                  box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                  transform: scale(1);
+                  }
+                }
+                </style>
             </div>
-          </div>
-
-          <!-- Project Card 4 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); box-shadow: 0 0 15px rgba(48, 43, 99, 0.5);">
-              <div class="card-body">
-                <h5 class="card-title">Warehousing</h5>
-                <p class="card-text">Scalable data warehouses for real-time reporting and analytics.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project Card 5 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #485563, #29323c); box-shadow: 0 0 15px rgba(72, 85, 99, 0.5);">
-              <div class="card-body">
-                <h5 class="card-title">BI Dashboards</h5>
-                <p class="card-text">Interactive dashboards using Tableau, Power BI, and Looker.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project Card 6 -->
-          <div class="col-md-4">
-            <div class="card h-100 text-white border-0"
-              style="background: linear-gradient(135deg, #141e30, #243b55); box-shadow: 0 0 15px rgba(36, 59, 85, 0.5);">
-              <div class="card-body">
-                <h5 class="card-title">ML Pipelines</h5>
-                <p class="card-text">Automated machine learning workflows from training to deployment.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-    <!-- Dropdown Sections -->
-    <section id="mission" class="py-5">
-      <div class="container">
-        <h2 class="text-center text-white fw-bold mb-4">Mission</h2>
-        <div class="mission-card mx-auto text-white px-5 py-4">
-          <p id="missionText" class="fs-4 text-center m-0"></p>
-        </div>
-      </div>
-    </section>
-    <section id="technologies" class="py-5">
-      <div class="container">
-        <h2 class="text-center text-white fw-bold mb-4">Technologies</h2>
-        <div class="row g-4 justify-content-center">
-
-          <!-- Card 1 -->
-          <div class="col-md-4">
-            <div class="tech-card">
-              <h5>Cloud Platforms</h5>
-              <ul>
-                <li>Google Cloud Platform</li>
-                <li>Amazon Web Services</li>
-                <li>Microsoft Azure</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="col-md-4">
-            <div class="tech-card">
-              <h5>Data Processing</h5>
-              <ul>
-                <li>Apache Spark</li>
-                <li>Apache Kafka</li>
-                <li>dbt</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="col-md-4">
-            <div class="tech-card">
-              <h5>Databases</h5>
-              <ul>
-                <li>BigQuery</li>
-                <li>Redshift</li>
-                <li>Snowflake</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="col-md-4">
-            <div class="tech-card">
-              <h5>Orchestration</h5>
-              <ul>
-                <li>Apache Airflow</li>
-                <li>Kubernetes</li>
-                <li>Composer</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="col-md-4">
-            <div class="tech-card">
-              <h5>DevOps</h5>
-              <ul>
-                <li>Docker</li>
-                <li>Terraform</li>
-                <li>GitHub Actions</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-   <section id="case-studies" class="py-5">
-  <div class="container">
-    <h2 class="text-center text-white fw-bold mb-4">Case Studies</h2>
-    <div class="row g-4 justify-content-center">
-
-      <!-- Case Study 1 -->
-      <div class="col-md-4">
-        <div class="case-card">
-          <h5>E-Commerce Analytics Platform</h5>
-          <ul>
-            <li>Built scalable ETL pipelines on AWS</li>
-            <li>Reduced data processing time by 60%</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Case Study 2 -->
-      <div class="col-md-4">
-        <div class="case-card">
-          <h5>Healthcare Data Warehouse</h5>
-          <ul>
-            <li>Integrated BigQuery with real-time data</li>
-            <li>Enabled predictive analytics</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Case Study 3 -->
-      <div class="col-md-4">
-        <div class="case-card">
-          <h5>Retail BI</h5>
-          <ul>
-            <li>Interactive Dashboards</li>
-            <li>Improved decision-making</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    <section id="stats" class="py-5">
-  <div class="container text-center">
-    <h2 class="text-white fw-bold mb-5">Statistics</h2>
-    <div class="row g-4 justify-content-center">
-
-      <!-- GCP Projects -->
-      <div class="col-6 col-md-2">
-        <div class="stat-circle">
-          <div class="stat-number">25+</div>
-          <div class="stat-label">GCP Projects</div>
-        </div>
-      </div>
-
-      <!-- AWS Projects -->
-      <div class="col-6 col-md-2">
-        <div class="stat-circle">
-          <div class="stat-number">15+</div>
-          <div class="stat-label">AWS Projects</div>
-        </div>
-      </div>
-
-      <!-- Azure Projects -->
-      <div class="col-6 col-md-2">
-        <div class="stat-circle">
-          <div class="stat-number">8+</div>
-          <div class="stat-label">Azure Projects</div>
-        </div>
-      </div>
-
-      <!-- Total Projects -->
-      <div class="col-6 col-md-2">
-        <div class="stat-circle">
-          <div class="stat-number">60+</div>
-          <div class="stat-label">Total Projects</div>
-        </div>
-      </div>
-
-      <!-- Data Processed -->
-      <div class="col-6 col-md-2">
-        <div class="stat-circle">
-          <div class="stat-number">2PB+</div>
-          <div class="stat-label">Data Processed</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-   <section id="team" class="py-5">
-  <div class="container text-center">
-    <h2 class="text-white fw-bold mb-5">Our Team</h2>
-    <div class="row g-4 justify-content-center">
-
-      <!-- Danish Meghwar -->
-      <div class="col-md-3 col-6">
-        <div class="card team-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Danish Meghwar">
-          <div class="card-body">
-            <h5 class="card-title">Danish Meghwar</h5>
-            <p class="card-text">Lead Developer</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Laiba -->
-      <div class="col-md-3 col-6">
-        <div class="card team-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Laiba">
-          <div class="card-body">
-            <h5 class="card-title">Laiba</h5>
-            <p class="card-text">Visual Specialist</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Talha -->
-      <div class="col-md-3 col-6">
-        <div class="card team-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Talha">
-          <div class="card-body">
-            <h5 class="card-title">Talha</h5>
-            <p class="card-text">Senior Engineer</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Aisha -->
-      <div class="col-md-3 col-6">
-        <div class="card team-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top team-img" alt="Aisha">
-          <div class="card-body">
-            <h5 class="card-title">Aisha</h5>
-            <p class="card-text">ML Engineer</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <section id="workflow" class="py-5 text-white">
-  <div class="container">
-    <h2 class="text-center mb-4">Workflow</h2>
-    <div class="row justify-content-center">
-      <!-- Each Step -->
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-search"></i>
-          <h5>Discover</h5>
-          <p>Understand client needs</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-drafting-compass"></i>
-          <h5>Design</h5>
-          <p>Scalable solutions</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-code"></i>
-          <h5>Develop</h5>
-          <p>Build robust pipelines</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-vial"></i>
-          <h5>Test</h5>
-          <p>Ensure data quality</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-rocket"></i>
-          <h5>Deploy</h5>
-          <p>Launch solutions</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="workflow-step">
-          <i class="fas fa-headset"></i>
-          <h5>Support</h5>
-          <p>24/7 monitoring</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-   <section id="approach" class="py-5">
-  <div class="container">
-    <h2 class="text-center text-white mb-5">Our Approach</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Ingestion</h5>
-            <p class="card-text">APIs, Streaming, Batch</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Transformation</h5>
-            <p class="card-text">dbt, SQL, PySpark</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Storage</h5>
-            <p class="card-text">BigQuery, Redshift, Snowflake</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Orchestration</h5>
-            <p class="card-text">Airflow, Kubernetes</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Visualization</h5>
-            <p class="card-text">BI Tools (Tableau, Power BI)</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card approach-card h-100">
-          <div class="card-body">
-            <h5 class="card-title">DevOps</h5>
-            <p class="card-text">CI/CD, Docker, Terraform</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-   <section id="testimonials" class="py-5">
-  <div class="container">
-    <h2 class="text-center text-white mb-4">Testimonials</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card testimonial-card">
-          <div class="card-body">
-            <h5 class="card-title">Client A</h5>
-            <p class="card-text">"Transformed our data pipelines."</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card testimonial-card">
-          <div class="card-body">
-            <h5 class="card-title">Client B</h5>
-            <p class="card-text">"Revolutionized our analytics."</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card testimonial-card">
-          <div class="card-body">
-            <h5 class="card-title">Client C</h5>
-            <p class="card-text">"Seamless integration."</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-   <section id="blog" class="py-5">
-  <div class="container">
-    <h2 class="text-center text-white mb-4">Blog Highlights</h2>
-    <div class="row g-4">
-      <div class="col-md-3">
-        <div class="card blog-card">
-          <div class="card-body">Scaling ETL with Airflow</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card blog-card">
-          <div class="card-body">Real-Time Analytics</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card blog-card">
-          <div class="card-body">Cost-Effective Data Lakes</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card blog-card">
-          <div class="card-body">MLOps Practices</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
- <section id="careers" class="py-5">
-  <div class="container">
-    <h2 class="text-center text-white mb-4">Careers at DataDices</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card careers-card">
-          <div class="card-body">
-            <h5 class="card-title">Open Positions</h5>
-            <ul>
-              <li>Data Engineer</li>
-              <li>Cloud Architect</li>
-              <li>BI Developer</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card careers-card">
-          <div class="card-body">
-            <h5 class="card-title">Why Join Us</h5>
-            <ul>
-              <li>Cutting-edge projects</li>
-              <li>Remote work</li>
-              <li>Learning opportunities</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-    <section id="contact" class="py-5 text-white">
-  <div class="container">
-    <h2 class="text-center mb-4">Contact Us</h2>
-    <div class="row g-4 text-center">
-      <div class="col-md-4">
-        <p><strong>Email:</strong> danish@datadices.com</p>
-        <p><strong>Phone:</strong> +92 333 2560088</p>
-      </div>
-      <div class="col-md-4">
-        <p><strong>LinkedIn:</strong><br>linkedin.com/company/datadices</p>
-        <p><strong>Website:</strong><br><a href="https://datadices.github.io/" target="_blank">datadices.github.io</a></p>
-      </div>
-      <div class="col-md-4">
-        <p><strong>Upwork:</strong><br>upwork.com/agencies/datadices</p>
-        <p><strong>Twitter:</strong><br>twitter.com/datadices</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-  </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+        </section>
+    </main>
+    <script>
+    // Add your JavaScript code here if needed
+    </script>
 </body>
-
-<script src="index.js"></script>
-
 </html>
