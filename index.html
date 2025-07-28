@@ -499,11 +499,27 @@
     <div class="nodes-bg">
         <canvas id="nodesCanvas"></canvas>
     </div>
-
     <nav>
-        <div class="nav-container">
-            <div class="nav-brand" style="display: flex; align-items: center;">
-                <img src="datadices.png" alt="DataDices Logo" style="height: 200px; margin-right: 16px; border-radius: 12px;">
+    <div style="height: 20px;"></div>
+        <div class="nav-container" style="padding-top: 12px; padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <div class="nav-brand" style="display: flex; align-items: center; position: relative;">
+                <img src="datadices.png" alt="DataDices Logo"
+                     style="
+                        height: 200px;
+                        width: 200px;
+                        min-width: 32px;
+                        min-height: 32px;
+                        max-width: 200px;
+                        max-height: 200px;
+                        border-radius: 12px;
+                        position: absolute;
+                        left: -32px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        pointer-events: none;
+                        z-index: 2;
+                        background: transparent;
+                     ">
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
