@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>DataDices - Data Engineering Solutions</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
     <style>
@@ -10,6 +10,9 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        html {
+            font-size: 16px;
         }
         body {
             background: #181f23;
@@ -285,36 +288,19 @@
             line-height: 1.6;
         }
 
+        /* About Cards (for About section) */
+        .about-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
         /* Process Steps */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            background-color: #181f23;
-            color: #fff;
-        }
-
-        .content-section {
-            padding: 60px 5vw;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2bb8a3;
-        }
-
-        .section-subtitle {
-            font-size: 1.3rem;
-            text-align: center;
-            margin-bottom: 60px;
-            color: #e0e6ea;
-        }
-
         .process-flow {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             position: relative;
             max-width: 1200px;
@@ -326,7 +312,8 @@
             border: 1px solid rgba(43, 184, 163, 0.3);
             border-radius: 12px;
             padding: 24px;
-            width: 300px;
+            width: 100%;
+            min-width: 0;
             text-align: center;
             position: relative;
             box-shadow: 0 0 12px rgba(43, 184, 163, 0.2);
@@ -414,7 +401,6 @@
             cursor: pointer;
         }
 
-
         /* Contact Details Block */
         .contact-details {
             text-align: center;
@@ -469,28 +455,160 @@
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .nav-container {
+                max-width: 100vw;
+            }
+            .content-section {
+                max-width: 98vw;
+            }
+            .about-cards {
+                max-width: 98vw;
+            }
+            .services-grid {
+                max-width: 98vw;
+            }
+            .process-flow {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 1024px) {
+            .about-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .process-flow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .about-cards {
+                grid-template-columns: 1fr;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-flow {
+                grid-template-columns: 1fr;
+            }
+        }
         @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
             .nav-links {
                 display: none;
             }
             .mobile-menu {
                 display: flex;
             }
+            .hero {
+                padding: 48px 3vw 36px;
+            }
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.1rem;
             }
             .hero-tagline {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                padding: 40px 2vw;
+            }
+            .stat-item {
+                width: 100% !important;
+                min-width: 0 !important;
+                padding: 18px 8px;
             }
             .services-grid {
                 grid-template-columns: 1fr;
+                gap: 18px;
+                margin-top: 32px;
             }
-            .process-steps {
+            .service-card {
+                width: 100% !important;
+                min-width: 0 !important;
+                padding: 18px 10px !important;
+            }
+            .about-cards {
                 grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .process-flow {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-bottom: 40px;
+            }
+            .process-step {
+                width: 100%;
+                min-width: 0;
+                padding: 18px 10px;
+            }
+            .testimonials {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-top: 32px;
+            }
+            .testimonial {
+                padding: 18px 10px;
+            }
+            .final-cta {
+                padding: 24px 8px;
+            }
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 18px;
+            }
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 32px;
+            }
+            .slider-track img {
+                height: 120px !important;
+                width: 120px !important;
+            }
+            .slider-track {
+                gap: 12px !important;
+            }
+            .slider-wrapper {
+                max-width: 100vw !important;
+            }
+        }
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 8px 0;
+            }
+            .nav-brand img {
+                height: 48px !important;
+                width: 48px !important;
+                left: 0 !important;
+                top: 0 !important;
+                position: static !important;
+                transform: none !important;
+            }
+            .hero {
+                padding: 32px 2vw 18px;
+            }
+            .slider-track img {
+                height: 80px !important;
+                width: 80px !important;
+            }
+            .slider-track {
+                gap: 8px !important;
+            }
+            .slider-wrapper {
+                max-width: 100vw !important;
+            }
+            .final-cta {
+                padding: 16px 4px;
             }
         }
     </style>
@@ -528,22 +646,32 @@
                 <li><a href="#process">Process</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="mobile-menu">
+            <div class="mobile-menu" id="mobileMenuBtn">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
+        <ul class="nav-links mobile-nav" id="mobileNav" style="display:none; flex-direction:column; background:rgba(24,31,35,0.98); position:absolute; top:100%; left:0; width:100%; z-index:1001; padding:20px 0;">
+            <li><a href="#home" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="#about" onclick="closeMobileNav()">About</a></li>
+            <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
+            <li><a href="#process" onclick="closeMobileNav()">Process</a></li>
+            <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
+        </ul>
     </nav>
 
     <main>
         <!-- HOME PAGE -->
         <div id="home" class="page active">
             <section class="hero">
-              <div style="margin-top:260px;"></div>
+                <!-- IMAGE SHOWCASE SLIDER SECTION -->
+                <section class="content-section" style="overflow: hidden;">
+                <div class="slider-wrapper" style="max-width: 1200px; overflow: hidden; position: relative; margin: 40px auto;">
+
                 <h1>Scaling Smarter with Every Byte</h1>
                 <p class="hero-tagline">Cost-effective, scalable data engineering solutions with 24/7 support for growing businesses. Transform your data into competitive advantage.</p>
-                <div style="margin-top:32px;"></div>
+                <div style="margin-top:12px;"></div>
                   <a href="https://calendly.com/datadices" class="cta-btn animated-cta" target="_blank">📅 Book a Free Consultation</a>
                 </div>
                 <style>
@@ -572,22 +700,22 @@
             <section class="content-section">
                 <h2 class="section-title">Why Choose DataDices?</h2>
                 <p class="section-subtitle">"Every number tells a story—our job is to bring that story to life."</p>
-                <div class="stats" style="display: flex; justify-content: center; gap: 26px; flex-wrap: nowrap; margin: 0 auto;">
-                    <div class="stat-item" style="text-align:center; width: 180px;">
-                    <span class="stat-number" data-target="40" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
-                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Enterprise Projects</span>
+                <div class="stats">
+                    <div class="stat-item">
+                    <span class="stat-number" data-target="40">0</span><br>
+                    <span class="stat-label">Enterprise Projects</span>
                     </div>
-                    <div class="stat-item" style="text-align:center; width: 180px;">
-                    <span class="stat-number" data-target="4" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
-                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Global Regions</span>
+                    <div class="stat-item">
+                    <span class="stat-number" data-target="4">0</span><br>
+                    <span class="stat-label">Global Regions</span>
                     </div>
-                    <div class="stat-item" style="text-align:center; width: 180px;">
-                    <span class="stat-number" data-target="24" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
-                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Support Available</span>
+                    <div class="stat-item">
+                    <span class="stat-number" data-target="24">0</span><br>
+                    <span class="stat-label">Support Available</span>
                     </div>
-                    <div class="stat-item" style="text-align:center; width: 180px;">
-                    <span class="stat-number" data-target="100" style="font-size: 2rem; font-weight: bold; color: #2bb8a3;">0</span><br>
-                    <span class="stat-label" style="color: #fff; font-size: 1rem;">Client Satisfaction</span>
+                    <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span><br>
+                    <span class="stat-label">Client Satisfaction</span>
                     </div>
                 </div>
               <script>
@@ -615,17 +743,17 @@
                   });
                 });
               </script>
-              <div class="services-grid" style="display: flex; justify-content: center; gap: 40px; flex-wrap: nowrap; margin: 0 auto;">
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+              <div class="services-grid" style="margin-top:32px;">
+                <div class="service-card">
                   <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Lightning Fast</h3>
                   <p class="service-description" style="font-size:0.9rem;">From MVP in 2 weeks to full-scale deployment in 6 months. We deliver results at the speed of business.</p>
                 </div>
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+                <div class="service-card">
                   <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px;">🔒</div>
                   <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Enterprise Security</h3>
                   <p class="service-description" style="font-size:0.9rem;">Highest standards of data integrity, security, and compliance. Your data is safe with us.</p>
                 </div>
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px;">
+                <div class="service-card">
                   <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px;">📈</div>
                   <h3 class="service-title" style="font-size:1rem; margin-bottom:10px;">Scalable Solutions</h3>
                   <p class="service-description" style="font-size:0.9rem;">Built for growth. Scale from 10K to 10M+ records seamlessly with our cloud-native architecture.</p>
@@ -654,51 +782,49 @@
 
         <!-- ABOUT PAGE -->
         <section id="about" class="content-section">
-                    <h2 class="section-title">About DataDices</h2>
-                    <p class="section-subtitle">We build scalable data infrastructure and pipelines tailored to your business.</p>
-                    <div class="about-cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto;">
-
-                    <div class="service-card">
-                        <div class="service-icon">🚀</div>
-                        <h3 class="service-title">Innovative</h3>
-                        <p class="service-description">We constantly explore cutting-edge solutions—from generative AI to real-time analytics—so your business always stays ahead of the curve.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🤝</div>
-                        <h3 class="service-title">Collaborative</h3>
-                        <p class="service-description">We partner closely with clients, creating a shared vision that turns complex ideas into simple, scalable data systems.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🎯</div>
-                        <h3 class="service-title">Customer-Focused</h3>
-                        <p class="service-description">We don't believe in one-size-fits-all. Every solution is built around your challenges, goals, and growth.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🔧</div>
-                        <h3 class="service-title">Scalable by Design</h3>
-                        <p class="service-description">Our work doesn't just meet today's needs—it anticipates tomorrow's. Whether you're scaling from 10K to 10M records, we've got you covered.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">✅</div>
-                        <h3 class="service-title">Data Integrity</h3>
-                        <p class="service-description">We uphold the highest standards of accuracy, security, and ethical use of data. Clean data is not a luxury—it's a necessity.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🌍</div>
-                        <h3 class="service-title">Global Reach</h3>
-                        <p class="service-description">We champion inclusive, responsible data practices and build systems that work for everyone, everywhere.</p>
-                    </div>
+            <h2 class="section-title">About DataDices</h2>
+            <p class="section-subtitle">We build scalable data infrastructure and pipelines tailored to your business.</p>
+            <div class="about-cards">
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3 class="service-title">Innovative</h3>
+                    <p class="service-description">We constantly explore cutting-edge solutions—from generative AI to real-time analytics—so your business always stays ahead of the curve.</p>
                 </div>
-
-                <div style="text-align: center; margin-top: 60px;">
-                    <h3 style="color: #2bb8a3; font-size: 1.5rem; margin-bottom: 24px;">Our Expertise Spans</h3>
-                    <p style="color: #e0e6ea; font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-                        E-commerce, Healthcare, Finance, and Logistics industries across UAE, US, UK, and Southeast Asia. 
-                        We're specialists in cloud-native platforms including BigQuery, Azure, and AWS.
-                    </p>
+                <div class="service-card">
+                    <div class="service-icon">🤝</div>
+                    <h3 class="service-title">Collaborative</h3>
+                    <p class="service-description">We partner closely with clients, creating a shared vision that turns complex ideas into simple, scalable data systems.</p>
                 </div>
-            </section>
-        </div>
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3 class="service-title">Customer-Focused</h3>
+                    <p class="service-description">We don't believe in one-size-fits-all. Every solution is built around your challenges, goals, and growth.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3 class="service-title">Scalable by Design</h3>
+                    <p class="service-description">Our work doesn't just meet today's needs—it anticipates tomorrow's. Whether you're scaling from 10K to 10M records, we've got you covered.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✅</div>
+                    <h3 class="service-title">Data Integrity</h3>
+                    <p class="service-description">We uphold the highest standards of accuracy, security, and ethical use of data. Clean data is not a luxury—it's a necessity.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌍</div>
+                    <h3 class="service-title">Global Reach</h3>
+                    <p class="service-description">We champion inclusive, responsible data practices and build systems that work for everyone, everywhere.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <h3 style="color: #2bb8a3; font-size: 1.5rem; margin-bottom: 24px;">Our Expertise Spans</h3>
+                <p style="color: #e0e6ea; font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                    E-commerce, Healthcare, Finance, and Logistics industries across UAE, US, UK, and Southeast Asia. 
+                    We're specialists in cloud-native platforms including BigQuery, Azure, and AWS.
+                </p>
+            </div>
+        </section>
 
         <!-- SERVICES PAGE -->
         <section id="services" class="content-section">
@@ -706,9 +832,9 @@
                 <h1 class="section-title">Our Services</h1>
                 <p class="section-subtitle">End-to-end data services to help organizations make better decisions, faster.</p>
 
-                <div class="services-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; justify-content: center; max-width: 1200px; margin: 0 auto;">
+                <div class="services-grid">
                     <!-- Service Card Example -->
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Strategy</h3>
@@ -716,7 +842,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Align your business goals with a long-term, scalable data roadmap. From defining KPIs to building governance frameworks.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🏗️</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Platform Design</h3>
@@ -724,7 +850,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Secure, flexible, cloud-native platforms customized for your needs. Multi-cloud, hybrid systems with high-availability architecture.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">⚙️</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Engineering</h3>
@@ -732,7 +858,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">ETL/ELT pipelines, batch and real-time integrations, automated data flows. From raw to refined data with speed and precision.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📈</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Analytics</h3>
@@ -740,7 +866,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Descriptive, diagnostic, and predictive analytics. Understand what happened, why it happened, and what will happen next.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📋</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Business Intelligence</h3>
@@ -748,7 +874,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Custom dashboards in Power BI, Tableau, and Looker. Track KPIs, monitor metrics, and empower teams to act fast.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🛡️</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Governance</h3>
@@ -756,7 +882,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Policies, procedures, and tools that keep your data accurate, secure, and audit-ready with full compliance.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🤖</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Machine Learning & AI</h3>
@@ -764,7 +890,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Intelligent systems for prediction, classification, recommendation, and automation. Deployable on cloud or edge.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Visualization</h3>
@@ -772,7 +898,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Transform rows and columns into intuitive, beautiful dashboards that drive real business impact.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">☁️</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Cloud Migration</h3>
@@ -780,7 +906,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Migrate from legacy systems to the cloud safely, smoothly, and without data loss. Full migration support.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔗</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">API Integration</h3>
@@ -788,7 +914,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">Connect data sources across platforms and automate time-consuming processes. Less manual work, more value.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔄</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">DataOps</h3>
@@ -796,7 +922,7 @@
                         <div style="height:18px;"></div>
                         <p class="service-description">CI/CD pipelines, version control, and continuous testing for your data workflows. Faster releases, fewer errors.</p>
                     </div>
-                    <div class="service-card" style="width:340px; min-height:220px;">
+                    <div class="service-card">
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
                             <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Statistical Analysis</h3>
@@ -810,92 +936,115 @@
 
         <!-- PROCESS PAGE -->
         <section id="process" class="content-section">
-              <section class="content-section"></section>
+            <section class="content-section"></section>
             <h1 class="section-title">How We Work</h1>
             <p class="section-subtitle">Our proven 6-step process ensures successful delivery of every project, from discovery to ongoing support.</p>
 
-            <div class="process-flow" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto 40px;">
-          <div class="process-step">
-              <div class="step-number">1</div>
-              <h3 class="step-title">Discovery</h3>
-              <p class="step-description">We start by deeply understanding your data challenges, systems, and vision through workshops, audits, and interviews.</p>
-          </div>
-          <div class="process-step">
-              <div class="step-number">2</div>
-              <h3 class="step-title">Conceptualization</h3>
-              <p class="step-description">We design detailed blueprints including architecture diagrams and solution outlines.</p>
-          </div>
-          <div class="process-step">
-              <div class="step-number">3</div>
-              <h3 class="step-title">Strategy & Roadmap</h3>
-              <p class="step-description">Clear timelines broken into phases, aligned with your business calendar.</p>
-          </div>
-          <div class="process-step">
-              <div class="step-number">4</div>
-              <h3 class="step-title">Implementation</h3>
-              <p class="step-description">Our team works sprint by sprint with testing, documentation, and feedback checkpoints.</p>
-          </div>
-          <div class="process-step">
-              <div class="step-number">5</div>
-              <h3 class="step-title">Quality Assurance</h3>
-              <p class="step-description">We validate every integration and visualization with automated tests and feedback.</p>
-          </div>
-          <div class="process-step">
-              <div class="step-number">6</div>
-              <h3 class="step-title">Support & Handover</h3>
-              <p class="step-description">Training, documentation, and long-term support or handover to your internal team.</p>
-          </div>
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Discovery</h3>
+                    <p class="step-description">We start by deeply understanding your data challenges, systems, and vision through workshops, audits, and interviews.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Conceptualization</h3>
+                    <p class="step-description">We design detailed blueprints including architecture diagrams and solution outlines.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Strategy & Roadmap</h3>
+                    <p class="step-description">Clear timelines broken into phases, aligned with your business calendar.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Implementation</h3>
+                    <p class="step-description">Our team works sprint by sprint with testing, documentation, and feedback checkpoints.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Quality Assurance</h3>
+                    <p class="step-description">We validate every integration and visualization with automated tests and feedback.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">Support & Handover</h3>
+                    <p class="step-description">Training, documentation, and long-term support or handover to your internal team.</p>
+                </div>
             </div>
 
             <div class="final-cta">
-          <h3>Ready to Transform Your Data?</h3>
-          <p>Let's discuss your project and create a custom solution that drives real business results.</p>
-          <button class="cta-btn" onclick="location.href='#contact'">Start Your Project</button>
+                <h3>Ready to Transform Your Data?</h3>
+                <p>Let's discuss your project and create a custom solution that drives real business results.</p>
+                <button class="cta-btn" onclick="location.href='#contact'">Start Your Project</button>
             </div>
         </section>
 
-
         <!-- CONTACT PAGE -->
-    <section id="contact" class="content-section">
-        <section class="content-section">
-            <h1 class="section-title">Get In Touch</h1>
-            <p class="section-subtitle">Ready to transform your data into competitive advantage? Let's start the conversation.</p>
+        <section id="contact" class="content-section">
+            <section class="content-section">
+                <h1 class="section-title">Get In Touch</h1>
+                <p class="section-subtitle">Ready to transform your data into competitive advantage? Let's start the conversation.</p>
 
-            <div class="contact-details">
-                <p class="contact-info">📧 Email: <a href="mailto:danish@datadices.com" style="color:#2bb8a3; text-decoration:underline;">danish@datadices.com</a></p>
-                <p class="contact-info">📞 Phone: +92-333-2560088</p>
-                <p class="contact-info">🔗 LinkedIn: <a href="https://www.linkedin.com/company/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
-                <p class="contact-info">💻 GitHub: <a href="https://github.com/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
+                <div class="contact-details">
+                    <p class="contact-info">📧 Email: <a href="mailto:danish@datadices.com" style="color:#2bb8a3; text-decoration:underline;">danish@datadices.com</a></p>
+                    <p class="contact-info">📞 Phone: +92-333-2560088</p>
+                    <p class="contact-info">🔗 LinkedIn: <a href="https://www.linkedin.com/company/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
+                    <p class="contact-info">💻 GitHub: <a href="https://github.com/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
 
-                <a href="https://calendly.com/datadices" class="cta-book-call animated-cta" target="_blank">
-                  📅 Book a Free Consultation
-                </a>
-                <style>
-                .animated-cta {
-                  animation: pulseGlow 1.2s infinite alternate;
-                  box-shadow: 0 0 24px rgba(43,184,163,0.4);
-                  position: relative;
-                }
-                @keyframes pulseGlow {
-                  0% {
-                  box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
-                  transform: scale(1);
-                  }
-                  70% {
-                  box-shadow: 0 0 40px rgba(43,184,163,0.7), 0 0 12px #2bb8a3;
-                  transform: scale(1.05);
-                  }
-                  100% {
-                  box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
-                  transform: scale(1);
-                  }
-                }
-                </style>
-            </div>
+                    <a href="https://calendly.com/datadices" class="cta-book-call animated-cta" target="_blank">
+                      📅 Book a Free Consultation
+                    </a>
+                    <style>
+                    .animated-cta {
+                      animation: pulseGlow 1.2s infinite alternate;
+                      box-shadow: 0 0 24px rgba(43,184,163,0.4);
+                      position: relative;
+                    }
+                    @keyframes pulseGlow {
+                      0% {
+                      box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                      transform: scale(1);
+                      }
+                      70% {
+                      box-shadow: 0 0 40px rgba(43,184,163,0.7), 0 0 12px #2bb8a3;
+                      transform: scale(1.05);
+                      }
+                      100% {
+                      box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
+                      transform: scale(1);
+                      }
+                    }
+                    </style>
+                </div>
+            </section>
         </section>
     </main>
     <script>
-    // Add your JavaScript code here if needed
+    // Mobile nav toggle
+    function closeMobileNav() {
+        document.getElementById('mobileNav').style.display = 'none';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        var mobileNav = document.getElementById('mobileNav');
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', function() {
+                if (mobileNav.style.display === 'flex') {
+                    mobileNav.style.display = 'none';
+                } else {
+                    mobileNav.style.display = 'flex';
+                }
+            });
+        }
+        // Close mobile nav on link click (handled by closeMobileNav in href)
+        // Optionally, close on outside click
+        document.body.addEventListener('click', function(e) {
+            if (mobileNav.style.display === 'flex' && !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileNav.style.display = 'none';
+            }
+        });
+    });
     </script>
 </body>
 </html>
