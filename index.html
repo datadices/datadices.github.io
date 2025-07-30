@@ -618,20 +618,20 @@
         <canvas id="nodesCanvas"></canvas>
     </div>
     <nav>
-    <div style="height: 20px;"></div>
-        <div class="nav-container" style="padding-top: 12px; padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="height: 20px;"></div>
+        <div class="nav-container" style="padding-top: 12px; padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between; max-width: 100vw;">
             <div class="nav-brand" style="display: flex; align-items: center; position: relative;">
                 <img src="datadices.png" alt="DataDices Logo"
                      style="
-                        height: 200px;
-                        width: 200px;
+                        height: 120px;
+                        width: 120px;
                         min-width: 32px;
                         min-height: 32px;
-                        max-width: 200px;
-                        max-height: 200px;
+                        max-width: 120px;
+                        max-height: 120px;
                         border-radius: 12px;
                         position: absolute;
-                        left: -32px;
+                        left: -24px;
                         top: 50%;
                         transform: translateY(-50%);
                         pointer-events: none;
@@ -639,20 +639,23 @@
                         background: transparent;
                      ">
             </div>
-            <ul class="nav-links">
+            <!-- Desktop Navigation Links -->
+            <ul class="nav-links desktop-nav">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <!-- Mobile Menu Button -->
             <div class="mobile-menu" id="mobileMenuBtn">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <ul class="nav-links mobile-nav" id="mobileNav" style="display:none; flex-direction:column; background:rgba(24,31,35,0.98); position:absolute; top:100%; left:0; width:100%; z-index:1001; padding:20px 0;">
+        <!-- Mobile Navigation Links (hidden by default) -->
+        <ul class="nav-links mobile-nav" id="mobileNav">
             <li><a href="#home" onclick="closeMobileNav()">Home</a></li>
             <li><a href="#about" onclick="closeMobileNav()">About</a></li>
             <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
@@ -660,6 +663,114 @@
             <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
         </ul>
     </nav>
+    <style>
+    /* Hide mobile menu button and mobile nav by default on desktop */
+    .mobile-menu,
+    .mobile-nav {
+        display: none;
+    }
+    .desktop-nav {
+        display: flex !important;
+        align-items: center;
+        gap: 18px;
+        margin-left: 120px;
+    }
+    /* Mobile styles */
+    @media (max-width: 900px) {
+        .nav-container {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+        .nav-brand img {
+            height: 80px !important;
+            width: 80px !important;
+            max-width: 80px !important;
+            max-height: 80px !important;
+            left: -12px !important;
+        }
+        .desktop-nav {
+            gap: 10px !important;
+            margin-left: 80px !important;
+        }
+        .mobile-menu {
+            margin-left: 10px !important;
+        }
+    }
+    @media (max-width: 600px) {
+        .nav-container {
+            padding-left: 2vw !important;
+            padding-right: 2vw !important;
+        }
+        .nav-brand img {
+            height: 56px !important;
+            width: 56px !important;
+            max-width: 56px !important;
+            max-height: 56px !important;
+            left: 0 !important;
+        }
+        .desktop-nav {
+            gap: 6px !important;
+            margin-left: 56px !important;
+        }
+        .mobile-menu {
+            margin-left: 6px !important;
+        }
+    }
+    /* Show mobile menu button and hide desktop nav on mobile */
+    @media (max-width: 800px) {
+        .desktop-nav {
+            display: none !important;
+        }
+        .mobile-menu {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+        .mobile-menu span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 3px 0;
+            background: #2bb8a3;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: rgba(24,31,35,0.98);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            padding: 20px 0;
+        }
+        .mobile-nav.open {
+            display: flex !important;
+        }
+    }
+    </style>
+    <script>
+    // Mobile nav toggle logic
+    document.addEventListener("DOMContentLoaded", function() {
+        var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        var mobileNav = document.getElementById('mobileNav');
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileNav.classList.toggle('open');
+            });
+        }
+        window.closeMobileNav = function() {
+            if (mobileNav) mobileNav.classList.remove('open');
+        };
+    });
+    </script>
 
     <main>
         <!-- HOME PAGE -->
