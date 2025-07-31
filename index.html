@@ -1,1141 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>DataDices - Data Engineering Solutions</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html {
-            font-size: 16px;
-        }
-        body {
-            background: #181f23;
-            color: #fff;
-            font-family: 'Montserrat', Arial, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(24, 31, 35, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 0 5vw;
-            border-bottom: 1px solid rgba(43, 184, 163, 0.2);
-        }
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-        }
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: #2bb8a3;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(43, 184, 163, 0.3);
-            margin-right: 16px;
-        }
-        .logo svg {
-            width: 30px;
-            height: 30px;
-        }
-        .brand-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2bb8a3;
-            text-shadow: 0 0 8px rgba(43, 184, 163, 0.3);
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 32px;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 400;
-            transition: all 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            color: #2bb8a3;
-            text-shadow: 0 0 8px rgba(43, 184, 163, 0.5);
-        }
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #2bb8a3;
-            box-shadow: 0 0 8px #2bb8a3;
-        }
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: #2bb8a3;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Background Animation */
-        .nodes-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        /* Main Content */
-        main {
-            position: relative;
-            z-index: 1;
-            padding-top: 100px;
-            min-height: 100vh;
-        }
-        .page {
-            display: none;
-            animation: fadeIn 0.6s ease-in-out;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Home Page */
-        .hero {
-            text-align: center;
-            padding: 80px 5vw 60px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, #2bb8a3, #24a08e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(43, 184, 163, 0.3);
-        }
-        .hero-tagline {
-            font-size: 1.3rem;
-            color: #e0e6ea;
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-        .cta-btn {
-            padding: 18px 48px;
-            background: linear-gradient(135deg, #2bb8a3, #24a08e);
-            color: #181f23;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 8px 32px rgba(43, 184, 163, 0.3);
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 0 12px 12px 0;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(43, 184, 163, 0.4);
-        }
-        .cta-btn.secondary {
-            background: transparent;
-            color: #2bb8a3;
-            border: 2px solid #2bb8a3;
-            box-shadow: 0 0 20px rgba(43, 184, 163, 0.2);
-        }
-
-        /* Stats Section */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            padding: 80px 5vw;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 32px 24px;
-            background: rgba(43, 184, 163, 0.1);
-            border-radius: 16px;
-            border: 1px solid rgba(43, 184, 163, 0.2);
-            transition: all 0.3s;
-        }
-        .stat-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(43, 184, 163, 0.2);
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2bb8a3;
-            display: block;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #b0b6ba;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Content Sections */
-        .content-section {
-            padding: 80px 5vw;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2bb8a3;
-            margin-bottom: 48px;
-            text-align: center;
-        }
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #e0e6ea;
-            text-align: center;
-            margin-bottom: 60px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-            margin-top: 60px;
-        }
-        .service-card {
-            background: rgba(43, 184, 163, 0.08);
-            border: 1px solid rgba(43, 184, 163, 0.2);
-            border-radius: 16px;
-            padding: 32px;
-            transition: all 0.3s;
-        }
-        .service-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(43, 184, 163, 0.2);
-            border-color: rgba(43, 184, 163, 0.4);
-        }
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: #2bb8a3;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(43, 184, 163, 0.3);
-            font-size: 1.5rem;
-        }
-        .service-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 16px;
-        }
-        .service-description {
-            color: #b0b6ba;
-            line-height: 1.6;
-        }
-
-        /* About Cards (for About section) */
-        .about-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* Process Steps */
-        .process-flow {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto 80px;
-        }
-
-        .process-step {
-            background: #1f2b32;
-            border: 1px solid rgba(43, 184, 163, 0.3);
-            border-radius: 12px;
-            padding: 24px;
-            width: 100%;
-            min-width: 0;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 12px rgba(43, 184, 163, 0.2);
-        }
-
-        .step-number {
-            background: #2bb8a3;
-            color: #181f23;
-            font-weight: bold;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            font-size: 1.2rem;
-        }
-
-        .step-title {
-            color: #2bb8a3;
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .step-description {
-            font-size: 0.95rem;
-            color: #ccc;
-        }
-
-        .arrow {
-            position: absolute;
-            font-size: 2rem;
-            color: #2bb8a3;
-        }
-
-        .arrow-down {
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .arrow-right {
-            top: 50%;
-            right: -25px;
-            transform: translateY(-50%);
-        }
-
-        .arrow-left {
-            top: 50%;
-            left: -25px;
-            transform: translateY(-50%);
-        }
-
-        .final-cta {
-            text-align: center;
-            padding: 48px;
-            background: rgba(43, 184, 163, 0.1);
-            border-radius: 16px;
-            border: 1px solid rgba(43, 184, 163, 0.2);
-        }
-
-        .final-cta h3 {
-            color: #2bb8a3;
-            font-size: 1.8rem;
-            margin-bottom: 24px;
-        }
-
-        .final-cta p {
-            color: #e0e6ea;
-            font-size: 1.2rem;
-            margin-bottom: 32px;
-        }
-
-        .cta-btn {
-            padding: 16px 36px;
-            background: linear-gradient(135deg, #2bb8a3, #24a08e);
-            color: #181f23;
-            font-weight: bold;
-            font-size: 1rem;
-            border-radius: 32px;
-            box-shadow: 0 0 24px rgba(43, 184, 163, 0.4);
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Contact Details Block */
-        .contact-details {
-            text-align: center;
-            margin-top: 40px;
-        }
-        .contact-info {
-            font-size: 1.1rem;
-            color: #e0e6ea;
-            margin: 12px 0;
-        }
-        .cta-book-call {
-            display: inline-block;
-            margin-top: 32px;
-            padding: 16px 36px;
-            background: linear-gradient(135deg, #2bb8a3, #24a08e);
-            color: #181f23;
-            font-weight: bold;
-            font-size: 1rem;
-            border-radius: 32px;
-            box-shadow: 0 0 24px rgba(43, 184, 163, 0.4);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .cta-book-call:hover {
-            box-shadow: 0 0 40px rgba(43, 184, 163, 0.6);
-            transform: scale(1.05);
-        }
-
-        /* Testimonials */
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 60px;
-        }
-        .testimonial {
-            background: rgba(43, 184, 163, 0.08);
-            border: 1px solid rgba(43, 184, 163, 0.2);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-        }
-        .testimonial-text {
-            font-style: italic;
-            color: #e0e6ea;
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-        .testimonial-author {
-            color: #2bb8a3;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .nav-container {
-                max-width: 100vw;
-            }
-            .content-section {
-                max-width: 98vw;
-            }
-            .about-cards {
-                max-width: 98vw;
-            }
-            .services-grid {
-                max-width: 98vw;
-            }
-            .process-flow {
-                max-width: 98vw;
-            }
-        }
-        @media (max-width: 1024px) {
-            .about-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .process-flow {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 900px) {
-            .about-cards {
-                grid-template-columns: 1fr;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            .process-flow {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 768px) {
-            html {
-                font-size: 15px;
-            }
-            .nav-links {
-                display: none;
-            }
-            .mobile-menu {
-                display: flex;
-            }
-            .hero {
-                padding: 48px 3vw 36px;
-            }
-            .hero h1 {
-                font-size: 2.1rem;
-            }
-            .hero-tagline {
-                font-size: 1rem;
-            }
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 18px;
-                padding: 40px 2vw;
-            }
-            .stat-item {
-                width: 100% !important;
-                min-width: 0 !important;
-                padding: 18px 8px;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 18px;
-                margin-top: 32px;
-            }
-            .service-card {
-                width: 100% !important;
-                min-width: 0 !important;
-                padding: 18px 10px !important;
-            }
-            .about-cards {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-            .process-flow {
-                grid-template-columns: 1fr;
-                gap: 18px;
-                margin-bottom: 40px;
-            }
-            .process-step {
-                width: 100%;
-                min-width: 0;
-                padding: 18px 10px;
-            }
-            .testimonials {
-                grid-template-columns: 1fr;
-                gap: 18px;
-                margin-top: 32px;
-            }
-            .testimonial {
-                padding: 18px 10px;
-            }
-            .final-cta {
-                padding: 24px 8px;
-            }
-            .section-title {
-                font-size: 1.6rem;
-                margin-bottom: 18px;
-            }
-            .section-subtitle {
-                font-size: 1rem;
-                margin-bottom: 32px;
-            }
-            .slider-track img {
-                height: 120px !important;
-                width: 120px !important;
-            }
-            .slider-track {
-                gap: 12px !important;
-            }
-            .slider-wrapper {
-                max-width: 100vw !important;
-            }
-        }
-        @media (max-width: 480px) {
-            html {
-                font-size: 14px;
-            }
-            .nav-container {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 8px 0;
-            }
-            .nav-brand img {
-                height: 48px !important;
-                width: 48px !important;
-                left: 0 !important;
-                top: 0 !important;
-                position: static !important;
-                transform: none !important;
-            }
-            .hero {
-                padding: 32px 2vw 18px;
-            }
-            .slider-track img {
-                height: 80px !important;
-                width: 80px !important;
-            }
-            .slider-track {
-                gap: 8px !important;
-            }
-            .slider-wrapper {
-                max-width: 100vw !important;
-            }
-            .final-cta {
-                padding: 16px 4px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="nodes-bg">
-        <canvas id="nodesCanvas"></canvas>
-    </div>
-    <nav>
-        <div style="height: 20px;"></div>
-        <div class="nav-container" style="padding-top: 12px; padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between; max-width: 100vw;">
-            <div class="nav-brand" style="display: flex; align-items: center; position: relative;">
-                <img src="datadices.png" alt="DataDices Logo"
-                     style="
-                        height: 120px;
-                        width: 120px;
-                        min-width: 32px;
-                        min-height: 32px;
-                        max-width: 120px;
-                        max-height: 120px;
-                        border-radius: 12px;
-                        position: absolute;
-                        left: -24px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        pointer-events: none;
-                        z-index: 2;
-                        background: transparent;
-                     ">
-            </div>
-            <!-- Desktop Navigation Links -->
-            <ul class="nav-links desktop-nav">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <!-- Mobile Menu Button -->
-            <div class="mobile-menu" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        <!-- Mobile Navigation Links (hidden by default) -->
-        <ul class="nav-links mobile-nav" id="mobileNav">
-            <li><a href="#home" onclick="closeMobileNav()">Home</a></li>
-            <li><a href="#about" onclick="closeMobileNav()">About</a></li>
-            <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
-            <li><a href="#process" onclick="closeMobileNav()">Process</a></li>
-            <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
-        </ul>
-    </nav>
-    <style>
-    /* Hide mobile menu button and mobile nav by default on desktop */
-    .mobile-menu,
-    .mobile-nav {
-        display: none;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>DataDices - AI Data Engineering</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2bb8a3;
+      --bg: #0a0a0f;
+      --card-bg: #181f23;
+      --accent: #2bb8a3;
+      --text: #fff;
+      --muted: #b0b6ba;
+      --glass: rgba(43,184,163,0.08);
+      --glass-border: rgba(43,184,163,0.18);
+      --ai-glow: 0 0 32px #2bb8a3, 0 0 8px #2bb8a3;
     }
-    .desktop-nav {
-        display: flex !important;
-        align-items: center;
-        gap: 18px;
-        margin-left: 120px;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
-    /* Mobile styles */
+    /* AI Vibe Animated Background */
+    .ai-bg {
+      position: fixed;
+      z-index: 0;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .ai-bg canvas { width: 100vw; height: 100vh; display: block; }
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; width: 100vw;
+      background: rgba(10,10,15,0.92);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 100;
+      box-shadow: 0 2px 24px rgba(43,184,163,0.08);
+      backdrop-filter: blur(8px);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-logo {
+      width: 54px; height: 54px;
+      border-radius: 16px;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 32px #2bb8a3aa;
+      animation: aiPulse 2.5s infinite alternate;
+    }
+    .nav-logo svg {
+      width: 32px; height: 32px;
+      filter: drop-shadow(0 0 8px #2bb8a3cc);
+    }
+    .brand-text {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+      text-shadow: 0 0 12px #2bb8a3cc;
+    }
+    @keyframes aiPulse {
+      0% { box-shadow: 0 0 32px #2bb8a3aa; }
+      100% { box-shadow: 0 0 64px #2bb8a3cc, 0 0 16px #2bb8a3; }
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+      padding: 6px 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--primary);
+      text-shadow: 0 0 8px #2bb8a3cc;
+    }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 100%; height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      box-shadow: 0 0 8px #2bb8a3;
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 101;
+    }
+    .mobile-menu span {
+      width: 28px; height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
     @media (max-width: 900px) {
-        .nav-container {
-            padding-left: 8px !important;
-            padding-right: 8px !important;
-        }
-        .nav-brand img {
-            height: 80px !important;
-            width: 80px !important;
-            max-width: 80px !important;
-            max-height: 80px !important;
-            left: -12px !important;
-        }
-        .desktop-nav {
-            gap: 10px !important;
-            margin-left: 80px !important;
-        }
-        .mobile-menu {
-            margin-left: 10px !important;
-        }
+      .nav-container { padding: 14px 12px; }
+      .nav-links { display: none; }
+      .mobile-menu { display: flex; }
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: rgba(10,10,15,0.98);
+      position: absolute;
+      top: 100%; left: 0; width: 100vw;
+      z-index: 1001;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px #2bb8a322;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav li { margin: 0 0 18px 0; text-align: center; }
+    .mobile-nav a { font-size: 1.2rem; }
+    /* Main Content */
+    main {
+      position: relative;
+      z-index: 1;
+      padding-top: 90px;
+      min-height: 100vh;
+    }
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 80px 5vw 40px;
+    }
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 32px #2bb8a344;
+      margin-bottom: 18px;
+      letter-spacing: 1.5px;
+      animation: aiGlow 2.5s infinite alternate;
+    }
+    @keyframes aiGlow {
+      0% { text-shadow: 0 0 32px #2bb8a344; }
+      100% { text-shadow: 0 0 64px #2bb8a3cc, 0 0 16px #2bb8a3; }
+    }
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto 36px auto;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+    }
+    .cta-btn {
+      padding: 18px 48px;
+      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
+      color: #0a0a0f;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 40px;
+      box-shadow: 0 8px 32px #2bb8a344;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 18px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      animation: pulseGlow 1.2s infinite alternate;
+    }
+    .cta-btn:hover {
+      transform: scale(1.04) translateY(-2px);
+      box-shadow: 0 12px 40px #2bb8a3cc;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 24px #2bb8a3cc, 0 0 0px #2bb8a3; }
+      70% { box-shadow: 0 0 40px #2bb8a3, 0 0 12px #2bb8a3; }
+      100% { box-shadow: 0 0 24px #2bb8a3cc, 0 0 0px #2bb8a3; }
+    }
+    /* AI Feature Cards */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin: 60px auto 0 auto;
+      max-width: 1100px;
+    }
+    .feature-card {
+      background: var(--glass);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 32px 28px;
+      min-width: 260px;
+      max-width: 320px;
+      flex: 1 1 260px;
+      box-shadow: 0 0 32px #2bb8a322;
+      transition: 0.2s;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 48px #2bb8a3cc;
+      transform: translateY(-4px) scale(1.03);
+    }
+    .feature-icon {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 8px #2bb8a3cc);
+    }
+    .feature-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .feature-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    /* Section Titles */
+    .section {
+      padding: 80px 5vw 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .section-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 16px #2bb8a344;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 1.15rem;
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* AI Service Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      margin-top: 32px;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      box-shadow: 0 0 24px #2bb8a322;
+      transition: 0.2s;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 48px #2bb8a3cc;
+      transform: translateY(-4px) scale(1.03);
+    }
+    .service-icon {
+      font-size: 1.7rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 8px #2bb8a3cc);
+    }
+    .service-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .service-desc {
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+    /* Testimonials */
+    .testimonials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .testimonial {
+      background: var(--glass);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      min-width: 260px;
+      max-width: 340px;
+      flex: 1 1 260px;
+      box-shadow: 0 0 24px #2bb8a322;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial-text {
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .testimonial-author {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    /* Contact */
+    .contact-block {
+      background: var(--glass);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 40px 28px;
+      max-width: 420px;
+      margin: 0 auto;
+      box-shadow: 0 0 32px #2bb8a322;
+      text-align: center;
+    }
+    .contact-info {
+      color: var(--muted);
+      font-size: 1.08rem;
+      margin: 12px 0;
+    }
+    .contact-info a {
+      color: var(--primary);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .contact-info a:hover { color: #0fffc3; }
+    .cta-book-call {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 16px 36px;
+      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
+      color: #0a0a0f;
+      font-weight: bold;
+      font-size: 1.08rem;
+      border-radius: 32px;
+      box-shadow: 0 0 24px #2bb8a3cc;
+      text-decoration: none;
+      transition: all 0.3s;
+      animation: pulseGlow 1.2s infinite alternate;
+    }
+    .cta-book-call:hover {
+      box-shadow: 0 0 40px #2bb8a3cc;
+      transform: scale(1.05);
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .nav-container { padding: 12px 4vw; }
+      .hero { padding: 60px 2vw 24px; }
+      .section { padding: 60px 2vw 24px; }
+      .features, .testimonials { gap: 18px; }
+      .services-grid { gap: 18px; }
     }
     @media (max-width: 600px) {
-        .nav-container {
-            padding-left: 2vw !important;
-            padding-right: 2vw !important;
-        }
-        .nav-brand img {
-            height: 56px !important;
-            width: 56px !important;
-            max-width: 56px !important;
-            max-height: 56px !important;
-            left: 0 !important;
-        }
-        .desktop-nav {
-            gap: 6px !important;
-            margin-left: 56px !important;
-        }
-        .mobile-menu {
-            margin-left: 6px !important;
-        }
+      .hero-title { font-size: 2rem; }
+      .section-title { font-size: 1.3rem; }
+      .features, .testimonials { flex-direction: column; }
+      .nav-container { flex-direction: column; align-items: flex-start; }
     }
-    /* Show mobile menu button and hide desktop nav on mobile */
-    @media (max-width: 800px) {
-        .desktop-nav {
-            display: none !important;
-        }
-        .mobile-menu {
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            z-index: 1002;
-        }
-        .mobile-menu span {
-            display: block;
-            width: 28px;
-            height: 4px;
-            margin: 3px 0;
-            background: #2bb8a3;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-        .mobile-nav {
-            display: none;
-            flex-direction: column;
-            background: rgba(24,31,35,0.98);
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            z-index: 1001;
-            padding: 20px 0;
-        }
-        .mobile-nav.open {
-            display: flex !important;
-        }
-    }
-    </style>
-    <script>
+  </style>
+</head>
+<body>
+  <div class="ai-bg">
+    <canvas id="aiCanvas"></canvas>
+  </div>
+  <nav>
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <!-- Simple AI/brain SVG icon -->
+          <svg viewBox="0 0 40 40" fill="none">
+            <ellipse cx="20" cy="20" rx="16" ry="16" fill="#0a0a0f" stroke="#2bb8a3" stroke-width="3"/>
+            <path d="M13 20c0-4 3-7 7-7s7 3 7 7-3 7-7 7-7-3-7-7z" stroke="#2bb8a3" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="20" r="2.5" fill="#2bb8a3"/>
+            <path d="M20 13v-4M20 31v-4M27 20h4M9 20h4" stroke="#2bb8a3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="brand-text">DataDices AI</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#ai">AI</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#testimonials">Clients</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="mobile-menu" id="mobileMenuBtn">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <ul class="mobile-nav" id="mobileNav">
+      <li><a href="#home" onclick="closeMobileNav()">Home</a></li>
+      <li><a href="#ai" onclick="closeMobileNav()">AI</a></li>
+      <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
+      <li><a href="#testimonials" onclick="closeMobileNav()">Clients</a></li>
+      <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
+    </ul>
+  </nav>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <h1 class="hero-title">AI-Driven Data Engineering</h1>
+      <div class="hero-subtitle">
+        <span style="color:#2bb8a3;font-weight:600;">DataDices</span> delivers next-gen, AI-powered data solutions.<br>
+        <span style="color:#0fffc3;">Automate. Predict. Scale.</span> <br>
+        <span style="color:#b0b6ba;">Your data, your competitive edge.</span>
+      </div>
+      <a href="https://calendly.com/datadices" class="cta-btn" target="_blank">🚀 Book a Free AI Consultation</a>
+    </section>
+    <!-- AI Features -->
+    <section class="section" id="ai">
+      <h2 class="section-title">Why Choose DataDices AI?</h2>
+      <p class="section-subtitle">We blend advanced AI with robust engineering for real business impact.</p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">AI Automation</div>
+          <div class="feature-desc">Automate data pipelines, anomaly detection, and reporting with intelligent agents.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔮</div>
+          <div class="feature-title">Predictive Analytics</div>
+          <div class="feature-desc">Forecast trends and outcomes using machine learning and deep learning models.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <div class="feature-title">Enterprise Security</div>
+          <div class="feature-desc">End-to-end encryption, compliance, and AI-powered threat detection for your data.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Lightning Fast</div>
+          <div class="feature-desc">From MVP in 2 weeks to full-scale deployment in 6 months. Results at the speed of business.</div>
+        </div>
+      </div>
+    </section>
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <h2 class="section-title">Our AI-Enhanced Services</h2>
+      <p class="section-subtitle">End-to-end data engineering, analytics, and AI for future-ready organizations.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <div class="service-title">Data Strategy & Roadmap</div>
+          <div class="service-desc">Align business goals with a scalable, AI-ready data roadmap. From KPIs to governance.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🏗️</div>
+          <div class="service-title">Cloud Data Platforms</div>
+          <div class="service-desc">Design and deploy secure, flexible, cloud-native platforms (BigQuery, Azure, AWS).</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⚙️</div>
+          <div class="service-title">Data Engineering</div>
+          <div class="service-desc">ETL/ELT, batch & real-time pipelines, automated flows. From raw to refined data.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <div class="service-title">AI & Machine Learning</div>
+          <div class="service-desc">Prediction, classification, recommendation, and automation. Cloud or edge deployment.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📈</div>
+          <div class="service-title">Analytics & BI</div>
+          <div class="service-desc">Descriptive, diagnostic, and predictive analytics. Custom dashboards in Power BI, Tableau, Looker.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛡️</div>
+          <div class="service-title">Data Governance</div>
+          <div class="service-desc">Policies, tools, and AI-powered monitoring for accuracy, security, and compliance.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <div class="service-title">API & System Integration</div>
+          <div class="service-desc">Connect data sources, automate processes, and enable seamless data flow across platforms.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔄</div>
+          <div class="service-title">DataOps & MLOps</div>
+          <div class="service-desc">CI/CD, version control, and continuous testing for your data and ML workflows.</div>
+        </div>
+      </div>
+    </section>
+    <!-- TESTIMONIALS -->
+    <section class="section" id="testimonials">
+      <h2 class="section-title">Client Success Stories</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-text">"DataDices AI unified our data and automated our reporting. We now make decisions in real time."</div>
+          <div class="testimonial-author">— SaaS Company, UAE</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-text">"Their ML models predicted user churn and improved our retention by 22%."</div>
+          <div class="testimonial-author">— Fintech Startup, US</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-text">"Professional, fast, and deeply knowledgeable. A dream partner for data initiatives."</div>
+          <div class="testimonial-author">— Retail Chain, UK</div>
+        </div>
+      </div>
+    </section>
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-subtitle">Ready to transform your data with AI? Let's start the conversation.</p>
+      <div class="contact-block">
+        <div class="contact-info">📧 <a href="mailto:danish@datadices.com">danish@datadices.com</a></div>
+        <div class="contact-info">📞 +92-333-2560088</div>
+        <div class="contact-info">🔗 <a href="https://www.linkedin.com/company/datadices" target="_blank">@datadices</a></div>
+        <div class="contact-info">💻 <a href="https://github.com/datadices" target="_blank">@datadices</a></div>
+        <a href="https://calendly.com/datadices" class="cta-book-call" target="_blank">📅 Book a Free AI Consultation</a>
+      </div>
+    </section>
+  </main>
+  <script>
     // Mobile nav toggle logic
     document.addEventListener("DOMContentLoaded", function() {
-        var mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        var mobileNav = document.getElementById('mobileNav');
-        if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener('click', function() {
-                mobileNav.classList.toggle('open');
-            });
-        }
-        window.closeMobileNav = function() {
-            if (mobileNav) mobileNav.classList.remove('open');
-        };
-    });
-    </script>
-
-    <main>
-        <!-- HOME PAGE -->
-        <div id="home" class="page active">
-            <section class="hero">
-                <section class="content-section" style="overflow: hidden;">
-                <div class="slider-wrapper" style="max-width: 1200px; overflow: hidden; position: relative; margin: 40px auto;">
-
-                <h1>Scaling Smarter with Every Byte</h1>
-                <p class="hero-tagline">Cost-effective, scalable data engineering solutions with 24/7 support for growing businesses. Transform your data into competitive advantage.</p>
-                <div style="margin-top:32px;"></div>
-                  <a href="https://calendly.com/datadices" class="cta-btn" target="_blank">📅 Book a Free Consultation</a>
-                </div>
-            </section>
-
-
-            <section class="content-section">
-              <h2 class="section-title">Why Choose DataDices?</h2>
-                <p class="section-subtitle">"Every number tells a story—our job is to bring that story to life."</p>
-                <div class="stats">
-                    <div class="stat-item">
-                    <span class="stat-number" data-target="40">0</span><br>
-                    <span class="stat-label">Enterprise Projects</span>
-                    </div>
-                    <div class="stat-item">
-                    <span class="stat-number" data-target="4">0</span><br>
-                    <span class="stat-label">Global Regions</span>
-                    </div>
-                    <div class="stat-item">
-                    <span class="stat-number" data-target="24">0</span><br>
-                    <span class="stat-label">Support Available</span>
-                    </div>
-                    <div class="stat-item">
-                    <span class="stat-number" data-target="100">0</span><br>
-                    <span class="stat-label">Client Satisfaction</span>
-                    </div>
-                </div>
-              <script>
-                // Animated counter for stats
-                document.addEventListener("DOMContentLoaded", function() {
-                  function animateCount(el, target, duration = 1200) {
-                    let start = 0;
-                    let end = parseInt(target, 10);
-                    let startTime = null;
-                    function update(timestamp) {
-                      if (!startTime) startTime = timestamp;
-                      let progress = Math.min((timestamp - startTime) / duration, 1);
-                      let value = Math.floor(progress * (end - start) + start);
-                      el.textContent = (el.dataset.target === "24") ? value + "/7" : value + (el.dataset.target === "100" ? "%" : "");
-                      if (progress < 1) {
-                        requestAnimationFrame(update);
-                      } else {
-                        el.textContent = (el.dataset.target === "24") ? "24/7" : end + (el.dataset.target === "100" ? "%" : "");
-                      }
-                    }
-                    requestAnimationFrame(update);
-                  }
-                  document.querySelectorAll('.stat-number').forEach(function(el) {
-                    animateCount(el, el.dataset.target);
-                  });
-                });
-            </script>
-              <div class="services-grid" style="display: flex; justify-content: left; gap: 40px; flex-wrap: nowrap; margin-top:48px; text-align: left;">
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px; text-align: left;">
-                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px; text-align: left; display: flex; align-items: center; justify-content: flex-start;">⚡</div>
-                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px; text-align: left;">Lightning Fast</h3>
-                  <p class="service-description" style="font-size:0.9rem; text-align: left;">From MVP in 2 weeks to full-scale deployment in 6 months. We deliver results at the speed of business.</p>
-                </div>
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px; text-align: left;">
-                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px; text-align: left; display: flex; align-items: center; justify-content: flex-start;">🔒</div>
-                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px; text-align: left;">Enterprise Security</h3>
-                  <p class="service-description" style="font-size:0.9rem; text-align: left;">Highest standards of data integrity, security, and compliance. Your data is safe with us.</p>
-                </div>
-                <div class="service-card" style="width:240px; min-height:140px; padding:20px; text-align: left;">
-                  <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:16px; text-align: left; display: flex; align-items: center; justify-content: flex-start;">📈</div>
-                  <h3 class="service-title" style="font-size:1rem; margin-bottom:10px; text-align: left;">Scalable Solutions</h3>
-                  <p class="service-description" style="font-size:0.9rem; text-align: left;">Built for growth. Scale from 10K to 10M+ records seamlessly with our cloud-native architecture.</p>
-                </div>
-              </div>
-            </section>
-
-            <section class="content-section">
-                <h2 class="section-title">Client Success Stories</h2>
-                <div class="testimonials">
-                    <div class="testimonial">
-                        <p class="testimonial-text">"DataDices transformed our messy data stack into a clean, unified dashboard. Game changer!"</p>
-                        <p class="testimonial-author">— SaaS Company, UAE</p>
-                    </div>
-                    <div class="testimonial">
-                        <p class="testimonial-text">"Thanks to their ML expertise, we predicted user churn and improved retention by 22%."</p>
-                        <p class="testimonial-author">— Fintech Startup, US</p>
-                    </div>
-                    <div class="testimonial">
-                        <p class="testimonial-text">"Professional, fast, and deeply knowledgeable. A dream partner for data initiatives."</p>
-                        <p class="testimonial-author">— Retail Chain, UK</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ABOUT PAGE -->
-        <section id="about" class="content-section">
-            <h2 class="section-title">About DataDices</h2>
-            <p class="section-subtitle">We build scalable data infrastructure and pipelines tailored to your business.</p>
-            <div class="about-cards">
-                <div class="service-card">
-                    <div class="service-icon">🚀</div>
-                    <h3 class="service-title">Innovative</h3>
-                    <p class="service-description">We constantly explore cutting-edge solutions—from generative AI to real-time analytics—so your business always stays ahead of the curve.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🤝</div>
-                    <h3 class="service-title">Collaborative</h3>
-                    <p class="service-description">We partner closely with clients, creating a shared vision that turns complex ideas into simple, scalable data systems.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🎯</div>
-                    <h3 class="service-title">Customer-Focused</h3>
-                    <p class="service-description">We don't believe in one-size-fits-all. Every solution is built around your challenges, goals, and growth.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔧</div>
-                    <h3 class="service-title">Scalable by Design</h3>
-                    <p class="service-description">Our work doesn't just meet today's needs—it anticipates tomorrow's. Whether you're scaling from 10K to 10M records, we've got you covered.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">✅</div>
-                    <h3 class="service-title">Data Integrity</h3>
-                    <p class="service-description">We uphold the highest standards of accuracy, security, and ethical use of data. Clean data is not a luxury—it's a necessity.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🌍</div>
-                    <h3 class="service-title">Global Reach</h3>
-                    <p class="service-description">We champion inclusive, responsible data practices and build systems that work for everyone, everywhere.</p>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 60px;">
-                <h3 style="color: #2bb8a3; font-size: 1.5rem; margin-bottom: 24px;">Our Expertise Spans</h3>
-                <p style="color: #e0e6ea; font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-                    E-commerce, Healthcare, Finance, and Logistics industries across UAE, US, UK, and Southeast Asia. 
-                    We're specialists in cloud-native platforms including BigQuery, Azure, and AWS.
-                </p>
-            </div>
-        </section>
-
-        <!-- SERVICES PAGE -->
-        <section id="services" class="content-section">
-            <section class="content-section">
-                <h1 class="section-title">Our Services</h1>
-                <p class="section-subtitle">End-to-end data services to help organizations make better decisions, faster.</p>
-
-                <div class="services-grid">
-                    <!-- Service Card Example -->
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Strategy</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Align your business goals with a long-term, scalable data roadmap. From defining KPIs to building governance frameworks.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🏗️</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Platform Design</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Secure, flexible, cloud-native platforms customized for your needs. Multi-cloud, hybrid systems with high-availability architecture.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">⚙️</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Engineering</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">ETL/ELT pipelines, batch and real-time integrations, automated data flows. From raw to refined data with speed and precision.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📈</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Analytics</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Descriptive, diagnostic, and predictive analytics. Understand what happened, why it happened, and what will happen next.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📋</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Business Intelligence</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Custom dashboards in Power BI, Tableau, and Looker. Track KPIs, monitor metrics, and empower teams to act fast.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🛡️</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Governance</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Policies, procedures, and tools that keep your data accurate, secure, and audit-ready with full compliance.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🤖</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Machine Learning & AI</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Intelligent systems for prediction, classification, recommendation, and automation. Deployable on cloud or edge.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Data Visualization</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Transform rows and columns into intuitive, beautiful dashboards that drive real business impact.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">☁️</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Cloud Migration</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Migrate from legacy systems to the cloud safely, smoothly, and without data loss. Full migration support.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔗</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">API Integration</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Connect data sources across platforms and automate time-consuming processes. Less manual work, more value.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">🔄</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">DataOps</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">CI/CD pipelines, version control, and continuous testing for your data workflows. Faster releases, fewer errors.</p>
-                    </div>
-                    <div class="service-card">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="service-icon" style="width:40px; height:40px; font-size:1.2rem; margin-bottom:0;">📊</div>
-                            <h3 class="service-title" style="font-size:1.1rem; margin-bottom:0;">Statistical Analysis</h3>
-                        </div>
-                        <div style="height:18px;"></div>
-                        <p class="service-description">Regression models, hypothesis testing, and rigorous statistical methods to reveal real insights from your data.</p>
-                    </div>
-                </div>
-            </section>
-        </section>
-
-        <!-- PROCESS PAGE -->
-        <section id="process" class="content-section">
-            <section class="content-section"></section>
-            <h1 class="section-title">How We Work</h1>
-            <p class="section-subtitle">Our proven 6-step process ensures successful delivery of every project, from discovery to ongoing support.</p>
-
-            <div class="process-flow">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Discovery</h3>
-                    <p class="step-description">We start by deeply understanding your data challenges, systems, and vision through workshops, audits, and interviews.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Conceptualization</h3>
-                    <p class="step-description">We design detailed blueprints including architecture diagrams and solution outlines.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Strategy & Roadmap</h3>
-                    <p class="step-description">Clear timelines broken into phases, aligned with your business calendar.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h3 class="step-title">Implementation</h3>
-                    <p class="step-description">Our team works sprint by sprint with testing, documentation, and feedback checkpoints.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">5</div>
-                    <h3 class="step-title">Quality Assurance</h3>
-                    <p class="step-description">We validate every integration and visualization with automated tests and feedback.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">6</div>
-                    <h3 class="step-title">Support & Handover</h3>
-                    <p class="step-description">Training, documentation, and long-term support or handover to your internal team.</p>
-                </div>
-            </div>
-
-            <div class="final-cta">
-                <h3>Ready to Transform Your Data?</h3>
-                <p>Let's discuss your project and create a custom solution that drives real business results.</p>
-                <button class="cta-btn" onclick="location.href='#contact'">Start Your Project</button>
-            </div>
-        </section>
-
-        <!-- CONTACT PAGE -->
-        <section id="contact" class="content-section">
-            <section class="content-section">
-                <h1 class="section-title">Get In Touch</h1>
-                <p class="section-subtitle">Ready to transform your data into competitive advantage? Let's start the conversation.</p>
-
-                <div class="contact-details">
-                    <p class="contact-info">📧 Email: <a href="mailto:danish@datadices.com" style="color:#2bb8a3; text-decoration:underline;">danish@datadices.com</a></p>
-                    <p class="contact-info">📞 Phone: +92-333-2560088</p>
-                    <p class="contact-info">🔗 LinkedIn: <a href="https://www.linkedin.com/company/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
-                    <p class="contact-info">💻 GitHub: <a href="https://github.com/datadices" target="_blank" style="color:#2bb8a3; text-decoration:underline;">@datadices</a></p>
-
-                    <a href="https://calendly.com/datadices" class="cta-book-call animated-cta" target="_blank">
-                      📅 Book a Free Consultation
-                    </a>
-                    <style>
-                    .animated-cta {
-                      animation: pulseGlow 1.2s infinite alternate;
-                      box-shadow: 0 0 24px rgba(43,184,163,0.4);
-                      position: relative;
-                    }
-                    @keyframes pulseGlow {
-                      0% {
-                      box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
-                      transform: scale(1);
-                      }
-                      70% {
-                      box-shadow: 0 0 40px rgba(43,184,163,0.7), 0 0 12px #2bb8a3;
-                      transform: scale(1.05);
-                      }
-                      100% {
-                      box-shadow: 0 0 24px rgba(43,184,163,0.4), 0 0 0px #2bb8a3;
-                      transform: scale(1);
-                      }
-                    }
-                    </style>
-                </div>
-            </section>
-        </section>
-    </main>
-    <script>
-    // Mobile nav toggle
-    function closeMobileNav() {
-        document.getElementById('mobileNav').style.display = 'none';
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        var mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        var mobileNav = document.getElementById('mobileNav');
-        if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener('click', function() {
-                if (mobileNav.style.display === 'flex') {
-                    mobileNav.style.display = 'none';
-                } else {
-                    mobileNav.style.display = 'flex';
-                }
-            });
-        }
-        // Close mobile nav on link click (handled by closeMobileNav in href)
-        // Optionally, close on outside click
-        document.body.addEventListener('click', function(e) {
-            if (mobileNav.style.display === 'flex' && !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileNav.style.display = 'none';
-            }
+      var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      var mobileNav = document.getElementById('mobileNav');
+      if (mobileMenuBtn && mobileNav) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          mobileNav.classList.toggle('open');
         });
+      }
+      window.closeMobileNav = function() {
+        if (mobileNav) mobileNav.classList.remove('open');
+      };
+      document.body.addEventListener('click', function(e) {
+        if (mobileNav && mobileNav.classList.contains('open') &&
+            !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileNav.classList.remove('open');
+        }
+      });
     });
-    </script>
+
+    // AI Vibe Animated Background (neural net style)
+    (function() {
+      const canvas = document.getElementById('aiCanvas');
+      if (!canvas) return;
+      let ctx, w, h, nodes = [], links = [];
+      function resize() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+      }
+      function randomNode() {
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          r: 2 + Math.random() * 2
+        };
+      }
+      function setup() {
+        nodes = [];
+        links = [];
+        for (let i = 0; i < 32; i++) nodes.push(randomNode());
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            if (Math.abs(nodes[i].x - nodes[j].x) < 180 && Math.abs(nodes[i].y - nodes[j].y) < 180) {
+              links.push([i, j]);
+            }
+          }
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        // Draw links
+        for (let l of links) {
+          let a = nodes[l[0]], b = nodes[l[1]];
+          let dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist < 180) {
+            ctx.save();
+            ctx.globalAlpha = 0.18 + 0.12 * Math.cos(Date.now()/800 + l[0]);
+            ctx.strokeStyle = "#2bb8a3";
+            ctx.shadowColor = "#2bb8a3";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+        // Draw nodes
+        for (let n of nodes) {
+          ctx.save();
+          ctx.globalAlpha = 0.7;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, 2 * Math.PI);
+          ctx.fillStyle = "#2bb8a3";
+          ctx.shadowColor = "#2bb8a3";
+          ctx.shadowBlur = 12;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+      function animate() {
+        for (let n of nodes) {
+          n.x += n.vx;
+          n.y += n.vy;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+        }
+        draw();
+        requestAnimationFrame(animate);
+      }
+      function init() {
+        ctx = canvas.getContext('2d');
+        resize();
+        setup();
+        animate();
+      }
+      window.addEventListener('resize', function() {
+        resize();
+        setup();
+      });
+      setTimeout(init, 100);
+    })();
+  </script>
 </body>
 </html>
