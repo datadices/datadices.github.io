@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Datadices | Cloud-Native Data Engineering and Analytics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
+    html {
+      box-sizing: border-box;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
     body {
       background: #111;
       color: #fff;
@@ -19,25 +27,24 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px 10px 0 10px; /* Reduced top padding from 40px to 20px */
+      padding: 20px 10px 0 10px;
     }
     .logo-bar {
       width: 100%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding-top: 12px; /* Reduced from 24px to 12px */
-      padding-bottom: 4px; /* Reduced from 8px to 4px */
+      padding-top: 12px;
+      padding-bottom: 4px;
     }
     .logo-bar img {
       height: 44px;
       width: auto;
-      border-radius: 0; /* Sharp edges */
+      border-radius: 0;
       background: transparent;
       box-shadow: 0 2px 8px rgba(0,0,0,0.10);
       margin-left: 4px;
       margin-bottom: 2px;
-      /* No background for transparent PNG */
     }
     .top-section {
       display: flex;
@@ -73,10 +80,11 @@
     .radar-img img {
       width: 100%;
       max-width: 350px;
-      border-radius: 0; /* Sharp edges */
+      border-radius: 0;
       background: #222;
       box-shadow: 0 4px 24px rgba(0,0,0,0.4);
       padding: 16px;
+      display: block;
     }
     .logos-section {
       margin: 50px 0 30px 0;
@@ -89,13 +97,14 @@
       justify-content: center;
       gap: 40px;
       margin-bottom: 18px;
+      flex-wrap: wrap;
     }
     .logos-row img {
       width: 60px;
       height: 60px;
       object-fit: contain;
       background: #222;
-      border-radius: 0; /* Sharp edges */
+      border-radius: 0;
       padding: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       transition: transform 0.2s;
@@ -130,7 +139,7 @@
     }
     .card {
       background: #181818;
-      border-radius: 0; /* Sharp edges */
+      border-radius: 0;
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
       padding: 28px 22px;
       width: 220px;
@@ -167,7 +176,7 @@
       font-size: 1.3rem;
       padding: 22px 48px;
       border: none;
-      border-radius: 0; /* Sharp edges */
+      border-radius: 0;
       cursor: pointer;
       box-shadow: 0 4px 18px rgba(43,184,163,0.18);
       transition: background 0.2s, transform 0.2s;
@@ -181,6 +190,8 @@
       background: #23a18f;
       transform: translateY(-2px) scale(1.03);
     }
+
+    /* Responsive Styles */
     @media (max-width: 900px) {
       .top-section {
         flex-direction: column;
@@ -193,26 +204,136 @@
       .logo-bar {
         justify-content: center;
       }
+      .radar-img {
+        min-width: 0;
+        max-width: 100vw;
+      }
+      .radar-img img {
+        max-width: 90vw;
+        padding: 10vw 0 0 0;
+      }
     }
     @media (max-width: 600px) {
       .container {
-        padding: 9px 4px 0 4px; /* Reduced from 18px to 9px */
+        padding: 9px 2vw 0 2vw;
+        max-width: 100vw;
       }
-      .logos-row {
-        gap: 18px;
-      }
-      .card {
-        width: 95vw;
-        max-width: 320px;
-      }
-      .cta-button {
-        width: 95vw;
-        max-width: 340px;
-        font-size: 1.1rem;
-        padding: 16px 0;
+      .logo-bar {
+        padding-top: 0px;
+        padding-bottom: 4px;
       }
       .logo-bar img {
-        height: 32px;
+        height: 32px !important;
+        max-width: 80vw;
+      }
+      .top-section {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .company-info {
+        margin-right: 0;
+        max-width: 100vw;
+        width: 100%;
+        padding: 0 2vw;
+      }
+      .company-info > div:first-child {
+        font-size: 1.3rem !important;
+        margin-bottom: 12px !important;
+        text-align: center;
+      }
+      .company-details {
+        font-size: 1rem;
+        text-align: center;
+      }
+      .radar-img {
+        min-width: 0;
+        max-width: 100vw;
+        width: 100%;
+        padding: 0;
+        margin: 0 auto 18px auto;
+      }
+      .radar-img img {
+        max-width: 90vw !important;
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 auto;
+        display: block;
+      }
+      .logos-section {
+        margin: 30px 0 18px 0;
+        width: 100vw;
+        max-width: 100vw;
+        padding: 0;
+      }
+      .logos-row {
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .logos-row img {
+        width: 38px;
+        height: 38px;
+        padding: 4px;
+      }
+      .bottom-texts {
+        margin: 24px 0 18px 0;
+        padding: 0 2vw;
+      }
+      .bottom-texts h2 {
+        font-size: 1.1rem;
+      }
+      .bottom-texts h3 {
+        font-size: 0.98rem;
+      }
+      .cards-section {
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 30px;
+        align-items: center;
+        width: 100vw;
+        max-width: 100vw;
+      }
+      .card {
+        width: 96vw !important;
+        max-width: 340px;
+        min-width: 0;
+        padding: 18px 10px;
+        align-items: flex-start;
+      }
+      .card-title {
+        font-size: 1.05rem;
+      }
+      .card-desc {
+        font-size: 0.95rem;
+      }
+      .cta-section {
+        margin: 24px 0 36px 0;
+        width: 100vw;
+        max-width: 100vw;
+      }
+      .cta-button {
+        width: 96vw !important;
+        max-width: 340px;
+        font-size: 1rem !important;
+        padding: 12px 0 !important;
+      }
+    }
+    @media (max-width: 400px) {
+      .card {
+        max-width: 98vw;
+        width: 98vw !important;
+        padding: 10px 2vw;
+      }
+      .cta-button {
+        max-width: 98vw;
+        width: 98vw !important;
+      }
+      .logo-bar img {
+        max-width: 98vw;
+      }
+      .radar-img img {
+        max-width: 98vw !important;
       }
     }
   </style>
@@ -221,22 +342,29 @@
   <div class="container">
     <!-- Transparent Logo at the Top -->
     <div class="logo-bar" style="padding-top: 0px; padding-bottom: 4px;">
-      <img src="logo.png" alt="Datadices Logo" style="background: transparent; height: 180px; width: auto; border-radius: 0;">
+      <img src="logo.png" alt="Datadices Logo" style="background: transparent; height: 180px; width: auto; border-radius: 0; max-width: 100vw;">
     </div>
     <!-- Top Section: Company Info & Radar -->
-    <div class="top-section" style="align-items: center;">
+    <div class="top-section" style="align-items: center; flex-wrap: wrap;">
       <div class="company-info" style="display: flex; flex-direction: column; justify-content: center;">
-        <div style="font-size: 2.2rem; font-weight: 400; letter-spacing: 1px; margin-bottom: 18px;">
+        <div class="headline-text" style="font-size: 2.2rem; font-weight: 400; letter-spacing: 1px; margin-bottom: 18px; text-align: left;">
           Scientifically scale the value of your data assets.
         </div>
+        <style>
+          @media (max-width: 700px) {
+            .headline-text {
+              text-align: center !important;
+            }
+          }
+        </style>
         <div class="company-details">
             Gain end-to-end visibility into your data — from ingestion to insight — without the complexity of legacy systems or bloated infrastructure.
             <br><br>
             Build trust in every decision with reliable pipelines, modern cloud architecture, and analytics that actually drive outcomes.
         </div>
       </div>
-      <div class="radar-img" style="min-width:600px; max-width:1000px; display: flex; align-items: center;">
-        <img src="radar.png" alt="Radar Map of Services" style="border-radius: 0; background: transparent; width: 100%; max-width: 600px; padding: 32px; display: block;">
+      <div class="radar-img" style="min-width:300px; max-width:100vw; display: flex; align-items: center;">
+        <img src="radar.png" alt="Radar Map of Services" style="border-radius: 0; background: transparent; width: 100%; max-width: 600px; padding: 32px; display: block; max-width: 100vw;">
       </div>
     </div>
 
@@ -298,7 +426,6 @@
       <a class="cta-button" href="https://calendly.com/datadices" target="_blank" rel="noopener" style="font-size: 1rem; padding: 8px 20px; border-radius: 0;">
         Book a Free Strategy Call
       </a>
-    </div>
     </div>
   </div>
 </body>
