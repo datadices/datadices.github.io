@@ -2,675 +2,304 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <title>DataDices - AI Data Engineering</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
+  <title>Datadices | Cloud-Native Data Engineering and Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --primary: #2bb8a3;
-      --bg: #0a0a0f;
-      --card-bg: #181f23;
-      --accent: #2bb8a3;
-      --text: #fff;
-      --muted: #b0b6ba;
-      --glass: rgba(43,184,163,0.08);
-      --glass-border: rgba(43,184,163,0.18);
-      --ai-glow: 0 0 32px #2bb8a3, 0 0 8px #2bb8a3;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Montserrat', Arial, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
+      background: #111;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    /* AI Vibe Animated Background */
-    .ai-bg {
-      position: fixed;
-      z-index: 0;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      pointer-events: none;
-      overflow: hidden;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    .ai-bg canvas { width: 100vw; height: 100vh; display: block; }
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0; left: 0; width: 100vw;
-      background: rgba(10,10,15,0.92);
-      border-bottom: 1px solid var(--glass-border);
-      z-index: 100;
-      box-shadow: 0 2px 24px rgba(43,184,163,0.08);
-      backdrop-filter: blur(8px);
-    }
-    .nav-container {
+    .container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 20px 10px 0 10px; /* Reduced top padding from 40px to 20px */
+    }
+    .logo-bar {
+      width: 100%;
       display: flex;
+      justify-content: flex-start;
       align-items: center;
+      padding-top: 12px; /* Reduced from 24px to 12px */
+      padding-bottom: 4px; /* Reduced from 8px to 4px */
+    }
+    .logo-bar img {
+      height: 44px;
+      width: auto;
+      border-radius: 0; /* Sharp edges */
+      background: transparent;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      margin-left: 4px;
+      margin-bottom: 2px;
+      /* No background for transparent PNG */
+    }
+    .top-section {
+      display: flex;
       justify-content: space-between;
-      padding: 18px 32px;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .nav-logo {
-      width: 54px; height: 54px;
-      border-radius: 16px;
-      background: var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 32px #2bb8a3aa;
-      animation: aiPulse 2.5s infinite alternate;
-    }
-    .nav-logo svg {
-      width: 32px; height: 32px;
-      filter: drop-shadow(0 0 8px #2bb8a3cc);
-    }
-    .brand-text {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: 1px;
-      text-shadow: 0 0 12px #2bb8a3cc;
-    }
-    @keyframes aiPulse {
-      0% { box-shadow: 0 0 32px #2bb8a3aa; }
-      100% { box-shadow: 0 0 64px #2bb8a3cc, 0 0 16px #2bb8a3; }
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.05rem;
-      letter-spacing: 0.5px;
-      padding: 6px 0;
-      position: relative;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover, .nav-links a.active {
-      color: var(--primary);
-      text-shadow: 0 0 8px #2bb8a3cc;
-    }
-    .nav-links a.active::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -4px;
-      width: 100%; height: 2px;
-      background: var(--primary);
-      border-radius: 2px;
-      box-shadow: 0 0 8px #2bb8a3;
-    }
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 101;
-    }
-    .mobile-menu span {
-      width: 28px; height: 4px;
-      background: var(--primary);
-      border-radius: 2px;
-      transition: 0.3s;
-    }
-    @media (max-width: 900px) {
-      .nav-container { padding: 14px 12px; }
-      .nav-links { display: none; }
-      .mobile-menu { display: flex; }
-    }
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      background: rgba(10,10,15,0.98);
-      position: absolute;
-      top: 100%; left: 0; width: 100vw;
-      z-index: 1001;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--glass-border);
-      box-shadow: 0 8px 32px #2bb8a322;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav li { margin: 0 0 18px 0; text-align: center; }
-    .mobile-nav a { font-size: 1.2rem; }
-    /* Main Content */
-    main {
-      position: relative;
-      z-index: 1;
-      padding-top: 90px;
-      min-height: 100vh;
-    }
-    /* HERO */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 70vh;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      padding: 80px 5vw 40px;
-    }
-    .hero-title {
-      font-size: 3.2rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 32px #2bb8a344;
-      margin-bottom: 18px;
-      letter-spacing: 1.5px;
-      animation: aiGlow 2.5s infinite alternate;
-    }
-    @keyframes aiGlow {
-      0% { text-shadow: 0 0 32px #2bb8a344; }
-      100% { text-shadow: 0 0 64px #2bb8a3cc, 0 0 16px #2bb8a3; }
-    }
-    .hero-subtitle {
-      color: var(--muted);
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto 36px auto;
-      line-height: 1.6;
-      letter-spacing: 0.2px;
-    }
-    .cta-btn {
-      padding: 18px 48px;
-      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
-      color: #0a0a0f;
-      font-size: 1.15rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 40px;
-      box-shadow: 0 8px 32px #2bb8a344;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 18px;
-      text-decoration: none;
-      letter-spacing: 0.5px;
-      animation: pulseGlow 1.2s infinite alternate;
-    }
-    .cta-btn:hover {
-      transform: scale(1.04) translateY(-2px);
-      box-shadow: 0 12px 40px #2bb8a3cc;
-    }
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 24px #2bb8a3cc, 0 0 0px #2bb8a3; }
-      70% { box-shadow: 0 0 40px #2bb8a3, 0 0 12px #2bb8a3; }
-      100% { box-shadow: 0 0 24px #2bb8a3cc, 0 0 0px #2bb8a3; }
-    }
-    /* AI Feature Cards */
-    .features {
-      display: flex;
+      align-items: flex-start;
+      margin-bottom: 40px;
       flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      margin: 60px auto 0 auto;
-      max-width: 1100px;
     }
-    .feature-card {
-      background: var(--glass);
-      border: 1.5px solid var(--glass-border);
-      border-radius: 18px;
-      padding: 32px 28px;
-      min-width: 260px;
-      max-width: 320px;
-      flex: 1 1 260px;
-      box-shadow: 0 0 32px #2bb8a322;
-      transition: 0.2s;
-      text-align: left;
-      position: relative;
-      overflow: hidden;
+    .company-info {
+      flex: 1 1 350px;
+      max-width: 400px;
+      margin-right: 40px;
     }
-    .feature-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 0 48px #2bb8a3cc;
-      transform: translateY(-4px) scale(1.03);
-    }
-    .feature-icon {
-      font-size: 2.2rem;
-      color: var(--primary);
-      margin-bottom: 18px;
-      filter: drop-shadow(0 0 8px #2bb8a3cc);
-    }
-    .feature-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
-    }
-    .feature-desc {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-    /* Section Titles */
-    .section {
-      padding: 80px 5vw 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    .section-title {
-      font-size: 2.3rem;
-      font-weight: 800;
-      color: var(--primary);
-      text-align: center;
-      margin-bottom: 18px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 16px #2bb8a344;
-    }
-    .section-subtitle {
-      color: var(--muted);
-      font-size: 1.15rem;
-      text-align: center;
-      margin-bottom: 48px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    /* AI Service Grid */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 32px;
-      margin-top: 32px;
-    }
-    .service-card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 28px 22px;
-      box-shadow: 0 0 24px #2bb8a322;
-      transition: 0.2s;
-      text-align: left;
-      position: relative;
-      overflow: hidden;
-    }
-    .service-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 0 48px #2bb8a3cc;
-      transform: translateY(-4px) scale(1.03);
-    }
-    .service-icon {
-      font-size: 1.7rem;
-      color: var(--primary);
-      margin-bottom: 12px;
-      filter: drop-shadow(0 0 8px #2bb8a3cc);
-    }
-    .service-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .service-desc {
-      color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.5;
-    }
-    /* Testimonials */
-    .testimonials {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 40px;
-    }
-    .testimonial {
-      background: var(--glass);
-      border: 1.5px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 28px 22px;
-      min-width: 260px;
-      max-width: 340px;
-      flex: 1 1 260px;
-      box-shadow: 0 0 24px #2bb8a322;
-      text-align: left;
-      position: relative;
-      overflow: hidden;
-    }
-    .testimonial-text {
-      font-style: italic;
-      color: var(--text);
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-    .testimonial-author {
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    /* Contact */
-    .contact-block {
-      background: var(--glass);
-      border: 1.5px solid var(--glass-border);
-      border-radius: 18px;
-      padding: 40px 28px;
-      max-width: 420px;
-      margin: 0 auto;
-      box-shadow: 0 0 32px #2bb8a322;
-      text-align: center;
-    }
-    .contact-info {
-      color: var(--muted);
-      font-size: 1.08rem;
-      margin: 12px 0;
-    }
-    .contact-info a {
-      color: var(--primary);
-      text-decoration: underline;
-      transition: color 0.2s;
-    }
-    .contact-info a:hover { color: #0fffc3; }
-    .cta-book-call {
-      display: inline-block;
-      margin-top: 32px;
-      padding: 16px 36px;
-      background: linear-gradient(90deg, #2bb8a3 0%, #0fffc3 100%);
-      color: #0a0a0f;
+    .company-name {
+      font-size: 2.8rem;
       font-weight: bold;
-      font-size: 1.08rem;
-      border-radius: 32px;
-      box-shadow: 0 0 24px #2bb8a3cc;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+    }
+    .company-details {
+      font-size: 1.1rem;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+    .radar-img {
+      flex: 1 1 350px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 300px;
+      max-width: 500px;
+    }
+    .radar-img img {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 0; /* Sharp edges */
+      background: #222;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      padding: 16px;
+    }
+    .logos-section {
+      margin: 50px 0 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 18px;
+    }
+    .logos-row img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      background: #222;
+      border-radius: 0; /* Sharp edges */
+      padding: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .logos-row img:hover {
+      transform: scale(1.08);
+      background: #2bb8a3;
+    }
+    .bottom-texts {
+      text-align: center;
+      margin: 40px 0 30px 0;
+    }
+    .bottom-texts h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .bottom-texts h3 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #b0b0b0;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+    .cards-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .card {
+      background: #181818;
+      border-radius: 0; /* Sharp edges */
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      padding: 28px 22px;
+      width: 220px;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(43,184,163,0.18);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #2bb8a3;
+    }
+    .card-desc {
+      font-size: 0.98rem;
+      color: #e0e0e0;
+      line-height: 1.5;
+    }
+    .cta-section {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 40px 0 60px 0;
+    }
+    .cta-button {
+      background: #2bb8a3;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.3rem;
+      padding: 22px 48px;
+      border: none;
+      border-radius: 0; /* Sharp edges */
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(43,184,163,0.18);
+      transition: background 0.2s, transform 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
       text-decoration: none;
-      transition: all 0.3s;
-      animation: pulseGlow 1.2s infinite alternate;
+      display: inline-block;
     }
-    .cta-book-call:hover {
-      box-shadow: 0 0 40px #2bb8a3cc;
-      transform: scale(1.05);
+    .cta-button:hover {
+      background: #23a18f;
+      transform: translateY(-2px) scale(1.03);
     }
-    /* Responsive */
     @media (max-width: 900px) {
-      .nav-container { padding: 12px 4vw; }
-      .hero { padding: 60px 2vw 24px; }
-      .section { padding: 60px 2vw 24px; }
-      .features, .testimonials { gap: 18px; }
-      .services-grid { gap: 18px; }
+      .top-section {
+        flex-direction: column;
+        align-items: center;
+      }
+      .company-info, .radar-img {
+        margin: 0 0 30px 0;
+        max-width: 100%;
+      }
+      .logo-bar {
+        justify-content: center;
+      }
     }
     @media (max-width: 600px) {
-      .hero-title { font-size: 2rem; }
-      .section-title { font-size: 1.3rem; }
-      .features, .testimonials { flex-direction: column; }
-      .nav-container { flex-direction: column; align-items: flex-start; }
+      .container {
+        padding: 9px 4px 0 4px; /* Reduced from 18px to 9px */
+      }
+      .logos-row {
+        gap: 18px;
+      }
+      .card {
+        width: 95vw;
+        max-width: 320px;
+      }
+      .cta-button {
+        width: 95vw;
+        max-width: 340px;
+        font-size: 1.1rem;
+        padding: 16px 0;
+      }
+      .logo-bar img {
+        height: 32px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="ai-bg">
-    <canvas id="aiCanvas"></canvas>
-  </div>
-  <nav>
-    <div class="nav-container">
-      <div class="nav-brand">
-        <div class="nav-logo">
-          <!-- Simple AI/brain SVG icon -->
-          <svg viewBox="0 0 40 40" fill="none">
-            <ellipse cx="20" cy="20" rx="16" ry="16" fill="#0a0a0f" stroke="#2bb8a3" stroke-width="3"/>
-            <path d="M13 20c0-4 3-7 7-7s7 3 7 7-3 7-7 7-7-3-7-7z" stroke="#2bb8a3" stroke-width="2" fill="none"/>
-            <circle cx="20" cy="20" r="2.5" fill="#2bb8a3"/>
-            <path d="M20 13v-4M20 31v-4M27 20h4M9 20h4" stroke="#2bb8a3" stroke-width="2" stroke-linecap="round"/>
-          </svg>
+  <div class="container">
+    <!-- Transparent Logo at the Top -->
+    <div class="logo-bar" style="padding-top: 0px; padding-bottom: 4px;">
+      <img src="logo.png" alt="Datadices Logo" style="background: transparent; height: 180px; width: auto; border-radius: 0;">
+    </div>
+    <!-- Top Section: Company Info & Radar -->
+    <div class="top-section" style="align-items: center;">
+      <div class="company-info" style="display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-size: 2.2rem; font-weight: 400; letter-spacing: 1px; margin-bottom: 18px;">
+          Scientifically scale the value of your data assets.
         </div>
-        <span class="brand-text">DataDices AI</span>
+        <div class="company-details">
+            Gain end-to-end visibility into your data — from ingestion to insight — without the complexity of legacy systems or bloated infrastructure.
+            <br><br>
+            Build trust in every decision with reliable pipelines, modern cloud architecture, and analytics that actually drive outcomes.
+        </div>
       </div>
-      <ul class="nav-links">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#ai">AI</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#testimonials">Clients</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div class="mobile-menu" id="mobileMenuBtn">
-        <span></span><span></span><span></span>
+      <div class="radar-img" style="min-width:600px; max-width:1000px; display: flex; align-items: center;">
+        <img src="radar.png" alt="Radar Map of Services" style="border-radius: 0; background: transparent; width: 100%; max-width: 600px; padding: 32px; display: block;">
       </div>
     </div>
-    <ul class="mobile-nav" id="mobileNav">
-      <li><a href="#home" onclick="closeMobileNav()">Home</a></li>
-      <li><a href="#ai" onclick="closeMobileNav()">AI</a></li>
-      <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
-      <li><a href="#testimonials" onclick="closeMobileNav()">Clients</a></li>
-      <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
-    </ul>
-  </nav>
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <h1 class="hero-title">AI-Driven Data Engineering</h1>
-      <div class="hero-subtitle">
-        <span style="color:#2bb8a3;font-weight:600;">DataDices</span> delivers next-gen, AI-powered data solutions.<br>
-        <span style="color:#0fffc3;">Automate. Predict. Scale.</span> <br>
-        <span style="color:#b0b6ba;">Your data, your competitive edge.</span>
-      </div>
-      <a href="https://calendly.com/datadices" class="cta-btn" target="_blank">🚀 Book a Free AI Consultation</a>
-    </section>
-    <!-- AI Features -->
-    <section class="section" id="ai">
-      <h2 class="section-title">Why Choose DataDices AI?</h2>
-      <p class="section-subtitle">We blend advanced AI with robust engineering for real business impact.</p>
-      <div class="features">
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <div class="feature-title">AI Automation</div>
-          <div class="feature-desc">Automate data pipelines, anomaly detection, and reporting with intelligent agents.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔮</div>
-          <div class="feature-title">Predictive Analytics</div>
-          <div class="feature-desc">Forecast trends and outcomes using machine learning and deep learning models.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🛡️</div>
-          <div class="feature-title">Enterprise Security</div>
-          <div class="feature-desc">End-to-end encryption, compliance, and AI-powered threat detection for your data.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <div class="feature-title">Lightning Fast</div>
-          <div class="feature-desc">From MVP in 2 weeks to full-scale deployment in 6 months. Results at the speed of business.</div>
-        </div>
-      </div>
-    </section>
-    <!-- SERVICES -->
-    <section class="section" id="services">
-      <h2 class="section-title">Our AI-Enhanced Services</h2>
-      <p class="section-subtitle">End-to-end data engineering, analytics, and AI for future-ready organizations.</p>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">📊</div>
-          <div class="service-title">Data Strategy & Roadmap</div>
-          <div class="service-desc">Align business goals with a scalable, AI-ready data roadmap. From KPIs to governance.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🏗️</div>
-          <div class="service-title">Cloud Data Platforms</div>
-          <div class="service-desc">Design and deploy secure, flexible, cloud-native platforms (BigQuery, Azure, AWS).</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">⚙️</div>
-          <div class="service-title">Data Engineering</div>
-          <div class="service-desc">ETL/ELT, batch & real-time pipelines, automated flows. From raw to refined data.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🤖</div>
-          <div class="service-title">AI & Machine Learning</div>
-          <div class="service-desc">Prediction, classification, recommendation, and automation. Cloud or edge deployment.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">📈</div>
-          <div class="service-title">Analytics & BI</div>
-          <div class="service-desc">Descriptive, diagnostic, and predictive analytics. Custom dashboards in Power BI, Tableau, Looker.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🛡️</div>
-          <div class="service-title">Data Governance</div>
-          <div class="service-desc">Policies, tools, and AI-powered monitoring for accuracy, security, and compliance.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🔗</div>
-          <div class="service-title">API & System Integration</div>
-          <div class="service-desc">Connect data sources, automate processes, and enable seamless data flow across platforms.</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🔄</div>
-          <div class="service-title">DataOps & MLOps</div>
-          <div class="service-desc">CI/CD, version control, and continuous testing for your data and ML workflows.</div>
-        </div>
-      </div>
-    </section>
-    <!-- TESTIMONIALS -->
-    <section class="section" id="testimonials">
-      <h2 class="section-title">Client Success Stories</h2>
-      <div class="testimonials">
-        <div class="testimonial">
-          <div class="testimonial-text">"DataDices AI unified our data and automated our reporting. We now make decisions in real time."</div>
-          <div class="testimonial-author">— SaaS Company, UAE</div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-text">"Their ML models predicted user churn and improved our retention by 22%."</div>
-          <div class="testimonial-author">— Fintech Startup, US</div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-text">"Professional, fast, and deeply knowledgeable. A dream partner for data initiatives."</div>
-          <div class="testimonial-author">— Retail Chain, UK</div>
-        </div>
-      </div>
-    </section>
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="section-subtitle">Ready to transform your data with AI? Let's start the conversation.</p>
-      <div class="contact-block">
-        <div class="contact-info">📧 <a href="mailto:danish@datadices.com">danish@datadices.com</a></div>
-        <div class="contact-info">📞 +92-333-2560088</div>
-        <div class="contact-info">🔗 <a href="https://www.linkedin.com/company/datadices" target="_blank">@datadices</a></div>
-        <div class="contact-info">💻 <a href="https://github.com/datadices" target="_blank">@datadices</a></div>
-        <a href="https://calendly.com/datadices" class="cta-book-call" target="_blank">📅 Book a Free AI Consultation</a>
-      </div>
-    </section>
-  </main>
-  <script>
-    // Mobile nav toggle logic
-    document.addEventListener("DOMContentLoaded", function() {
-      var mobileMenuBtn = document.getElementById('mobileMenuBtn');
-      var mobileNav = document.getElementById('mobileNav');
-      if (mobileMenuBtn && mobileNav) {
-        mobileMenuBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          mobileNav.classList.toggle('open');
-        });
-      }
-      window.closeMobileNav = function() {
-        if (mobileNav) mobileNav.classList.remove('open');
-      };
-      document.body.addEventListener('click', function(e) {
-        if (mobileNav && mobileNav.classList.contains('open') &&
-            !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          mobileNav.classList.remove('open');
-        }
-      });
-    });
 
-    // AI Vibe Animated Background (neural net style)
-    (function() {
-      const canvas = document.getElementById('aiCanvas');
-      if (!canvas) return;
-      let ctx, w, h, nodes = [], links = [];
-      function resize() {
-        w = window.innerWidth;
-        h = window.innerHeight;
-        canvas.width = w;
-        canvas.height = h;
-      }
-      function randomNode() {
-        return {
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          r: 2 + Math.random() * 2
-        };
-      }
-      function setup() {
-        nodes = [];
-        links = [];
-        for (let i = 0; i < 32; i++) nodes.push(randomNode());
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            if (Math.abs(nodes[i].x - nodes[j].x) < 180 && Math.abs(nodes[i].y - nodes[j].y) < 180) {
-              links.push([i, j]);
-            }
-          }
-        }
-      }
-      function draw() {
-        ctx.clearRect(0, 0, w, h);
-        // Draw links
-        for (let l of links) {
-          let a = nodes[l[0]], b = nodes[l[1]];
-          let dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < 180) {
-            ctx.save();
-            ctx.globalAlpha = 0.18 + 0.12 * Math.cos(Date.now()/800 + l[0]);
-            ctx.strokeStyle = "#2bb8a3";
-            ctx.shadowColor = "#2bb8a3";
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-            ctx.restore();
-          }
-        }
-        // Draw nodes
-        for (let n of nodes) {
-          ctx.save();
-          ctx.globalAlpha = 0.7;
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r, 0, 2 * Math.PI);
-          ctx.fillStyle = "#2bb8a3";
-          ctx.shadowColor = "#2bb8a3";
-          ctx.shadowBlur = 12;
-          ctx.fill();
-          ctx.restore();
-        }
-      }
-      function animate() {
-        for (let n of nodes) {
-          n.x += n.vx;
-          n.y += n.vy;
-          if (n.x < 0 || n.x > w) n.vx *= -1;
-          if (n.y < 0 || n.y > h) n.vy *= -1;
-        }
-        draw();
-        requestAnimationFrame(animate);
-      }
-      function init() {
-        ctx = canvas.getContext('2d');
-        resize();
-        setup();
-        animate();
-      }
-      window.addEventListener('resize', function() {
-        resize();
-        setup();
-      });
-      setTimeout(init, 100);
-    })();
-  </script>
+    <!-- Logos Section -->
+    <div class="logos-section">
+      <div class="logos-row">
+        <img src="gcp.png" alt="GCP" style="border-radius: 0; background: transparent;">
+        <img src="aws.png" alt="AWS" style="border-radius: 0; background: transparent;">
+        <img src="azure.png" alt="Azure" style="border-radius: 0; background: transparent;">
+        <img src="airflow.png" alt="Airflow" style="border-radius: 0; background: transparent;">
+        <img src="dbt.png" alt="DBT" style="border-radius: 0; background: transparent;">
+      </div>
+      <div class="logos-row">
+        <img src="mysql.png" alt="MySQL" style="border-radius: 0; background: transparent;">
+        <img src="postgres.png" alt="Postgres" style="border-radius: 0; background: transparent;">
+        <img src="snowflake.png" alt="Snowflake" style="border-radius: 0; background: transparent;">
+        <img src="powerbi.png" alt="Power BI" style="border-radius: 0; background: transparent;">
+        <img src="tableau.png" alt="Tableau" style="border-radius: 0; background: transparent;">
+      </div>
+    </div>
+
+    <!-- Bottom Texts -->
+    <div class="bottom-texts">
+      <h2>
+        Build scalable, cloud-native pipelines that turn raw data into business clarity.
+      </h2>
+      <h3>
+        We help you go from raw data sources to business strategy with ease. Our team automates and optimizes every step of your data journey. <br> 
+        The result? Actionable insights and scalable systems that unlock your data’s full potential.
+      </h3>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="cards-section">
+      <div class="card">
+        <div class="card-title">Cloud Data Engineering</div>
+        <div class="card-desc">Design and implement robust, scalable data pipelines on AWS, GCP, and Azure.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Business Intelligence</div>
+        <div class="card-desc">Build insightful dashboards and reports using Power BI and Tableau for better decision making.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Data Warehousing</div>
+        <div class="card-desc">Modernize your data stack with Snowflake, BigQuery, Redshift, and more.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">ETL & Orchestration</div>
+        <div class="card-desc">Automate and manage your data workflows with Airflow and dbt for reliable data delivery.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Data Strategy Consulting</div>
+        <div class="card-desc">Get expert guidance on data architecture, governance, and analytics best practices.</div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section" style="display: flex; justify-content: center; align-items: center; margin-top: 24px;">
+      <a class="cta-button" href="https://calendly.com/datadices" target="_blank" rel="noopener" style="font-size: 1rem; padding: 8px 20px; border-radius: 0;">
+        Book a Free Strategy Call
+      </a>
+    </div>
+    </div>
+  </div>
 </body>
 </html>
